@@ -35,6 +35,8 @@ namespace DOTweenModular.Editor
         protected string componentName; 
         protected int instanceId;
 
+        #region Unity Functions
+
         public virtual void OnEnable()
         {
             doBase = (DOBase)target;
@@ -67,6 +69,8 @@ namespace DOTweenModular.Editor
             
             }
         }
+
+        #endregion
 
         #region Draw Properties Functions
 
@@ -126,6 +130,16 @@ namespace DOTweenModular.Editor
         #endregion
 
         #region GUI Element Handling
+
+        protected void Space()
+        {
+            EditorGUILayout.Space();
+        }
+
+        protected void DrawSeparatorLine()
+        {
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        }
 
         protected void BeginBackgroundBox()
         {
@@ -225,7 +239,7 @@ namespace DOTweenModular.Editor
                 DrawLoopTypeProperty();
             }
 
-            EditorGUILayout.PropertyField(easeTypeProp);
+            DrawEaseTypeProperty();
 
             if ((Ease)easeTypeProp.enumValueIndex == Ease.INTERNAL_Custom)
             {
@@ -240,8 +254,7 @@ namespace DOTweenModular.Editor
         {
             if ((Enums.TweenType)tweenTypeProp.enumValueIndex == Enums.TweenType.Looped)
             {
-                EditorGUILayout.PropertyField(loopsProp);
-                DrawLoopsProperty();
+                 DrawLoopsProperty();
             }
 
             DrawDelayProperty();

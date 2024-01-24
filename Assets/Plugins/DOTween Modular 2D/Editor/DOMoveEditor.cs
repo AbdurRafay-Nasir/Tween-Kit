@@ -58,10 +58,31 @@ namespace DOTweenModular.Editor
         {
             EditorGUILayout.Space();
 
-
             DrawTabs();
 
-            EditorGUILayout.Space();
+            EditorGUILayout.Space();            
+
+            if (tabStates[0])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Life Time Settings", true))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawLifeTimeSettings();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
 
             //if (tabStates[0])
             //{
