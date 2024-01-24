@@ -4,7 +4,6 @@ namespace DOTweenModular.Editor
 {
 
     using DOTweenModular.Enums;
-    using DG.DOTweenEditor;
     using DG.Tweening;
     using UnityEngine;
     using UnityEditor;
@@ -16,9 +15,6 @@ namespace DOTweenModular.Editor
 
         protected SerializedProperty beginProp;
         protected SerializedProperty tweenObjectProp;
-        protected SerializedProperty killProp;
-        protected SerializedProperty destroyComponentProp;
-        protected SerializedProperty destroyGameObjectProp;
 
         protected SerializedProperty delayProp;
         protected SerializedProperty tweenTypeProp;
@@ -36,87 +32,96 @@ namespace DOTweenModular.Editor
         #endregion
 
         private DOBase doBase;
-        protected bool TweenPreviewing { get; private set; }
+        protected int instanceId;
 
-        protected Vector3 positionBeforePreview { get; private set; }
-        private Quaternion rotationBeforePreview;
-        private Vector3 scaleBeforePreview;
+        #region Draw Functions
 
-        protected Kill killTypeBeforePreview;
-
-        protected const float buttonSize = 40;
-
-        private void OnDisable()
+        protected void DrawBeginProperty()
+        {            
+            EditorGUILayout.PropertyField(beginProp);            
+        }
+        protected void DrawTweenObjectProperty()
         {
-            if (TweenPreviewing)
-            {
-                DOTweenEditorPreview.Stop(true);
-                ClearTweenCallbacks();
-                ApplySavedValues();
-
-                doBase.kill = killTypeBeforePreview;
-            }
-
-            if (target == null)
-            {
-                ClearSavedEditorPrefs();               
-            }
+            EditorGUILayout.PropertyField(tweenObjectProp);
+        }
+        protected void DrawDelayProperty()
+        {
+            EditorGUILayout.PropertyField(delayProp);
+        }
+        protected void DrawTweenTypeProperty()
+        {
+            EditorGUILayout.PropertyField(tweenTypeProp);
+        }
+        protected void DrawLoopTypeProperty()
+        {
+            EditorGUILayout.PropertyField(loopTypeProp);
+        }
+        protected void DrawEaseTypeProperty()
+        {
+            EditorGUILayout.PropertyField(easeTypeProp);
+        }
+        protected void DrawCurveProperty()
+        {
+            EditorGUILayout.PropertyField(curveProp);
+        }
+        protected void DrawLoopsProperty()
+        {
+            EditorGUILayout.PropertyField(loopsProp);
+        }
+        protected void DrawDurationProperty()
+        {
+            EditorGUILayout.PropertyField(durationProp);
+        }
+        protected void DrawOnTweenCreatedProperty()
+        {
+            EditorGUILayout.PropertyField(onTweenCreatedProp);
+        }
+        protected void DrawOnTweenStartedProperty()
+        {
+            EditorGUILayout.PropertyField(onTweenStartedProp);
+        }
+        protected void DrawOnTweenCompletedProp()
+        {
+            EditorGUILayout.PropertyField(onTweenCompletedProp);
+        }
+        protected void DrawOnTweenKilledProp()
+        {
+            EditorGUILayout.PropertyField(onTweenKilledProp);
         }
 
-        #region Handle Properties
-
-        protected int currentHandleIndex = 0;
-        protected int currentHandleColorIndex = 0;
-        protected int currentLineColorIndex = 0;
-        protected float currentHandleRadius = 1f;
-        protected float currentLineWidth = 0f;
-
-        private string savedHandleIndex;
-        private string savedHandleColorIndex;
-        private string savedHandleRadius;
-        private string savedLineColorIndex;
-        private string savedLineWidth;
-
-        protected Color[] color = new Color[]
-        {
-            Color.black,
-            Color.blue,
-            Color.clear,
-            Color.cyan,
-            Color.gray,
-            Color.green,
-            Color.magenta,
-            Color.red,
-            Color.white,
-            Color.yellow,
-        };
-
-        private string[] colorDropdown = new string[]
-        {
-            "Black",
-            "Blue",
-            "Clear",
-            "Cyan",
-            "Gray",
-            "Green",
-            "Magenta",
-            "Red",
-            "White",
-            "Yellow"
-        };
-
-        private string[] handleDropdown = new string[] { "Position", "Free" };
-
-        private EditorProperties editorProperties;
-
         #endregion
 
-        #region Inspector Button Properties
+        public virtual void OnEnable()
+        {
+            doBase = (DOBase)target;
+            instanceId = doBase.GetInstanceID();
 
-        protected bool editPath;
-        private string savedEditPath;
+            beginProp = serializedObject.FindProperty("begin");
+            tweenObjectProp = serializedObject.FindProperty("tweenObject");
 
-        #endregion
+            delayProp = serializedObject.FindProperty("delay");
+            tweenTypeProp = serializedObject.FindProperty("tweenType");
+            loopTypeProp = serializedObject.FindProperty("loopType");
+            easeTypeProp = serializedObject.FindProperty("easeType");
+            curveProp = serializedObject.FindProperty("curve");
+            loopsProp = serializedObject.FindProperty("loops");
+            durationProp = serializedObject.FindProperty("duration");
+
+            onTweenCreatedProp = serializedObject.FindProperty("onTweenCreated");
+            onTweenStartedProp = serializedObject.FindProperty("onTweenStarted");
+            onTweenCompletedProp = serializedObject.FindProperty("onTweenCompleted");
+            onTweenKilledProp = serializedObject.FindProperty("onTweenKilled");
+        }
+
+        private void OnDisable()
+        { 
+            // this means the GameObject/Component was deleted
+            // TODO - Confirm it
+            if (target == null)
+            {
+            
+            }
+        }
 
         #region Foldout Bools
 
@@ -134,129 +139,26 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        protected virtual void ClearSavedEditorPrefs()
-        {
-            if (EditorPrefs.HasKey(savedLifeTimeSettingsFoldout))
-            {
-                EditorPrefs.DeleteKey(savedLifeTimeSettingsFoldout);
-            }
-
-            if (EditorPrefs.HasKey(savedTypeSettingsFoldout))
-            {
-                EditorPrefs.DeleteKey(savedTypeSettingsFoldout);
-            }
-
-            if (EditorPrefs.HasKey(savedValuesFoldout))
-            {
-                EditorPrefs.DeleteKey(savedValuesFoldout);
-            }
-
-            if (EditorPrefs.HasKey(savedEventsFoldout))
-            {
-                EditorPrefs.DeleteKey(savedEventsFoldout);
-            }
-
-            if (EditorPrefs.HasKey(savedEditorFoldout))
-            {
-                EditorPrefs.DeleteKey(savedEditorFoldout);
-            }
-
-            if (EditorPrefs.HasKey(savedEditorFoldout))
-            {
-                EditorPrefs.DeleteKey(savedEditorFoldout);
-            }
-
-            if (EditorPrefs.HasKey(savedEditPath))
-            {
-                EditorPrefs.DeleteKey(savedEditPath);
-            }
-
-            if (EditorPrefs.HasKey(savedHandleIndex))
-            {
-                EditorPrefs.DeleteKey(savedHandleIndex);
-            }
-
-            if (EditorPrefs.HasKey(savedHandleColorIndex))
-            {
-                EditorPrefs.DeleteKey(savedHandleColorIndex);
-            }
-
-            if (EditorPrefs.HasKey(savedHandleRadius))
-            {
-                EditorPrefs.DeleteKey(savedHandleRadius);
-            }
-
-            if (EditorPrefs.HasKey(savedLineColorIndex))
-            {
-                EditorPrefs.DeleteKey(savedLineColorIndex);
-            }
-
-            if (EditorPrefs.HasKey(savedLineWidth))
-            {
-                EditorPrefs.DeleteKey(savedLineWidth);
-            }
-        }
-
         #region Setup Functions
-
-        /// <summary>
-        /// Must call this method in OnEnable to initialize Common Serialized Properties
-        /// </summary>
-        protected virtual void SetupSerializedProperties()
-        {
-            beginProp = serializedObject.FindProperty("begin");
-            tweenObjectProp = serializedObject.FindProperty("tweenObject");
-            killProp = serializedObject.FindProperty("kill");
-            destroyComponentProp = serializedObject.FindProperty("destroyComponent");
-            destroyGameObjectProp = serializedObject.FindProperty("destroyGameObject");
-
-            delayProp = serializedObject.FindProperty("delay");
-            tweenTypeProp = serializedObject.FindProperty("tweenType");
-            loopTypeProp = serializedObject.FindProperty("loopType");
-            easeTypeProp = serializedObject.FindProperty("easeType");
-            curveProp = serializedObject.FindProperty("curve");
-            loopsProp = serializedObject.FindProperty("loops");
-            durationProp = serializedObject.FindProperty("duration");
-
-            onTweenCreatedProp = serializedObject.FindProperty("onTweenCreated");
-            onTweenStartedProp = serializedObject.FindProperty("onTweenStarted");
-            onTweenCompletedProp = serializedObject.FindProperty("onTweenCompleted");
-            onTweenKilledProp = serializedObject.FindProperty("onTweenKilled");
-        }
 
         /// <summary>
         /// Must call this method in OnEnable to load saved state of Foldout bools and edit path bool
         /// </summary>
-        protected virtual void SetupSavedVariables(DOBase doBase)
+        protected virtual void SetupSavedVariables()
         {
-            this.doBase = doBase;
-            editorProperties = CreateInstance<EditorProperties>();
-
-            SetupSavedVariablesPath(doBase);
+            SetupSavedVariablesPath();
 
             ApplySavedValuesToVariables();
         }
 
-        private void SetupSavedVariablesPath(DOBase doBase)
+        private void SetupSavedVariablesPath()
         {
-            int instanceId = doBase.GetInstanceID();
-
             // Saved Foldout Bool Properties Path
             savedLifeTimeSettingsFoldout = "DOBaseEditor_lifeTimeSettings_" + instanceId;
             savedTypeSettingsFoldout = "DOBaseEditor_typeSettings_" + instanceId;
             savedValuesFoldout = "DOBaseEditor_values_" + instanceId;
             savedEventsFoldout = "DOBaseEditor_events_" + instanceId;
             savedEditorFoldout = "DOBaseEditor_editor_" + instanceId;
-
-            // Saved handles properties Path
-            savedHandleIndex = "DOBaseEditor_handleIndex_" + instanceId;
-            savedHandleColorIndex = "DOBaseEditor_handleColorIndex_" + instanceId;
-            savedLineColorIndex = "DOBaseEditor_lineColorIndex_" + instanceId;
-            savedHandleRadius = "DOBaseEditor_handleRadius_" + instanceId;
-            savedLineWidth = "DOBaseEditor_lineWidth_" + instanceId;
-
-            // Saved Inspector button properties Path
-            savedEditPath = "DOBaseEditor_editPath_" + instanceId;
         }
 
         private void ApplySavedValuesToVariables()
@@ -267,16 +169,6 @@ namespace DOTweenModular.Editor
             valuesFoldout = EditorPrefs.GetBool(savedValuesFoldout, true);
             eventsFoldout = EditorPrefs.GetBool(savedEventsFoldout, false);
             editorFoldout = EditorPrefs.GetBool(savedEditorFoldout, true);
-
-            // Apply saved values to Editor Properties
-            editorProperties.handleIndex = EditorPrefs.GetInt(savedHandleIndex, 0);
-            editorProperties.handleColorIndex = EditorPrefs.GetInt(savedHandleColorIndex, 5);
-            editorProperties.handleRadius = EditorPrefs.GetFloat(savedHandleRadius, 0.5f);
-            editorProperties.lineColorIndex = EditorPrefs.GetInt(savedLineColorIndex, 5);
-            editorProperties.lineWidth = EditorPrefs.GetFloat(savedLineWidth, 1f);
-
-            // Apply saved values to Inspector Button Properties
-            editPath = EditorPrefs.GetBool(savedEditPath, true);
         }
 
         #endregion
@@ -289,20 +181,12 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected void DrawLifeTimeSettings()
         {
-            EditorGUILayout.PropertyField(beginProp);
+            DrawBeginProperty();
 
             if ((Begin)beginProp.enumValueIndex == Begin.With ||
                 (Begin)beginProp.enumValueIndex == Begin.After)
             {
-                EditorGUILayout.PropertyField(tweenObjectProp);
-            }
-
-            EditorGUILayout.PropertyField(killProp);
-
-            if (doBase.kill != Kill.Manual)
-            {
-                EditorGUILayout.PropertyField(destroyComponentProp);
-                EditorGUILayout.PropertyField(destroyGameObjectProp);
+                DrawTweenObjectProperty();
             }
         }
 
@@ -328,7 +212,7 @@ namespace DOTweenModular.Editor
                     GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
                     trashButton.tooltip = "Remove Tween Object";
 
-                    if (GUILayout.Button(trashButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize * 2f)))
+                    if (GUILayout.Button(trashButton, GUILayout.Height(40), GUILayout.Width(40 * 2f)))
                     {
                         tweenObjectProp.objectReferenceValue = null;
                     }
@@ -344,18 +228,18 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected virtual void DrawTypeSettings()
         {
-            EditorGUILayout.PropertyField(tweenTypeProp);
+            DrawTweenTypeProperty();
 
             if ((Enums.TweenType)tweenTypeProp.enumValueIndex == Enums.TweenType.Looped)
             {
-                EditorGUILayout.PropertyField(loopTypeProp);
+                DrawLoopTypeProperty();
             }
 
             EditorGUILayout.PropertyField(easeTypeProp);
 
             if ((Ease)easeTypeProp.enumValueIndex == Ease.INTERNAL_Custom)
             {
-                EditorGUILayout.PropertyField(curveProp);
+                DrawCurveProperty();
             }
         }
 
@@ -367,10 +251,11 @@ namespace DOTweenModular.Editor
             if ((Enums.TweenType)tweenTypeProp.enumValueIndex == Enums.TweenType.Looped)
             {
                 EditorGUILayout.PropertyField(loopsProp);
+                DrawLoopsProperty();
             }
 
-            EditorGUILayout.PropertyField(delayProp);
-            EditorGUILayout.PropertyField(durationProp);
+            DrawDelayProperty();
+            DrawDurationProperty();
         }
 
         /// <summary>
@@ -378,112 +263,10 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected void DrawEvents()
         {
-            EditorGUILayout.PropertyField(onTweenCreatedProp);
-            EditorGUILayout.PropertyField(onTweenStartedProp);
-            EditorGUILayout.PropertyField(onTweenCompletedProp);
-            EditorGUILayout.PropertyField(onTweenKilledProp);
-        }
-
-        /// <summary>
-        /// Draws Handle, Handle Color, Handle Radius, Line Color, Line Width Editor Inspector Properties
-        /// </summary>
-        protected void DrawEditorProperties()
-        {
-            currentHandleIndex = EditorGUILayout.Popup("Handle", editorProperties.handleIndex, handleDropdown);
-            if (currentHandleIndex != editorProperties.handleIndex)
-            {
-                Undo.RecordObject(editorProperties, "handleIndex");
-                editorProperties.handleIndex = currentHandleIndex;
-
-                EditorPrefs.SetInt(savedHandleIndex, currentHandleIndex);
-            }
-
-            currentHandleColorIndex = EditorGUILayout.Popup("Handle Color", editorProperties.handleColorIndex, colorDropdown);
-            if (currentHandleColorIndex != editorProperties.handleColorIndex)
-            {
-                Undo.RecordObject(editorProperties, "handleColorIndex");
-                editorProperties.handleColorIndex = currentHandleColorIndex;
-                
-                EditorPrefs.SetInt(savedHandleColorIndex, currentHandleColorIndex);
-            }
-
-            currentHandleRadius = EditorGUILayout.Slider("Handle Radius", editorProperties.handleRadius, 0.5f, 3f);
-            if (currentHandleRadius != editorProperties.handleRadius)
-            {
-                Undo.RecordObject(editorProperties, "handleRadius");
-                editorProperties.handleRadius = currentHandleRadius;
-
-                EditorPrefs.SetFloat(savedHandleRadius, currentHandleRadius);
-                
-                SceneView.RepaintAll();
-            }
-
-            currentLineColorIndex = EditorGUILayout.Popup("Line Color", editorProperties.lineColorIndex, colorDropdown);
-            if (currentLineColorIndex != editorProperties.lineColorIndex)
-            {
-                Undo.RecordObject(editorProperties, "lineColor");
-                editorProperties.lineColorIndex = currentLineColorIndex;
-                
-                EditorPrefs.SetInt(savedLineColorIndex, currentLineColorIndex);
-            }
-
-            currentLineWidth = EditorGUILayout.Slider("Line Width", editorProperties.lineWidth, 1f, 20f);
-            if (currentLineWidth != editorProperties.lineColorIndex)
-            {
-                Undo.RecordObject(editorProperties, "lineWidth");
-                editorProperties.lineWidth = currentLineWidth;
-
-                EditorPrefs.SetFloat(savedLineWidth, currentLineWidth);
-                
-                SceneView.RepaintAll();
-            }
-        }
-
-        /// <summary>
-        /// Draws Edit Button
-        /// </summary>
-        protected void DrawEditButton()
-        {
-            GUIContent editButton = EditorGUIUtility.IconContent("EditCollider");
-            editButton.tooltip = "Toggle Path Editing";
-
-            if (GUILayout.Button(editButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize)))
-            {
-                editPath = !editPath;
-
-                SceneView.RepaintAll();
-
-                EditorPrefs.SetBool(savedEditPath, editPath);
-            }
-        }
-
-        /// <summary>
-        /// Draws Reset Editor Properties Button
-        /// </summary>
-        protected void DrawResetEditorPropertiesButton()
-        {
-            GUIContent resetButton = EditorGUIUtility.IconContent("Refresh@2x");
-            resetButton.tooltip = "Reset Editor Properties";
-
-            if (GUILayout.Button(resetButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize)))
-            {
-                editorProperties.handleIndex = 0;
-                EditorPrefs.SetInt(savedHandleIndex, editorProperties.handleIndex);
-
-                editorProperties.handleColorIndex = 5;
-                EditorPrefs.SetInt(savedHandleColorIndex, editorProperties.handleColorIndex);
-
-                editorProperties.handleRadius = 0.5f;
-                EditorPrefs.SetFloat(savedHandleRadius, editorProperties.handleRadius);
-
-                editorProperties.lineColorIndex = 5;
-                EditorPrefs.SetInt(savedLineColorIndex, editorProperties.lineColorIndex);
-
-                editorProperties.lineWidth = 1f;
-                EditorPrefs.SetFloat(savedLineWidth, editorProperties.lineWidth);
-
-                SceneView.RepaintAll();
-            }
+            DrawOnTweenCreatedProperty();
+            DrawOnTweenStartedProperty();
+            DrawOnTweenCompletedProp();
+            DrawOnTweenKilledProp();
         }
 
         #endregion
@@ -535,89 +318,8 @@ namespace DOTweenModular.Editor
             }
         }
 
-        /// <summary>
-        /// Draws Tween Preview buttons (Play and Stop)
-        /// </summary>
-        protected void DrawPreviewButtons()
-        {
-            GUIContent stopButton = EditorGUIUtility.IconContent("d_winbtn_win_close_h@2x");
-            stopButton.tooltip = "Stop Previewing tween";
-
-            GUIContent playButton = EditorGUIUtility.IconContent("PlayButton On@2x");
-            playButton.tooltip = "Start Previewing tween";
-
-            // if tween is previewing enable stopButton
-            GUI.enabled = TweenPreviewing;
-            if (GUILayout.Button(stopButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize)))
-            {
-                DOTweenEditorPreview.Stop(true);
-                ClearTweenCallbacks();
-                ApplySavedValues();
-
-                doBase.kill = killTypeBeforePreview;
-            }
-
-            // if tween is not previewing enable playButton
-            GUI.enabled = !TweenPreviewing;
-            if (GUILayout.Button(playButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize)))
-            {
-                SaveDefaultTransform();
-                TweenPreviewing = true;
-
-                killTypeBeforePreview = doBase.kill;
-                doBase.kill = Kill.Manual;
-
-                doBase.CreateTween();
-                doBase.Tween.onKill += ApplySavedValues;
-                doBase.Tween.onKill += ClearTweenCallbacks;
-                DOTweenEditorPreview.PrepareTweenForPreview(doBase.Tween, false, false);
-                DOTweenEditorPreview.Start();
-            }
-        }
-
-        private void ClearTweenCallbacks()
-        {
-            doBase.Tween.OnKill(null);
-            doBase.Tween.OnPause(null);
-            doBase.Tween.OnPlay(null);
-            doBase.Tween.OnRewind(null);
-            doBase.Tween.OnStart(null);
-            doBase.Tween.OnStepComplete(null);
-            doBase.Tween.OnUpdate(null);
-            doBase.Tween.OnWaypointChange(null);
-            doBase.Tween.OnComplete(null);
-        }
-
-        private void ApplySavedValues()
-        {
-            doBase.transform.position = positionBeforePreview;
-            doBase.transform.rotation = rotationBeforePreview;
-            doBase.transform.localScale = scaleBeforePreview;
-
-            TweenPreviewing = false;
-
-            doBase.kill = killTypeBeforePreview;
-        }
-
-        private void SaveDefaultTransform()
-        {
-            positionBeforePreview = doBase.transform.position;
-            rotationBeforePreview = doBase.transform.rotation;
-            scaleBeforePreview = doBase.transform.lossyScale;
-        }
-
         #endregion
 
-    }
-
-    public class EditorProperties : ScriptableObject
-    {
-        public int handleIndex;
-        public int handleColorIndex;
-        public float handleRadius;
-
-        public int lineColorIndex;
-        public float lineWidth;
     }
 
     public class RelativeFlags : ScriptableObject

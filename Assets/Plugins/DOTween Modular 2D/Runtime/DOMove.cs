@@ -4,7 +4,7 @@ using UnityEngine;
 namespace DOTweenModular
 {   
     [AddComponentMenu("DOTween Modular 2D/Transform/DO Move", 50)]
-    public class DOMove : DOLookAt
+    public class DOMove : DOBase
     {
         [Tooltip("If TRUE, the tween will Move duration amount in each second")]
         public bool speedBased;
@@ -44,8 +44,6 @@ namespace DOTweenModular
             tween.SetDelay(delay);
 
             InvokeTweenCreated();
-
-            SetupLookAt();
         }
     }
 }

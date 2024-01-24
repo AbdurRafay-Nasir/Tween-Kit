@@ -24,11 +24,6 @@ namespace DOTweenModular.Enums
         With
     }
 
-    public enum Kill
-    {
-        OnTweenComplete, OnInvisible, Manual
-    }
-
     public enum TweenType
     {
         Simple, Looped    

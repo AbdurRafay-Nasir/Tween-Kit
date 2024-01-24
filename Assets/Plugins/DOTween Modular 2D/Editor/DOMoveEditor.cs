@@ -7,7 +7,7 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOMove)), CanEditMultipleObjects]
-    public class DOMoveEditor : DOLookAtBaseEditor
+    public class DOMoveEditor : DOBaseEditor
     {
 
         #region Serialized Properties
@@ -24,8 +24,8 @@ namespace DOTweenModular.Editor
         private RelativeFlags relativeFlags;
         private Vector3 beginPosition;
 
-        private bool[] tabStates = new bool[7];
-        private string[] savedTabStates = new string[7];
+        private bool[] tabStates = new bool[5];
+        private string[] savedTabStates = new string[5];
 
         #region Foldout bool Properties
 
@@ -36,14 +36,22 @@ namespace DOTweenModular.Editor
 
         #region Unity Functions
 
-        private void OnEnable()
+        public override void OnEnable()
         {
+            base.OnEnable();
+
+            speedBasedProp = serializedObject.FindProperty("speedBased");
+            useLocalProp = serializedObject.FindProperty("useLocal");
+            relativeProp = serializedObject.FindProperty("relative");
+            snappingProp = serializedObject.FindProperty("snapping");
+            targetPositionProp = serializedObject.FindProperty("targetPosition");
+
             doMove = (DOMove)target;
-            relativeFlags = CreateInstance<RelativeFlags>();
             beginPosition = doMove.transform.position;
 
-            SetupSerializedProperties();
-            SetupSavedVariables(doMove);
+            relativeFlags = CreateInstance<RelativeFlags>();
+
+            SetupSavedVariables();
         }
 
         public override void OnInspectorGUI()
@@ -128,34 +136,7 @@ namespace DOTweenModular.Editor
                 EditorGUILayout.EndFoldoutHeaderGroup();
             }
 
-
             if (tabStates[3])
-            {
-                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-                // Draw LookAt Settings
-                lookAtSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lookAtSettingsFoldout, "LookAt Settings");
-                EditorPrefs.SetBool(savedLookAtSettingsFoldout, lookAtSettingsFoldout);
-                if (lookAtSettingsFoldout)
-                {
-                    EditorGUI.indentLevel++;
-
-                    EditorGUILayout.BeginVertical("HelpBox");
-                    EditorGUILayout.Space();
-
-                    DrawLookAtSettings();
-
-                    EditorGUILayout.Space();
-                    EditorGUILayout.EndVertical();
-
-                    EditorGUI.indentLevel--;
-                }
-                EditorGUILayout.EndFoldoutHeaderGroup();
-            }
-
-            DrawLookAtHelpBox();
-
-            if (tabStates[4])
             {
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
@@ -179,7 +160,7 @@ namespace DOTweenModular.Editor
                 EditorGUILayout.EndFoldoutHeaderGroup();
             }
 
-            if (tabStates[5])
+            if (tabStates[4])
             {
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
@@ -199,48 +180,6 @@ namespace DOTweenModular.Editor
             }
 
             serializedObject.ApplyModifiedProperties();
-
-            if (tabStates[6])
-            {
-                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-                // Draw Editor
-                editorFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(editorFoldout, "Editor");
-                EditorPrefs.SetBool(savedEditorFoldout, editorFoldout);
-                if (editorFoldout)
-                {
-                    EditorGUI.indentLevel++;
-
-                    EditorGUILayout.BeginVertical("HelpBox");
-                    EditorGUILayout.Space();
-
-                    DrawEditorProperties();
-
-                    EditorGUILayout.Space();
-                    EditorGUILayout.EndVertical();
-
-                    EditorGUI.indentLevel--;
-                }
-                EditorGUILayout.EndFoldoutHeaderGroup();
-            }
-
-            if (EditorApplication.isPlaying)
-                return;
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-
-            DrawEditButton();
-
-            if (!EditorApplication.isPlaying)
-                DrawPreviewButtons();
-
-            DrawResetEditorPropertiesButton();
-
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.EndHorizontal();
         }
 
         private void OnSceneGUI()
@@ -254,34 +193,9 @@ namespace DOTweenModular.Editor
                     DrawTweenObjectInfo();
             }
 
-            Color handleColor = color[currentHandleColorIndex];
-            Color lineColor = color[currentLineColorIndex];
 
-            Vector3 startPosition;
-
-            if (EditorApplication.isPlaying)
-                startPosition = beginPosition;
-            else if (TweenPreviewing)
-                startPosition = positionBeforePreview;
-            else
-                startPosition = doMove.transform.position;
-
-            Vector3 handlePosition = CalculateTargetPosition(startPosition);
-            DrawTargetLineAndSphere(startPosition, handlePosition, handleColor, lineColor);
-
-            if (doMove.lookAt != LookAtSimple.None)
-            {
-                DrawLookAtLine();
-                DrawRotationClampCircle();
-            }
-
-            if (!EditorApplication.isPlaying && editPath)
-            {
-                DrawTargetHandle(handlePosition, handleColor);
-
-                if (doMove.lookAt == LookAtSimple.Position)
-                    DrawLookAtHandle();
-            }
+            Vector3 handlePosition = CalculateTargetPosition(Vector2.zero);
+            DrawTargetLineAndSphere(Vector2.zero, handlePosition, Color.green, Color.green);
 
         }
 
@@ -345,26 +259,20 @@ namespace DOTweenModular.Editor
         private void DrawTargetLineAndSphere(Vector3 startPosition, Vector3 endPosition, Color handleColor, Color lineColor)
         {
             Handles.color = handleColor;
-            Handles.SphereHandleCap(2, endPosition, Quaternion.identity, currentHandleRadius, EventType.Repaint);
+            Handles.SphereHandleCap(2, endPosition, Quaternion.identity, 2f, EventType.Repaint);
 
             Handles.color = lineColor;
-            Handles.DrawLine(startPosition, endPosition, currentLineWidth);
+            Handles.DrawLine(startPosition, endPosition, 2f);
         }
 
         private void DrawTargetHandle(Vector3 handlePosition, Color handleColor)
         {
             Vector3 newHandlePosition;
 
-            if (currentHandleIndex == 0)
-                newHandlePosition = Handles.PositionHandle(handlePosition, Quaternion.identity);
+            newHandlePosition = Handles.PositionHandle(handlePosition, Quaternion.identity);
 
-            else
-            {
-                Handles.color = handleColor;
+            Handles.color = handleColor;
 
-                var fmh_365_76_638417289717838669 = Quaternion.identity; newHandlePosition = Handles.FreeMoveHandle(handlePosition,
-                                            currentHandleRadius, Vector3.zero, Handles.SphereHandleCap);
-            }
 
             if (newHandlePosition != handlePosition)
             {
@@ -388,7 +296,7 @@ namespace DOTweenModular.Editor
             GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
             toggleStyle.fixedHeight = 30f;
 
-            string[] tabNames = new string[] { "Life", "Type", "Move", "Look At", "Values", "Events", "Editor" };
+            string[] tabNames = new string[] { "Life", "Type", "Move", "Values", "Events" };
 
             for (int i = 0; i < tabStates.Length; i++)
             {
@@ -422,22 +330,8 @@ namespace DOTweenModular.Editor
 
         #region Setup Functions
 
-        protected override void SetupSerializedProperties()
+        protected override void SetupSavedVariables()
         {
-            base.SetupSerializedProperties();
-            speedBasedProp = serializedObject.FindProperty("speedBased");
-            useLocalProp = serializedObject.FindProperty("useLocal");
-            relativeProp = serializedObject.FindProperty("relative");
-            snappingProp = serializedObject.FindProperty("snapping");
-            targetPositionProp = serializedObject.FindProperty("targetPosition");
-        }
-
-        protected override void SetupSavedVariables(DOBase doMove)
-        {
-            base.SetupSavedVariables(doMove);
-
-            int instanceId = doMove.GetInstanceID();
-
             savedMoveSettingsFoldout = "DOMoveEditor_moveSettingsFoldout_" + instanceId;
             moveSettingsFoldout = EditorPrefs.GetBool(savedMoveSettingsFoldout, true);
 
@@ -445,16 +339,6 @@ namespace DOTweenModular.Editor
             {
                 savedTabStates[i] = "DOMoveEditor_tabStates_" + i + " " + instanceId;
                 tabStates[i] = EditorPrefs.GetBool(savedTabStates[i], true);
-            }
-        }
-
-        protected override void ClearSavedEditorPrefs()
-        {
-            base.ClearSavedEditorPrefs();
-
-            if (EditorPrefs.HasKey(savedMoveSettingsFoldout))
-            {
-                EditorPrefs.DeleteKey(savedMoveSettingsFoldout);
             }
         }
 

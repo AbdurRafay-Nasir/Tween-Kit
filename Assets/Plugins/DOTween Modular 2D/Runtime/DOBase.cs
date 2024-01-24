@@ -15,15 +15,6 @@ namespace DOTweenModular
         [Tooltip("The DO component After/With this tween will start")]
         public DOBase tweenObject;
 
-        [Tooltip("When To kill this tween")]
-        public Kill kill;
-
-        [Tooltip("If TRUE, destroys the component when tween is killed")]
-        public bool destroyComponent;
-
-        [Tooltip("If TRUE, destroys the Game Object when tween is killed")]
-        public bool destroyGameObject;
-
         [Tooltip("Time after which this tween will play")]
         public float delay;
 
@@ -117,7 +108,6 @@ namespace DOTweenModular
 
         private void OnBecameInvisible()
         {
-            if (kill != Kill.OnInvisible) return;
             if (tween == null) return;
             if (!tween.playedOnce) return;
 
@@ -125,9 +115,6 @@ namespace DOTweenModular
             ClearTweenCallbacks();
             tween.Kill();
             tween = null;
-
-            if (destroyComponent) Destroy(this);
-            if (destroyGameObject) Destroy(gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -182,18 +169,6 @@ namespace DOTweenModular
         {
             onTweenCompleted?.Invoke();
             tween.onComplete -= OnTweenCompleted;
-
-            if (kill == Kill.OnTweenComplete)
-            {
-                onTweenKilled?.Invoke();
-
-                ClearTweenCallbacks();
-                tween.Kill();
-                tween = null;
-
-                if (destroyComponent) Destroy(this);
-                if (destroyGameObject) Destroy(gameObject);
-            }
         }
 
         private void OnStartWithTweenStarted()
