@@ -32,13 +32,47 @@ namespace DOTweenModular.Editor
         #endregion
 
         private DOBase doBase;
+        protected string componentName; 
         protected int instanceId;
 
-        #region Draw Functions
+        public virtual void OnEnable()
+        {
+            doBase = (DOBase)target;
+            componentName = doBase.GetType().ToString();
+            instanceId = doBase.GetInstanceID();
+
+            beginProp = serializedObject.FindProperty("begin");
+            tweenObjectProp = serializedObject.FindProperty("tweenObject");
+
+            delayProp = serializedObject.FindProperty("delay");
+            tweenTypeProp = serializedObject.FindProperty("tweenType");
+            loopTypeProp = serializedObject.FindProperty("loopType");
+            easeTypeProp = serializedObject.FindProperty("easeType");
+            curveProp = serializedObject.FindProperty("curve");
+            loopsProp = serializedObject.FindProperty("loops");
+            durationProp = serializedObject.FindProperty("duration");
+
+            onTweenCreatedProp = serializedObject.FindProperty("onTweenCreated");
+            onTweenStartedProp = serializedObject.FindProperty("onTweenStarted");
+            onTweenCompletedProp = serializedObject.FindProperty("onTweenCompleted");
+            onTweenKilledProp = serializedObject.FindProperty("onTweenKilled");
+        }
+
+        private void OnDisable()
+        { 
+            // this means the GameObject/Component was deleted
+            // TODO - Confirm it
+            if (target == null)
+            {
+            
+            }
+        }
+
+        #region Draw Properties Functions
 
         protected void DrawBeginProperty()
-        {            
-            EditorGUILayout.PropertyField(beginProp);            
+        {
+            EditorGUILayout.PropertyField(beginProp);
         }
         protected void DrawTweenObjectProperty()
         {
@@ -91,84 +125,40 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        public virtual void OnEnable()
+        #region GUI Element Handling
+
+        protected void BeginBackgroundBox()
         {
-            doBase = (DOBase)target;
-            instanceId = doBase.GetInstanceID();
-
-            beginProp = serializedObject.FindProperty("begin");
-            tweenObjectProp = serializedObject.FindProperty("tweenObject");
-
-            delayProp = serializedObject.FindProperty("delay");
-            tweenTypeProp = serializedObject.FindProperty("tweenType");
-            loopTypeProp = serializedObject.FindProperty("loopType");
-            easeTypeProp = serializedObject.FindProperty("easeType");
-            curveProp = serializedObject.FindProperty("curve");
-            loopsProp = serializedObject.FindProperty("loops");
-            durationProp = serializedObject.FindProperty("duration");
-
-            onTweenCreatedProp = serializedObject.FindProperty("onTweenCreated");
-            onTweenStartedProp = serializedObject.FindProperty("onTweenStarted");
-            onTweenCompletedProp = serializedObject.FindProperty("onTweenCompleted");
-            onTweenKilledProp = serializedObject.FindProperty("onTweenKilled");
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         }
 
-        private void OnDisable()
-        { 
-            // this means the GameObject/Component was deleted
-            // TODO - Confirm it
-            if (target == null)
+        protected bool BeginFoldout(string foldoutName, bool isOpen)
+        {
+            string key = componentName + "_" + instanceId + "_" + foldoutName;
+
+            if (!EditorPrefs.HasKey(key))
             {
-            
+                bool open = EditorGUILayout.BeginFoldoutHeaderGroup(isOpen, foldoutName);
+                EditorPrefs.SetBool(key, open);
+                return open;
+            }
+            else
+            {
+                bool open = EditorPrefs.GetBool(key);
+                open = EditorGUILayout.BeginFoldoutHeaderGroup(open, foldoutName);
+                EditorPrefs.SetBool(key, open);
+                return open;
             }
         }
 
-        #region Foldout Bools
-
-        protected bool lifeTimeSettingsFoldout = true;
-        protected bool typeSettingsFoldout = true;
-        protected bool valuesFoldout = true;
-        protected bool eventsFoldout = false;
-        protected bool editorFoldout = false;
-
-        protected string savedLifeTimeSettingsFoldout;
-        protected string savedTypeSettingsFoldout;
-        protected string savedValuesFoldout;
-        protected string savedEventsFoldout;
-        protected string savedEditorFoldout;
-
-        #endregion
-
-        #region Setup Functions
-
-        /// <summary>
-        /// Must call this method in OnEnable to load saved state of Foldout bools and edit path bool
-        /// </summary>
-        protected virtual void SetupSavedVariables()
+        protected void EndBackgroundBox()
         {
-            SetupSavedVariablesPath();
-
-            ApplySavedValuesToVariables();
+            EditorGUILayout.EndVertical();
         }
 
-        private void SetupSavedVariablesPath()
+        protected void EndFoldout()
         {
-            // Saved Foldout Bool Properties Path
-            savedLifeTimeSettingsFoldout = "DOBaseEditor_lifeTimeSettings_" + instanceId;
-            savedTypeSettingsFoldout = "DOBaseEditor_typeSettings_" + instanceId;
-            savedValuesFoldout = "DOBaseEditor_values_" + instanceId;
-            savedEventsFoldout = "DOBaseEditor_events_" + instanceId;
-            savedEditorFoldout = "DOBaseEditor_editor_" + instanceId;
-        }
-
-        private void ApplySavedValuesToVariables()
-        {
-            // Apply saved values to Foldout Bool Properties
-            lifeTimeSettingsFoldout = EditorPrefs.GetBool(savedLifeTimeSettingsFoldout, true);
-            typeSettingsFoldout = EditorPrefs.GetBool(savedTypeSettingsFoldout, true);
-            valuesFoldout = EditorPrefs.GetBool(savedValuesFoldout, true);
-            eventsFoldout = EditorPrefs.GetBool(savedEventsFoldout, false);
-            editorFoldout = EditorPrefs.GetBool(savedEditorFoldout, true);
+            EditorGUILayout.EndFoldoutHeaderGroup();
         }
 
         #endregion
