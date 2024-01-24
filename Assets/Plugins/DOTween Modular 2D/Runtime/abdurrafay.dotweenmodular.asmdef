@@ -1,0 +1,16 @@
+{
+    "name": "linkedgames.dotweenmodular2d",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8ab17ad1fe6e1a646944c31533c9f9c3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

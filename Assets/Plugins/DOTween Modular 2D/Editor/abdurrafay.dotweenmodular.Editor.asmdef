@@ -1,0 +1,18 @@
+{
+    "name": "linkedgames.dotweenmodular2d.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b341ffbbb3ec0064d9844bcdb906e121"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
