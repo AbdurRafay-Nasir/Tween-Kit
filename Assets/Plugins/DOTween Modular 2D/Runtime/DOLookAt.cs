@@ -1,9 +1,9 @@
-using DOTweenModular2D.Enums;
-using DOTweenModular2D.Miscellaneous;
+using DOTweenModular.Enums;
+using DOTweenModular.Miscellaneous;
 using DG.Tweening;
 using UnityEngine;
 
-namespace DOTweenModular2D
+namespace DOTweenModular
 {
     [AddComponentMenu("DOTween Modular 2D/Transform/DO LookAt", 90)]
     public class DOLookAt : DOBase

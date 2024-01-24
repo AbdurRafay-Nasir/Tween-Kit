@@ -1,9 +1,9 @@
 using DG.Tweening;
-using DOTweenModular2D.Enums;
+using DOTweenModular.Enums;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DOTweenModular2D
+namespace DOTweenModular
 {
     public abstract class DOBase : MonoBehaviour
     {

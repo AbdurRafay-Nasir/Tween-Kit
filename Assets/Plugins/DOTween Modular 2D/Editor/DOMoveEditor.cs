@@ -1,10 +1,10 @@
 #if UNITY_EDITOR
 
-using DOTweenModular2D.Enums;
+using DOTweenModular.Enums;
 using UnityEngine;
 using UnityEditor;
 
-namespace DOTweenModular2D.Editor
+namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOMove)), CanEditMultipleObjects]
     public class DOMoveEditor : DOLookAtBaseEditor

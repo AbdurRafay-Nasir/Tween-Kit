@@ -1,9 +1,9 @@
 #if UNITY_EDITOR
 
-namespace DOTweenModular2D.Editor
+namespace DOTweenModular.Editor
 {
 
-    using DOTweenModular2D.Enums;
+    using DOTweenModular.Enums;
     using DG.DOTweenEditor;
     using DG.Tweening;
     using UnityEngine;

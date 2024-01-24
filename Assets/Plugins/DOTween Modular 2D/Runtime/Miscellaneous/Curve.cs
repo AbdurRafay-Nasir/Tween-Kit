@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DOTweenModular2D.Miscellaneous
+namespace DOTweenModular.Miscellaneous
 {
     /// <summary>
     /// Utility methods for generating various types of curves and <br/> 

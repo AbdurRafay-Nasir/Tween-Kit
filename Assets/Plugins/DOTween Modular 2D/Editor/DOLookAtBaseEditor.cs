@@ -3,7 +3,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace DOTweenModular2D.Editor
+namespace DOTweenModular.Editor
 {
     public class DOLookAtBaseEditor : DOBaseEditor
     {

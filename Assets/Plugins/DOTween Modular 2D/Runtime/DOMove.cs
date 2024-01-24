@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace DOTweenModular2D
+namespace DOTweenModular
 {   
     [AddComponentMenu("DOTween Modular 2D/Transform/DO Move", 50)]
     public class DOMove : DOLookAt

@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using DG.Tweening.Plugins.Options;
 
-namespace DOTweenModular2D.Miscellaneous
+namespace DOTweenModular.Miscellaneous
 {
     public static class Extensions
     {

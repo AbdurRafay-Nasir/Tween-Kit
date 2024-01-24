@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DOTweenModular2D.Enums
+namespace DOTweenModular.Enums
 {
     public enum Begin
     {
