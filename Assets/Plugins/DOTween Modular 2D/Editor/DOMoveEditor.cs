@@ -84,122 +84,90 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            //if (tabStates[0])
-            //{
-            //    EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            DrawTweenObjectHelpBox();
 
-            //    // Draw Life Time Settings
-            //    lifeTimeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lifeTimeSettingsFoldout, "Life Time Settings");
-            //    EditorPrefs.SetBool(savedLifeTimeSettingsFoldout, lifeTimeSettingsFoldout);
-            //    if (lifeTimeSettingsFoldout)
-            //    {
-            //        EditorGUI.indentLevel++;
-
-            //        EditorGUILayout.BeginVertical("HelpBox");
-            //        EditorGUILayout.Space();
-
-            //        DrawLifeTimeSettings();
-
-            //        EditorGUILayout.Space();
-            //        EditorGUILayout.EndVertical();
-
-            //        EditorGUI.indentLevel--;
-            //    }
-            //    EditorGUILayout.EndFoldoutHeaderGroup();
-            //}
-
-            //DrawTweenObjectHelpBox();
-
-            //if (tabStates[1])
-            //{
-            //    EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-            //    // Draw Type Settings
-            //    typeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(typeSettingsFoldout, "Type Settings");
-            //    EditorPrefs.SetBool(savedTypeSettingsFoldout, typeSettingsFoldout);
-            //    if (typeSettingsFoldout)
-            //    {
-            //        EditorGUI.indentLevel++;
-
-            //        EditorGUILayout.BeginVertical("HelpBox");
-            //        EditorGUILayout.Space();
-
-            //        DrawTypeSettings();
-
-            //        EditorGUILayout.Space();
-            //        EditorGUILayout.EndVertical();
-
-            //        EditorGUI.indentLevel--;
-            //    }
-            //    EditorGUILayout.EndFoldoutHeaderGroup();
-            //}
-
-            if (tabStates[2])
+            if (tabStates[1])
             {
-                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                DrawSeparatorLine();
 
-                // Draw Move Settings
-                moveSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(moveSettingsFoldout, "Move Settings");
-                EditorPrefs.SetBool(savedMoveSettingsFoldout, moveSettingsFoldout);
-                if (moveSettingsFoldout)
+                if (BeginFoldout("Type Settings", true))
                 {
                     EditorGUI.indentLevel++;
 
-                    EditorGUILayout.BeginVertical("HelpBox");
-                    EditorGUILayout.Space();
+                    BeginBackgroundBox();
+                    Space();
 
-                    DrawMoveSettings();
+                    DrawTypeSettings();
 
-                    EditorGUILayout.Space();
-                    EditorGUILayout.EndVertical();
+                    Space();
+                    EndBackgroundBox();
 
                     EditorGUI.indentLevel--;
                 }
-                EditorGUILayout.EndFoldoutHeaderGroup();
+
+                EndFoldout();
             }
 
-            //if (tabStates[3])
-            //{
-            //    EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            if (tabStates[2])
+            {
+                DrawSeparatorLine();
 
-            //    // Draw Values
-            //    valuesFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(valuesFoldout, "Values");
-            //    EditorPrefs.SetBool(savedValuesFoldout, valuesFoldout);
-            //    if (valuesFoldout)
-            //    {
-            //        EditorGUI.indentLevel++;
+                if (BeginFoldout("Move Settings", true))
+                {
+                    EditorGUI.indentLevel++;
 
-            //        EditorGUILayout.BeginVertical("HelpBox");
-            //        EditorGUILayout.Space();
+                    BeginBackgroundBox();
+                    Space();
 
-            //        DrawValues();
+                    DrawMoveSettings();
 
-            //        EditorGUILayout.Space();
-            //        EditorGUILayout.EndVertical();
+                    Space();
+                    EndBackgroundBox();
 
-            //        EditorGUI.indentLevel--;
-            //    }
-            //    EditorGUILayout.EndFoldoutHeaderGroup();
-            //}
+                    EditorGUI.indentLevel--;
+                }
 
-            //if (tabStates[4])
-            //{
-            //    EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EndFoldout();
+            }
 
-            //    // Draw Events
-            //    eventsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(eventsFoldout, "Events");
-            //    EditorPrefs.SetBool(savedEventsFoldout, eventsFoldout);
-            //    if (eventsFoldout)
-            //    {
-            //        EditorGUI.indentLevel++;
+            if (tabStates[3])
+            {
+                DrawSeparatorLine();
 
-            //        EditorGUILayout.Space();
-            //        DrawEvents();
+                if (BeginFoldout("Values", true))
+                {
+                    EditorGUI.indentLevel++;
 
-            //        EditorGUI.indentLevel--;
-            //    }
-            //    EditorGUILayout.EndFoldoutHeaderGroup();
-            //}
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawValues();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            if (tabStates[4])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Events", true))
+                {
+                    EditorGUI.indentLevel++;
+
+                    Space();
+
+                    DrawEvents();
+
+                    EditorGUI.indentLevel--;
+                }
+                EndFoldout();
+            }
 
             serializedObject.ApplyModifiedProperties();
         }
