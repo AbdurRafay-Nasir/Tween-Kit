@@ -27,13 +27,6 @@ namespace DOTweenModular.Editor
         private bool[] tabStates = new bool[5];
         private string[] savedTabStates = new string[5];
 
-        #region Foldout bool Properties
-
-        private bool moveSettingsFoldout = true;
-        private string savedMoveSettingsFoldout;
-
-        #endregion
-
         #region Unity Functions
 
         public override void OnEnable()
@@ -183,15 +176,38 @@ namespace DOTweenModular.Editor
                     DrawTweenObjectInfo();
             }
 
-
             Vector3 handlePosition = CalculateTargetPosition(Vector2.zero);
             DrawTargetLineAndSphere(Vector2.zero, handlePosition, Color.green, Color.green);
-
         }
 
         #endregion
 
-        private Vector3 CalculateTargetPosition(Vector2 startPosition)
+        #region Draw Properties Funtions
+
+        private void DrawSpeedBasedProperty()
+        {
+            EditorGUILayout.PropertyField(speedBasedProp);
+        }
+        private void DrawUseLocalProperty()
+        {
+            EditorGUILayout.PropertyField(useLocalProp);
+        }
+        private void DrawRelativeProperty()
+        {
+            EditorGUILayout.PropertyField(relativeProp);
+        }
+        private void DrawSnappingProperty()
+        {
+            EditorGUILayout.PropertyField(snappingProp);
+        }
+        private void DrawTargetPositionProperty()
+        {
+            EditorGUILayout.PropertyField(targetPositionProp);
+        }
+
+        #endregion
+
+        private Vector3 CalculateTargetPosition(Vector3 startPosition)
         {
             Vector3 handlePosition;
 
@@ -214,7 +230,7 @@ namespace DOTweenModular.Editor
                 {
                     if (relativeFlags.firstTimeRelative)
                     {
-                        doMove.targetPosition = doMove.targetPosition - (Vector2)doMove.transform.position;
+                        doMove.targetPosition = doMove.targetPosition - doMove.transform.position;
 
                         Undo.RecordObject(relativeFlags, "DOMoveEditor_firstTimeNonRelative");
                         relativeFlags.firstTimeRelative = false;
@@ -228,7 +244,7 @@ namespace DOTweenModular.Editor
                 {
                     if (relativeFlags.firstTimeNonRelative)
                     {
-                        doMove.targetPosition = doMove.targetPosition + (Vector2)doMove.transform.position;
+                        doMove.targetPosition = doMove.targetPosition + doMove.transform.position;
 
                         Undo.RecordObject(relativeFlags, "DOMoveEditor_firstTimeRelative");
                         relativeFlags.firstTimeNonRelative = false;
@@ -246,13 +262,22 @@ namespace DOTweenModular.Editor
 
         #region Scene Draw Functions
 
+        private void DrawTargetLine(Vector3 startPosition, Vector3 endPosition, Color lineColor)
+        {
+            Handles.color = lineColor;
+            Handles.DrawLine(startPosition, endPosition, 2f);
+        }
+
+        private void DrawTargetPoint(Vector3 startPosition, Vector3 endPosition, Color handleColor, float radius)
+        {
+            Handles.color = handleColor;
+            Handles.SphereHandleCap(2, endPosition, Quaternion.identity, 2f, EventType.Repaint);
+        }
+
         private void DrawTargetLineAndSphere(Vector3 startPosition, Vector3 endPosition, Color handleColor, Color lineColor)
         {
             Handles.color = handleColor;
             Handles.SphereHandleCap(2, endPosition, Quaternion.identity, 2f, EventType.Repaint);
-
-            Handles.color = lineColor;
-            Handles.DrawLine(startPosition, endPosition, 2f);
         }
 
         private void DrawTargetHandle(Vector3 handlePosition, Color handleColor)
@@ -263,14 +288,13 @@ namespace DOTweenModular.Editor
 
             Handles.color = handleColor;
 
-
             if (newHandlePosition != handlePosition)
             {
                 // Register the current object for undo
                 Undo.RecordObject(doMove, "Move Handle");
 
                 // Perform the handle move and update the serialized data
-                Vector2 delta = newHandlePosition - handlePosition;
+                Vector3 delta = newHandlePosition - handlePosition;
                 doMove.targetPosition += delta;
             }
         }
@@ -304,35 +328,28 @@ namespace DOTweenModular.Editor
 
         private void DrawMoveSettings()
         {
-            EditorGUILayout.PropertyField(speedBasedProp);
-            EditorGUILayout.PropertyField(useLocalProp);
-            EditorGUILayout.PropertyField(relativeProp);
-            EditorGUILayout.PropertyField(snappingProp);
+            DrawSpeedBasedProperty();
+            DrawUseLocalProperty();
+            DrawRelativeProperty();
+            DrawSnappingProperty();
         }
 
         protected override void DrawValues()
         {
-            EditorGUILayout.PropertyField(targetPositionProp);
+            DrawTargetPositionProperty();
             base.DrawValues();
         }
 
         #endregion
 
-        #region Setup Functions
-
         protected void SetupSavedVariables()
         {
-            savedMoveSettingsFoldout = "DOMoveEditor_moveSettingsFoldout_" + instanceId;
-            moveSettingsFoldout = EditorPrefs.GetBool(savedMoveSettingsFoldout, true);
-
             for (int i = 0; i < savedTabStates.Length; i++)
             {
                 savedTabStates[i] = "DOMoveEditor_tabStates_" + i + " " + instanceId;
                 tabStates[i] = EditorPrefs.GetBool(savedTabStates[i], true);
             }
         }
-
-        #endregion
 
     }
 

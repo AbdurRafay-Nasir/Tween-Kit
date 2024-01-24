@@ -18,7 +18,7 @@ namespace DOTweenModular
 
         [Tooltip("The position to reach, if relative is true game object will move as: " + "\n" + 
                  "targetPosition = targetPosition + transform.position")]
-        public Vector2 targetPosition;
+        public Vector3 targetPosition;
 
         [Tooltip("If TRUE, game object will move in local space")]
         public bool useLocal;
