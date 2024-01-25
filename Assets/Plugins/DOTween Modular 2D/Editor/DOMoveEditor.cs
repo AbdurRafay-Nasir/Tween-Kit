@@ -22,7 +22,6 @@ namespace DOTweenModular.Editor
 
         private DOMove doMove;
         private RelativeFlags relativeFlags;
-        private Vector3 beginPosition;
 
         #region Unity Functions
 
@@ -37,7 +36,6 @@ namespace DOTweenModular.Editor
             targetPositionProp = serializedObject.FindProperty("targetPosition");
 
             doMove = (DOMove)target;
-            beginPosition = doMove.transform.position;
 
             relativeFlags = CreateInstance<RelativeFlags>();
         }

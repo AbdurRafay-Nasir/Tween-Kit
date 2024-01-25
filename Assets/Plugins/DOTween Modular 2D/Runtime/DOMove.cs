@@ -23,27 +23,5 @@ namespace DOTweenModular
         [Tooltip("If TRUE, game object will move in local space")]
         public bool useLocal;
 
-        public override void CreateTween()
-        {
-            if (useLocal)
-                tween = transform.DOLocalMove(targetPosition, duration, snapping);
-          
-            else
-                tween = transform.DOMove(targetPosition, duration, snapping);
-        
-            if (easeType == Ease.INTERNAL_Custom)
-                tween.SetEase(curve);
-            else
-                tween.SetEase(easeType);
-
-            if (tweenType == Enums.TweenType.Looped)
-                tween.SetLoops(loops, loopType);
-
-            tween.SetSpeedBased(speedBased);
-            tween.SetRelative(relative);
-            tween.SetDelay(delay);
-
-            InvokeTweenCreated();
-        }
     }
 }
