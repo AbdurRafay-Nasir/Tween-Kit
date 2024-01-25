@@ -23,5 +23,10 @@ namespace DOTweenModular
         [Tooltip("If TRUE, game object will move in local space")]
         public bool useLocal;
 
+        public override Tween CreateTween()
+        {
+            Tween tween = transform.DOMove(targetPosition, duration, snapping);
+            return tween;
+        }
     }
 }

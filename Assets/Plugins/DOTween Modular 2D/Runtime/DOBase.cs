@@ -62,6 +62,37 @@ namespace DOTweenModular
 
         #endregion
 
+        private Tween tween;
 
+        private void Awake()
+        {
+            tween = CreateTween();
+
+            OnTweenCreated();
+            onTweenCreated?.Invoke();
+        }
+
+        private void Start()
+        {
+            if (begin == Begin.OnSceneStart)
+            {
+                tween.Play();
+            }
+        }
+
+        private void OnBecameVisible()
+        {
+            if (begin == Begin.OnVisible)
+            {
+                tween.Play();
+            }
+        }
+
+        private void OnTweenCreated()
+        {
+
+        }
+
+        public abstract Tween CreateTween();
     }
 }
