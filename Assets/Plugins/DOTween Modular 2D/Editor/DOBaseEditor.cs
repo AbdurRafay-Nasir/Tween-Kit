@@ -169,6 +169,39 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        #region Scene Functions
+
+        protected void DrawLine(Vector3 from, Vector3 to, Color color, float thickness = 2f)
+        {
+            Color previousColor = Handles.color;
+            Handles.color = color;
+
+            Handles.DrawLine(from, to, thickness);
+
+            Handles.color = previousColor;
+        }
+
+        protected void DrawDottedLine(Vector3 from, Vector3 to, Color color, float size = 2f)
+        {
+            Color previousColor = Handles.color;
+            Handles.color = color;
+
+            Handles.DrawDottedLine(from, to, size);
+
+            Handles.color = previousColor;
+        }
+
+        protected void DrawPoint(Vector3 pointPosition, Color color, float size = 1f)
+        {
+            Color previousColor = Handles.color;
+            Handles.color = color;
+
+            Handles.SphereHandleCap(0, pointPosition, Quaternion.identity, size, EventType.Repaint);
+            Handles.color = previousColor;
+        }
+
+        #endregion
+
         #region Inspector Draw Functions
 
         protected void DrawProperty(SerializedProperty property)
