@@ -24,9 +24,6 @@ namespace DOTweenModular.Editor
         private RelativeFlags relativeFlags;
         private Vector3 beginPosition;
 
-        private bool[] tabStates = new bool[5];
-        private string[] savedTabStates = new string[5];
-
         #region Unity Functions
 
         public override void OnEnable()
@@ -43,8 +40,6 @@ namespace DOTweenModular.Editor
             beginPosition = doMove.transform.position;
 
             relativeFlags = CreateInstance<RelativeFlags>();
-
-            SetupSavedVariables();
         }
 
         public override void OnInspectorGUI()
@@ -237,18 +232,6 @@ namespace DOTweenModular.Editor
 
         #region Scene Draw Functions
 
-        private void DrawTargetLine(Vector3 startPosition, Vector3 endPosition, Color lineColor)
-        {
-            Handles.color = lineColor;
-            Handles.DrawLine(startPosition, endPosition, 2f);
-        }
-
-        private void DrawTargetPoint(Vector3 startPosition, Vector3 endPosition, Color handleColor, float radius)
-        {
-            Handles.color = handleColor;
-            Handles.SphereHandleCap(2, endPosition, Quaternion.identity, 2f, EventType.Repaint);
-        }
-
         private void DrawTargetLineAndSphere(Vector3 startPosition, Vector3 endPosition, Color handleColor, Color lineColor)
         {
             Handles.color = handleColor;
@@ -278,29 +261,6 @@ namespace DOTweenModular.Editor
 
         #region Inspector Draw Functions
 
-        private void DrawTabs()
-        {
-            GUILayout.BeginHorizontal();
-
-            GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
-            toggleStyle.fixedHeight = 30f;
-
-            string[] tabNames = new string[] { "Life", "Type", "Move", "Values", "Events" };
-
-            for (int i = 0; i < tabStates.Length; i++)
-            {
-                EditorGUI.BeginChangeCheck();
-                bool toggleState = GUILayout.Toggle(tabStates[i], tabNames[i], toggleStyle);
-                if (EditorGUI.EndChangeCheck())
-                {
-                    tabStates[i] = toggleState;
-                    EditorPrefs.SetBool(savedTabStates[i], toggleState);
-                }
-            }
-
-            GUILayout.EndHorizontal();
-        }
-
         private void DrawMoveSettings()
         {
             DrawProperty(speedBasedProp);
@@ -316,15 +276,6 @@ namespace DOTweenModular.Editor
         }
 
         #endregion
-
-        protected void SetupSavedVariables()
-        {
-            for (int i = 0; i < savedTabStates.Length; i++)
-            {
-                savedTabStates[i] = "DOMoveEditor_tabStates_" + i + " " + instanceId;
-                tabStates[i] = EditorPrefs.GetBool(savedTabStates[i], true);
-            }
-        }
 
     }
 
