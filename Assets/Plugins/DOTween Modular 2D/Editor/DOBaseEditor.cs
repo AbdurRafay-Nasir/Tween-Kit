@@ -72,63 +72,6 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Draw Properties Functions
-
-        protected void DrawBeginProperty()
-        {
-            EditorGUILayout.PropertyField(beginProp);
-        }
-        protected void DrawTweenObjectProperty()
-        {
-            EditorGUILayout.PropertyField(tweenObjectProp);
-        }
-        protected void DrawDelayProperty()
-        {
-            EditorGUILayout.PropertyField(delayProp);
-        }
-        protected void DrawTweenTypeProperty()
-        {
-            EditorGUILayout.PropertyField(tweenTypeProp);
-        }
-        protected void DrawLoopTypeProperty()
-        {
-            EditorGUILayout.PropertyField(loopTypeProp);
-        }
-        protected void DrawEaseTypeProperty()
-        {
-            EditorGUILayout.PropertyField(easeTypeProp);
-        }
-        protected void DrawCurveProperty()
-        {
-            EditorGUILayout.PropertyField(curveProp);
-        }
-        protected void DrawLoopsProperty()
-        {
-            EditorGUILayout.PropertyField(loopsProp);
-        }
-        protected void DrawDurationProperty()
-        {
-            EditorGUILayout.PropertyField(durationProp);
-        }
-        protected void DrawOnTweenCreatedProperty()
-        {
-            EditorGUILayout.PropertyField(onTweenCreatedProp);
-        }
-        protected void DrawOnTweenStartedProperty()
-        {
-            EditorGUILayout.PropertyField(onTweenStartedProp);
-        }
-        protected void DrawOnTweenCompletedProp()
-        {
-            EditorGUILayout.PropertyField(onTweenCompletedProp);
-        }
-        protected void DrawOnTweenKilledProp()
-        {
-            EditorGUILayout.PropertyField(onTweenKilledProp);
-        }
-
-        #endregion
-
         #region GUI Element Handling
 
         protected void Space()
@@ -179,18 +122,25 @@ namespace DOTweenModular.Editor
 
         #region Inspector Draw Functions
 
+        protected void DrawProperty(SerializedProperty property)
+        {
+            EditorGUILayout.PropertyField(property);
+        }
+
         /// <summary>
         /// Draws begin, tweenObjectProp(if Begin = After or With), kill <br/>
         /// destroy component, destroy gameObject
         /// </summary>
         protected void DrawLifeTimeSettings()
         {
-            DrawBeginProperty();
+            // DrawBeginProperty();
+            DrawProperty(beginProp);
 
             if ((Begin)beginProp.enumValueIndex == Begin.With ||
                 (Begin)beginProp.enumValueIndex == Begin.After)
             {
-                DrawTweenObjectProperty();
+                // DrawTweenObjectProperty();
+                DrawProperty(tweenObjectProp);
             }
         }
 
@@ -232,18 +182,22 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected virtual void DrawTypeSettings()
         {
-            DrawTweenTypeProperty();
+            // DrawTweenTypeProperty();
+            DrawProperty(tweenTypeProp);
 
             if ((Enums.TweenType)tweenTypeProp.enumValueIndex == Enums.TweenType.Looped)
             {
-                DrawLoopTypeProperty();
+                // DrawLoopTypeProperty();
+                DrawProperty(loopTypeProp);
             }
 
-            DrawEaseTypeProperty();
+            // DrawEaseTypeProperty();
+            DrawProperty(easeTypeProp);
 
             if ((Ease)easeTypeProp.enumValueIndex == Ease.INTERNAL_Custom)
             {
-                DrawCurveProperty();
+                // DrawCurveProperty();
+                DrawProperty(curveProp);
             }
         }
 
@@ -254,11 +208,14 @@ namespace DOTweenModular.Editor
         {
             if ((Enums.TweenType)tweenTypeProp.enumValueIndex == Enums.TweenType.Looped)
             {
-                 DrawLoopsProperty();
+                //DrawLoopsProperty();
+                DrawProperty(loopsProp);
             }
 
-            DrawDelayProperty();
-            DrawDurationProperty();
+            // DrawDelayProperty();
+            DrawProperty(delayProp);
+            // DrawDurationProperty();
+            DrawProperty(durationProp);
         }
 
         /// <summary>
@@ -266,10 +223,14 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected void DrawEvents()
         {
-            DrawOnTweenCreatedProperty();
-            DrawOnTweenStartedProperty();
-            DrawOnTweenCompletedProp();
-            DrawOnTweenKilledProp();
+            DrawProperty(onTweenCreatedProp);
+            //DrawOnTweenCreatedProperty();
+            DrawProperty(onTweenStartedProp);
+            // DrawOnTweenStartedProperty();
+            // DrawOnTweenCompletedProp();
+            DrawProperty(onTweenCompletedProp);
+            DrawProperty(onTweenKilledProp);
+            // DrawOnTweenKilledProp();
         }
 
         #endregion
