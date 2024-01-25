@@ -49,13 +49,13 @@ namespace DOTweenModular.Editor
 
         public override void OnInspectorGUI()
         {
-            EditorGUILayout.Space();
+            Space();
 
-            DrawTabs();
+            bool[] toggleStates = DrawToggles("Life", "Type", "Move", "Values", "Events");
 
-            EditorGUILayout.Space();            
+            Space();
 
-            if (tabStates[0])
+            if (toggleStates[0])
             {
                 DrawSeparatorLine();
 
@@ -79,7 +79,7 @@ namespace DOTweenModular.Editor
 
             DrawTweenObjectHelpBox();
 
-            if (tabStates[1])
+            if (toggleStates[1])
             {
                 DrawSeparatorLine();
 
@@ -101,7 +101,7 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (tabStates[2])
+            if (toggleStates[2])
             {
                 DrawSeparatorLine();
 
@@ -123,7 +123,7 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (tabStates[3])
+            if (toggleStates[3])
             {
                 DrawSeparatorLine();
 
@@ -145,7 +145,7 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (tabStates[4])
+            if (toggleStates[4])
             {
                 DrawSeparatorLine();
 

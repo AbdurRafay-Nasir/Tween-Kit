@@ -7,6 +7,7 @@ namespace DOTweenModular.Editor
     using DG.Tweening;
     using UnityEngine;
     using UnityEditor;
+    using System;
 
     public class DOBaseEditor : Editor
     {
@@ -79,6 +80,56 @@ namespace DOTweenModular.Editor
             EditorGUILayout.Space();
         }
 
+        protected bool[] DrawToggles(params string[] toggleNames)
+        {
+            GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
+            toggleStyle.fixedHeight = 30f;
+
+            string[] keys = new string[toggleNames.Length];
+
+            bool[] toggleStates = new bool[toggleNames.Length];
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                keys[i] = componentName + "_" + instanceId + "_" + "Toggle_" + toggleNames[i];
+            }
+
+            GUILayout.BeginHorizontal();
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                bool isOn;
+
+                if (!EditorPrefs.HasKey(keys[i]))
+                {
+                    isOn = GUILayout.Toggle(true, toggleNames[i], toggleStyle);                    
+                    EditorPrefs.SetBool(keys[i], isOn);
+                }
+                else
+                {
+                    isOn = EditorPrefs.GetBool(keys[i]);
+
+                    EditorGUI.BeginChangeCheck();
+                    isOn = GUILayout.Toggle(isOn, toggleNames[i], toggleStyle);
+
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        toggleStates[i] = isOn;
+                        EditorPrefs.SetBool(keys[i], isOn);
+                    }
+                    else
+                    {
+                        // If no change, use the stored value
+                        toggleStates[i] = isOn;
+                    }
+                }                
+            }
+
+            GUILayout.EndHorizontal();
+
+            return toggleStates;
+        }
+
         protected void DrawSeparatorLine()
         {
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
@@ -91,7 +142,7 @@ namespace DOTweenModular.Editor
 
         protected bool BeginFoldout(string foldoutName, bool isOpen)
         {
-            string key = componentName + "_" + instanceId + "_" + foldoutName;
+            string key = componentName + "_" + instanceId + "_" + "Foldout_" + foldoutName;
 
             if (!EditorPrefs.HasKey(key))
             {
