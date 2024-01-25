@@ -2,12 +2,10 @@
 
 namespace DOTweenModular.Editor
 {
-
     using DOTweenModular.Enums;
     using DG.Tweening;
     using UnityEngine;
     using UnityEditor;
-    using System;
 
     public class DOBaseEditor : Editor
     {
@@ -73,7 +71,7 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region GUI Element Handling
+        #region GUI Handling
 
         protected void Space()
         {
@@ -140,13 +138,13 @@ namespace DOTweenModular.Editor
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         }
 
-        protected bool BeginFoldout(string foldoutName, bool isOpen)
+        protected bool BeginFoldout(string foldoutName, bool openByDefault = true)
         {
             string key = componentName + "_" + instanceId + "_" + "Foldout_" + foldoutName;
 
             if (!EditorPrefs.HasKey(key))
             {
-                bool open = EditorGUILayout.BeginFoldoutHeaderGroup(isOpen, foldoutName);
+                bool open = EditorGUILayout.BeginFoldoutHeaderGroup(openByDefault, foldoutName);
                 EditorPrefs.SetBool(key, open);
                 return open;
             }

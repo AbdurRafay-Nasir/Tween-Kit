@@ -59,7 +59,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Life Time Settings", true))
+                if (BeginFoldout("Life Time Settings"))
                 {
                     EditorGUI.indentLevel++;
 
@@ -83,7 +83,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Type Settings", true))
+                if (BeginFoldout("Type Settings"))
                 {
                     EditorGUI.indentLevel++;
 
@@ -105,7 +105,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Move Settings", true))
+                if (BeginFoldout("Move Settings"))
                 {
                     EditorGUI.indentLevel++;
 
@@ -127,7 +127,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Values", true))
+                if (BeginFoldout("Values"))
                 {
                     EditorGUI.indentLevel++;
 
@@ -149,7 +149,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Events", true))
+                if (BeginFoldout("Events"))
                 {
                     EditorGUI.indentLevel++;
 
