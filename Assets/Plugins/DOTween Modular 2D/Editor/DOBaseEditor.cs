@@ -133,13 +133,11 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected void DrawLifeTimeSettings()
         {
-            // DrawBeginProperty();
             DrawProperty(beginProp);
 
             if ((Begin)beginProp.enumValueIndex == Begin.With ||
                 (Begin)beginProp.enumValueIndex == Begin.After)
             {
-                // DrawTweenObjectProperty();
                 DrawProperty(tweenObjectProp);
             }
         }
@@ -182,21 +180,17 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected virtual void DrawTypeSettings()
         {
-            // DrawTweenTypeProperty();
             DrawProperty(tweenTypeProp);
 
             if ((Enums.TweenType)tweenTypeProp.enumValueIndex == Enums.TweenType.Looped)
             {
-                // DrawLoopTypeProperty();
                 DrawProperty(loopTypeProp);
             }
 
-            // DrawEaseTypeProperty();
             DrawProperty(easeTypeProp);
 
             if ((Ease)easeTypeProp.enumValueIndex == Ease.INTERNAL_Custom)
             {
-                // DrawCurveProperty();
                 DrawProperty(curveProp);
             }
         }
@@ -208,13 +202,10 @@ namespace DOTweenModular.Editor
         {
             if ((Enums.TweenType)tweenTypeProp.enumValueIndex == Enums.TweenType.Looped)
             {
-                //DrawLoopsProperty();
                 DrawProperty(loopsProp);
             }
 
-            // DrawDelayProperty();
             DrawProperty(delayProp);
-            // DrawDurationProperty();
             DrawProperty(durationProp);
         }
 
@@ -224,13 +215,9 @@ namespace DOTweenModular.Editor
         protected void DrawEvents()
         {
             DrawProperty(onTweenCreatedProp);
-            //DrawOnTweenCreatedProperty();
             DrawProperty(onTweenStartedProp);
-            // DrawOnTweenStartedProperty();
-            // DrawOnTweenCompletedProp();
             DrawProperty(onTweenCompletedProp);
             DrawProperty(onTweenKilledProp);
-            // DrawOnTweenKilledProp();
         }
 
         #endregion

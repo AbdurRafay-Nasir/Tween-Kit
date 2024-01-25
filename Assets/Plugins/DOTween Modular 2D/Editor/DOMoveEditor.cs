@@ -182,31 +182,6 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Draw Properties Funtions
-
-        private void DrawSpeedBasedProperty()
-        {
-            EditorGUILayout.PropertyField(speedBasedProp);
-        }
-        private void DrawUseLocalProperty()
-        {
-            EditorGUILayout.PropertyField(useLocalProp);
-        }
-        private void DrawRelativeProperty()
-        {
-            EditorGUILayout.PropertyField(relativeProp);
-        }
-        private void DrawSnappingProperty()
-        {
-            EditorGUILayout.PropertyField(snappingProp);
-        }
-        private void DrawTargetPositionProperty()
-        {
-            EditorGUILayout.PropertyField(targetPositionProp);
-        }
-
-        #endregion
-
         private Vector3 CalculateTargetPosition(Vector3 startPosition)
         {
             Vector3 handlePosition;
@@ -328,15 +303,15 @@ namespace DOTweenModular.Editor
 
         private void DrawMoveSettings()
         {
-            DrawSpeedBasedProperty();
-            DrawUseLocalProperty();
-            DrawRelativeProperty();
-            DrawSnappingProperty();
+            DrawProperty(speedBasedProp);
+            DrawProperty(useLocalProp);
+            DrawProperty(relativeProp);
+            DrawProperty(snappingProp);
         }
 
         protected override void DrawValues()
         {
-            DrawTargetPositionProperty();
+            DrawProperty(targetPositionProp);
             base.DrawValues();
         }
 
