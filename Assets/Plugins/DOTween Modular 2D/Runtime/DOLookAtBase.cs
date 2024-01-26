@@ -7,5 +7,7 @@ namespace DOTweenModular
         public Enums.LookAtSimple lookAt;
         public Vector3 lookAtPosition;
         public Transform lookAtTarget;
+
+
     }
 }
