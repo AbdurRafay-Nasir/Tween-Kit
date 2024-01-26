@@ -243,8 +243,8 @@ namespace DOTweenModular.Editor
         {
             DrawProperty(beginProp);
 
-            if ((Begin)beginProp.enumValueIndex == Begin.With ||
-                (Begin)beginProp.enumValueIndex == Begin.After)
+            if (doBase.begin == Begin.With ||
+                doBase.begin == Begin.After)
             {
                 DrawProperty(tweenObjectProp);
             }
@@ -255,8 +255,8 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected void DrawTweenObjectHelpBox()
         {
-            if ((Begin)beginProp.enumValueIndex == Begin.After ||
-                (Begin)beginProp.enumValueIndex == Begin.With)
+            if (doBase.begin == Begin.After ||
+                doBase.begin == Begin.With)
             {
                 if (tweenObjectProp.objectReferenceValue == null)
                     EditorGUILayout.HelpBox("Tween Object is not assigned", MessageType.Error);
@@ -290,7 +290,7 @@ namespace DOTweenModular.Editor
         {
             DrawProperty(tweenTypeProp);
 
-            if ((Enums.TweenType)tweenTypeProp.enumValueIndex == Enums.TweenType.Looped)
+            if (doBase.tweenType == Enums.TweenType.Looped)
             {
                 DrawProperty(loopTypeProp);
             }
@@ -308,7 +308,7 @@ namespace DOTweenModular.Editor
         /// </summary>    
         protected virtual void DrawValues()
         {
-            if ((Enums.TweenType)tweenTypeProp.enumValueIndex == Enums.TweenType.Looped)
+            if (doBase.tweenType == Enums.TweenType.Looped)
             {
                 DrawProperty(loopsProp);
             }

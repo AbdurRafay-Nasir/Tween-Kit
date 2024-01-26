@@ -380,7 +380,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   begin: 0
   tweenObject: {fileID: 0}
-  delay: 0
   tweenType: 0
   loopType: 0
   easeType: 0
@@ -392,6 +391,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   loops: -1
   duration: 1
+  delay: 3
   onTweenCreated:
     m_PersistentCalls:
       m_Calls:
@@ -455,7 +455,7 @@ MonoBehaviour:
   speedBased: 0
   relative: 0
   snapping: 0
-  targetPosition: {x: 0, y: 0, z: 0}
+  targetPosition: {x: -7.606966, y: 10.669403, z: 12.010254}
   useLocal: 0
 --- !u!1 &1524334857
 GameObject:

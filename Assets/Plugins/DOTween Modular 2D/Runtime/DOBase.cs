@@ -15,9 +15,6 @@ namespace DOTweenModular
         [Tooltip("The DO component After/With this tween will start")]
         public DOBase tweenObject;
 
-        [Tooltip("Time after which this tween will play")]
-        public float delay;
-
         public Enums.TweenType tweenType;
 
         [Tooltip("Restart - Start again from start Position/Rotation/Scale " + "\n" +
@@ -34,6 +31,9 @@ namespace DOTweenModular
 
         [Tooltip("How long this tween will play")]
         [Min(0)] public float duration = 1;
+
+        [Tooltip("Time after which this tween will play")]
+        [Min(0)] public float delay;
 
         #endregion
 
