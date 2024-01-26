@@ -44,7 +44,7 @@ namespace DOTweenModular.Editor
         {
             Space();
 
-            bool[] toggleStates = DrawToggles("Life", "Type", "Move", "Values", "Events");
+            bool[] toggleStates = DrawToggles("Life", "Type", "Look At", "Move", "Values", "Events");
 
             Space();
 
@@ -98,6 +98,28 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
+                if (BeginFoldout("Look At Settings"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawLookAtSettings();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            if (toggleStates[3])
+            {
+                DrawSeparatorLine();
+
                 if (BeginFoldout("Move Settings"))
                 {
                     EditorGUI.indentLevel++;
@@ -116,7 +138,7 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (toggleStates[3])
+            if (toggleStates[4])
             {
                 DrawSeparatorLine();
 
@@ -138,7 +160,7 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (toggleStates[4])
+            if (toggleStates[5])
             {
                 DrawSeparatorLine();
 
