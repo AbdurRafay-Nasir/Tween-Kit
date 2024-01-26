@@ -175,7 +175,6 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-
         #region Inspector Draw Functions
 
         private void DrawMoveSettings()
@@ -198,7 +197,7 @@ namespace DOTweenModular.Editor
         {
             Vector3 handlePosition;
 
-            if (doMove.useLocal)
+            if (doMove.useLocal && !doMove.relative)
             {
                 if (doMove.transform.parent != null)
                 {
@@ -248,6 +247,6 @@ namespace DOTweenModular.Editor
         }
 
     }
-
 }
+
 #endif
