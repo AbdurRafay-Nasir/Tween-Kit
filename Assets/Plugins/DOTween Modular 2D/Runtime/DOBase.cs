@@ -117,24 +117,18 @@ namespace DOTweenModular
 
         #endregion
 
-        protected void OnTweenCreated()
-        {
+        protected virtual void OnTweenCreated() { }
 
-        }
+        protected virtual void OnTweenStarted() { }
 
-        protected void OnTweenStarted()
-        {
-
-        }
-
-        protected void OnTweenCompleted()
+        protected virtual void OnTweenCompleted()
         {
             onTweenCompleted?.Invoke();
 
             tween.Kill();
         }
 
-        protected void OnTweenKilled()
+        protected virtual void OnTweenKilled()
         {
             onTweenKilled?.Invoke();
 
@@ -156,12 +150,14 @@ namespace DOTweenModular
         {
             tween = CreateTween();
             onTweenCreated?.Invoke();
+            OnTweenCreated();
 
             tween.onComplete += OnTweenCompleted;
             tween.onKill += OnTweenKilled;
 
             tween.Play();
             onTweenStarted?.Invoke();
+            OnTweenStarted();
         }
 
         public abstract Tween CreateTween();
