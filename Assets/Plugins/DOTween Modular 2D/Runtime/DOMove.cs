@@ -6,6 +6,8 @@ namespace DOTweenModular
     [AddComponentMenu("DOTween Modular 2D/Transform/DO Move", 50)]
     public class DOMove : DOBase
     {
+        #region Properties
+
         [Tooltip("If TRUE, the tween will Move duration amount in each second")]
         public bool speedBased;
 
@@ -23,9 +25,30 @@ namespace DOTweenModular
         [Tooltip("If TRUE, game object will move in local space")]
         public bool useLocal;
 
+        #endregion
+
         public override Tween CreateTween()
         {
-            Tween tween = transform.DOMove(targetPosition, duration, snapping);
+            Tween tween;
+
+            if (useLocal)
+                tween = transform.DOLocalMove(targetPosition, duration, snapping);
+
+            else
+                tween = transform.DOMove(targetPosition, duration, snapping);
+
+            if (easeType == Ease.INTERNAL_Custom)
+                tween.SetEase(curve);
+            else
+                tween.SetEase(easeType);
+
+            if (tweenType == Enums.TweenType.Looped)
+                tween.SetLoops(loops, loopType);
+
+            tween.SetSpeedBased(speedBased);
+            tween.SetRelative(relative);
+            tween.SetDelay(delay);
+
             return tween;
         }
     }
