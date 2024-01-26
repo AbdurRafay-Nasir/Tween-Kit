@@ -180,8 +180,13 @@ namespace DOTweenModular.Editor
         private void DrawMoveSettings()
         {
             DrawProperty(speedBasedProp);
-            DrawProperty(useLocalProp);
-            DrawProperty(relativeProp);
+
+            if (!doMove.relative)
+                DrawProperty(useLocalProp);
+
+            if (!doMove.useLocal)
+                DrawProperty(relativeProp);
+
             DrawProperty(snappingProp);
         }
 

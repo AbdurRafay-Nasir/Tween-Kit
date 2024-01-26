@@ -453,10 +453,10 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   speedBased: 0
-  relative: 1
+  relative: 0
   snapping: 0
-  targetPosition: {x: 0.03999996, y: -4.13, z: 0}
-  useLocal: 1
+  targetPosition: {x: 0, y: 0, z: 0}
+  useLocal: 0
 --- !u!1 &1524334857
 GameObject:
   m_ObjectHideFlags: 0
