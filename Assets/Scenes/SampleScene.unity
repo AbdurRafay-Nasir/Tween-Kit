@@ -565,7 +565,7 @@ MonoBehaviour:
   speedBased: 0
   relative: 0
   snapping: 0
-  targetPosition: {x: 0, y: 0, z: 0}
+  targetPosition: {x: -3.7487268, y: -1.2763414, z: 0}
   useLocal: 0
 --- !u!65 &1890721748
 BoxCollider:

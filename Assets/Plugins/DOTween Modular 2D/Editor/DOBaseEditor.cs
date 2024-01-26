@@ -169,7 +169,28 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Scene Functions
+        #region Scene Draw Functions
+
+        protected Vector3 DrawHandle(Vector3 handlePosition)
+        {
+            Vector3 newHandlePosition = Handles.PositionHandle(handlePosition, Quaternion.identity);
+
+            Vector3 delta;
+
+            if (newHandlePosition != handlePosition)
+            {
+                Undo.RecordObject(doBase, "Move Handle");
+
+                // Perform the handle move and update the serialized data
+                delta = newHandlePosition - handlePosition;
+            }
+            else
+            {
+                delta = Vector3.zero;
+            }
+
+            return delta;
+        }
 
         protected void DrawLine(Vector3 from, Vector3 to, Color color, float thickness = 2f)
         {

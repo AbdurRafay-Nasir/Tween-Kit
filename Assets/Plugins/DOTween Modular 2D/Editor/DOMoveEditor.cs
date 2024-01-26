@@ -163,19 +163,38 @@ namespace DOTweenModular.Editor
             if (doMove.begin == Begin.After ||
                 doMove.begin == Begin.With)
             {
-                Handles.color = Color.white;
-
                 if (doMove.tweenObject != null)
                     DrawTweenObjectInfo();
             }
 
-            Vector3 handlePosition = CalculateTargetPosition(Vector2.zero);
-            DrawTargetLineAndSphere(Vector2.zero, handlePosition, Color.green, Color.green);
+            Vector3 handlePosition = CalculateTargetPosition(doMove.transform.position);
+
+            doMove.targetPosition += DrawHandle(handlePosition);
+            DrawLine(doMove.transform.position, handlePosition, Color.green);
         }
 
         #endregion
 
-        private Vector3 CalculateTargetPosition(Vector3 startPosition)
+
+        #region Inspector Draw Functions
+
+        private void DrawMoveSettings()
+        {
+            DrawProperty(speedBasedProp);
+            DrawProperty(useLocalProp);
+            DrawProperty(relativeProp);
+            DrawProperty(snappingProp);
+        }
+
+        protected override void DrawValues()
+        {
+            DrawProperty(targetPositionProp);
+            base.DrawValues();
+        }
+
+        #endregion
+
+        private Vector3 CalculateTargetPosition(Vector3 currentPosition)
         {
             Vector3 handlePosition;
 
@@ -204,7 +223,7 @@ namespace DOTweenModular.Editor
                         relativeFlags.firstTimeRelative = false;
                     }
 
-                    handlePosition = startPosition + doMove.targetPosition;
+                    handlePosition = currentPosition + doMove.targetPosition;
 
                     relativeFlags.firstTimeNonRelative = true;
                 }
@@ -227,53 +246,6 @@ namespace DOTweenModular.Editor
 
             return handlePosition;
         }
-
-        #region Scene Draw Functions
-
-        private void DrawTargetLineAndSphere(Vector3 startPosition, Vector3 endPosition, Color handleColor, Color lineColor)
-        {
-            Handles.color = handleColor;
-            Handles.SphereHandleCap(2, endPosition, Quaternion.identity, 2f, EventType.Repaint);
-        }
-
-        private void DrawTargetHandle(Vector3 handlePosition, Color handleColor)
-        {
-            Vector3 newHandlePosition;
-
-            newHandlePosition = Handles.PositionHandle(handlePosition, Quaternion.identity);
-
-            Handles.color = handleColor;
-
-            if (newHandlePosition != handlePosition)
-            {
-                // Register the current object for undo
-                Undo.RecordObject(doMove, "Move Handle");
-
-                // Perform the handle move and update the serialized data
-                Vector3 delta = newHandlePosition - handlePosition;
-                doMove.targetPosition += delta;
-            }
-        }
-
-        #endregion
-
-        #region Inspector Draw Functions
-
-        private void DrawMoveSettings()
-        {
-            DrawProperty(speedBasedProp);
-            DrawProperty(useLocalProp);
-            DrawProperty(relativeProp);
-            DrawProperty(snappingProp);
-        }
-
-        protected override void DrawValues()
-        {
-            DrawProperty(targetPositionProp);
-            base.DrawValues();
-        }
-
-        #endregion
 
     }
 
