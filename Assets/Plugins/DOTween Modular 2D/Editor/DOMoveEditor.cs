@@ -189,10 +189,32 @@ namespace DOTweenModular.Editor
                     DrawTweenObjectInfo();
             }
 
+            // TargetPosition
             Vector3 handlePosition = CalculateTargetPosition(doMove.transform.position);
 
             doMove.targetPosition += DrawHandle(handlePosition);
             DrawLine(doMove.transform.position, handlePosition, Color.green);
+
+
+            // LookAt
+            if (doMove.lookAt == LookAtSimple.None) return;
+
+            Vector3 lookTarget = Vector3.zero;
+
+            if (doMove.lookAt == LookAtSimple.Position)
+            {
+                doMove.lookAtPosition += DrawHandle(doMove.lookAtPosition);
+
+                lookTarget = doMove.lookAtPosition;
+            }
+
+            else if (doMove.lookAt == LookAtSimple.Transform)
+            {
+                if (doMove.lookAtTarget != null)
+                    lookTarget = doMove.lookAtTarget.position;
+            }
+
+            DrawDottedLine(doMove.transform.position, lookTarget, Color.green, 10f);
         }
 
         #endregion

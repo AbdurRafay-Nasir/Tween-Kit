@@ -149,12 +149,11 @@ Transform:
   m_GameObject: {fileID: 163096808}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14, y: -2, z: 0}
+  m_LocalPosition: {x: 6, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1458270662}
-  m_Father: {fileID: 1524334858}
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &163096810
 MonoBehaviour:
@@ -360,11 +359,11 @@ Transform:
   m_GameObject: {fileID: 1458270658}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.04, y: 2.13, z: 0}
+  m_LocalPosition: {x: 1.21, y: 2.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 163096809}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1458270663
 MonoBehaviour:
@@ -391,71 +390,26 @@ MonoBehaviour:
     m_RotationOrder: 4
   loops: -1
   duration: 1
-  delay: 3
+  delay: 0
   onTweenCreated:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 163096810}
-        m_TargetAssemblyTypeName: tester, Assembly-CSharp
-        m_MethodName: OnTweenCreated
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onTweenStarted:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 163096810}
-        m_TargetAssemblyTypeName: tester, Assembly-CSharp
-        m_MethodName: OnTweenStarted
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onTweenCompleted:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 163096810}
-        m_TargetAssemblyTypeName: tester, Assembly-CSharp
-        m_MethodName: OnTweenCompleted
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onTweenKilled:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 163096810}
-        m_TargetAssemblyTypeName: tester, Assembly-CSharp
-        m_MethodName: OnTweenKilled
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  lookAt: 1
+  lookAtPosition: {x: -10.35, y: 0, z: 0}
+  lookAtTarget: {fileID: 1524334858}
   speedBased: 0
   relative: 0
   snapping: 0
-  targetPosition: {x: -7.606966, y: 10.669403, z: 12.010254}
+  targetPosition: {x: 0, y: 0, z: 0}
   useLocal: 0
 --- !u!1 &1524334857
 GameObject:
@@ -485,8 +439,7 @@ Transform:
   m_LocalPosition: {x: -8, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 163096809}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
@@ -494,4 +447,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963194228}
+  - {fileID: 163096809}
+  - {fileID: 1458270662}
   - {fileID: 1524334858}
