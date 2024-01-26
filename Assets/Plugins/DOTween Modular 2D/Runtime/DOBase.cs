@@ -1,7 +1,7 @@
-using DG.Tweening;
-using DOTweenModular.Enums;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
+using DOTweenModular.Enums;
 
 namespace DOTweenModular
 {
@@ -64,33 +64,76 @@ namespace DOTweenModular
 
         private Tween tween;
 
+        #region Unity Functions
+
         private void Awake()
         {
-            tween = CreateTween();
+            if (begin == Begin.Manual) return;
 
-            OnTweenCreated();
-            onTweenCreated?.Invoke();
+            if (begin == Begin.With)
+                tweenObject.onTweenStarted.AddListener(OnTweenObjectTweenStarted);
+
+            if (begin == Begin.After)
+                tweenObject.onTweenCompleted.AddListener(OnTweenObjectTweenCompleted);
         }
 
         private void Start()
         {
+            if (begin == Begin.Manual) return;
+
             if (begin == Begin.OnSceneStart)
             {
-                tween.Play();
+                SetupAndPlayTween();
             }
         }
 
         private void OnBecameVisible()
         {
+            if (begin == Begin.Manual) return;
+
             if (begin == Begin.OnVisible)
             {
-                tween.Play();
+                SetupAndPlayTween();
             }
         }
 
-        private void OnTweenCreated()
-        {
+        #endregion
 
+        private void OnTweenCompleted()
+        {
+            onTweenCompleted?.Invoke();
+
+            tween.Kill();
+        }
+
+        private void OnTweenKilled()
+        {
+            onTweenKilled?.Invoke();
+
+            tween.OnComplete(null);
+            tween.OnKill(null);
+        }
+
+        private void OnTweenObjectTweenStarted()
+        {
+            SetupAndPlayTween();
+        }
+
+        private void OnTweenObjectTweenCompleted()
+        {
+            SetupAndPlayTween();
+        }
+
+        private void SetupAndPlayTween()
+        {
+            tween = CreateTween();
+            onTweenCreated?.Invoke();
+
+            tween.onComplete += OnTweenCompleted;
+            tween.onKill += OnTweenKilled;
+
+            tween.Play();
+            onTweenStarted?.Invoke();
         }
 
         public abstract Tween CreateTween();
