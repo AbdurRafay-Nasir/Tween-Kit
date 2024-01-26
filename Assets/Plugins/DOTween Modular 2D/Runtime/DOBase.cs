@@ -97,6 +97,24 @@ namespace DOTweenModular
             }
         }
 
+        private void OnDestroy()
+        {
+            tween.Kill();
+            onTweenKilled?.Invoke();
+
+            tween.OnComplete(null);
+            tween.OnKill(null);
+
+            onTweenCreated?.RemoveAllListeners();
+            onTweenStarted?.RemoveAllListeners();
+            onTweenCompleted?.RemoveAllListeners();
+            onTweenKilled?.RemoveAllListeners();
+
+            curve = null;
+            tweenObject = null;
+            tween = null;
+        }
+
         #endregion
 
         private void OnTweenCompleted()
