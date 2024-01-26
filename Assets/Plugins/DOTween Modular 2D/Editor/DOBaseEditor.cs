@@ -25,6 +25,7 @@ namespace DOTweenModular.Editor
 
         private SerializedProperty onTweenCreatedProp;
         private SerializedProperty onTweenStartedProp;
+        private SerializedProperty onTweenUpdatedProp;
         private SerializedProperty onTweenCompletedProp;
         private SerializedProperty onTweenKilledProp;
 
@@ -55,6 +56,7 @@ namespace DOTweenModular.Editor
 
             onTweenCreatedProp = serializedObject.FindProperty("onTweenCreated");
             onTweenStartedProp = serializedObject.FindProperty("onTweenStarted");
+            onTweenUpdatedProp = serializedObject.FindProperty("onTweenUpdated");
             onTweenCompletedProp = serializedObject.FindProperty("onTweenCompleted");
             onTweenKilledProp = serializedObject.FindProperty("onTweenKilled");
         }
@@ -324,6 +326,7 @@ namespace DOTweenModular.Editor
         {
             DrawProperty(onTweenCreatedProp);
             DrawProperty(onTweenStartedProp);
+            DrawProperty(onTweenUpdatedProp);
             DrawProperty(onTweenCompletedProp);
             DrawProperty(onTweenKilledProp);
         }

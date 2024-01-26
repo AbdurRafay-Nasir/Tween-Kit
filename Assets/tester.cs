@@ -10,6 +10,10 @@ public class tester : MonoBehaviour
     {
         print("Started");
     }
+    public void OnTweenUpdated()
+    {
+        print("Updating");
+    }
     public void OnTweenCompleted()
     {
         print("Completed");

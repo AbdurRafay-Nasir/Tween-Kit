@@ -7,6 +7,9 @@ namespace DOTweenModular
 {
     public abstract class DOBase : MonoBehaviour
     {
+        // BUG - onTweenKilled is called twice if gameObject was deleted
+        //       while the tween was running
+
         #region Properties
 
         [Tooltip("When this tween should start")]
@@ -104,8 +107,12 @@ namespace DOTweenModular
 
         private void OnDestroy()
         {
-            tween.Kill();
-            onTweenKilled?.Invoke();
+            // TODO - This condition is not correct
+            if (tween.IsPlaying() || tween.playedOnce)
+            {
+                tween.Kill();
+                onTweenKilled?.Invoke();
+            } 
 
             tween.OnUpdate(null);
             tween.OnComplete(null);
@@ -127,7 +134,10 @@ namespace DOTweenModular
 
         protected virtual void OnTweenStarted() { }
 
-        protected virtual void OnTweenUpdate() { }
+        protected virtual void OnTweenUpdate() 
+        {
+            onTweenUpdated?.Invoke();
+        }
 
         protected virtual void OnTweenCompleted()
         {
