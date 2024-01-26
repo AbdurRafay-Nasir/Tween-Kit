@@ -78,6 +78,11 @@ namespace DOTweenModular.Editor
             EditorGUILayout.Space();
         }
 
+        protected void DrawHelpbox(string message, MessageType messageType)
+        {
+            EditorGUILayout.HelpBox(message, messageType);
+        }
+
         protected bool[] DrawToggles(params string[] toggleNames)
         {
             GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
