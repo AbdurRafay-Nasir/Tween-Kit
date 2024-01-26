@@ -51,6 +51,11 @@ namespace DOTweenModular
         public UnityEvent onTweenStarted;
 
         /// <summary>
+        /// Called every frame while this tween runs
+        /// </summary>
+        public UnityEvent onTweenUpdated;
+
+        /// <summary>
         /// Called when this tween completes, in-case of infinite loops this will not invoke
         /// </summary>
         public UnityEvent onTweenCompleted;
@@ -102,6 +107,7 @@ namespace DOTweenModular
             tween.Kill();
             onTweenKilled?.Invoke();
 
+            tween.OnUpdate(null);
             tween.OnComplete(null);
             tween.OnKill(null);
 
@@ -121,6 +127,8 @@ namespace DOTweenModular
 
         protected virtual void OnTweenStarted() { }
 
+        protected virtual void OnTweenUpdate() { }
+
         protected virtual void OnTweenCompleted()
         {
             onTweenCompleted?.Invoke();
@@ -132,6 +140,7 @@ namespace DOTweenModular
         {
             onTweenKilled?.Invoke();
 
+            tween.OnUpdate(null);
             tween.OnComplete(null);
             tween.OnKill(null);
         }
@@ -152,6 +161,7 @@ namespace DOTweenModular
             onTweenCreated?.Invoke();
             OnTweenCreated();
 
+            tween.onUpdate += OnTweenUpdate;
             tween.onComplete += OnTweenCompleted;
             tween.onKill += OnTweenKilled;
 
