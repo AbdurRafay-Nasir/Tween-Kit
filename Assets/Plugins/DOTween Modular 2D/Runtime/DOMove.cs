@@ -4,7 +4,7 @@ using UnityEngine;
 namespace DOTweenModular
 {   
     [AddComponentMenu("DOTween Modular 2D/Transform/DO Move", 50)]
-    public class DOMove : DOBase
+    public class DOMove : DOLookAtBase
     {
         #region Properties
 
