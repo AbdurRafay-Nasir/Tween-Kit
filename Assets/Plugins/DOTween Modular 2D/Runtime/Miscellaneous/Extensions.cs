@@ -253,6 +253,14 @@ namespace DOTweenModular.Miscellaneous
 
         #endregion
 
+        public static void LookAtSmooth(this Transform transform, Vector3 target, float interpolate)
+        {
+            Vector3 lookDirection = target - transform.position;
+            lookDirection.Normalize();
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDirection), interpolate);
+        }
+
         #region Vector Functions
 
         /// <summary>
