@@ -34,7 +34,7 @@ namespace DOTweenModular.Editor
 
         private DOBase doBase;
         protected int instanceId;
-        private List<string> savedKeys;
+        private static List<string> savedKeys;
 
         #region Unity Functions
 
@@ -42,6 +42,9 @@ namespace DOTweenModular.Editor
         {
             doBase = (DOBase)target;
             instanceId = doBase.GetInstanceID();
+
+            if (savedKeys == null)
+                savedKeys = new();
 
             beginProp = serializedObject.FindProperty("begin");
             tweenObjectProp = serializedObject.FindProperty("tweenObject");
@@ -63,11 +66,15 @@ namespace DOTweenModular.Editor
 
         private void OnDisable()
         { 
-            // this means the GameObject/Component was deleted
-            // TODO - Confirm it
             if (target == null)
             {
-            
+                for (int i = 0; i < savedKeys.Count; i++)
+                {
+                    EditorPrefs.DeleteKey(savedKeys[i]);
+                }
+
+                savedKeys = null;
+                Debug.Log("DESTROYED AHHHHH!!!!");
             }
         }
 
@@ -97,6 +104,7 @@ namespace DOTweenModular.Editor
             for (int i = 0; i < toggleKeys.Length; i++)
             {
                 toggleKeys[i] = instanceId + "_" + "Toggle_" + toggleNames[i];
+                savedKeys.Add(toggleKeys[i]);
             }
 
             GUILayout.BeginHorizontal();
@@ -148,6 +156,7 @@ namespace DOTweenModular.Editor
         protected bool BeginFoldout(string foldoutName, bool openByDefault = true)
         {
             string foldoutKey = instanceId + "_" + "Foldout_" + foldoutName;
+            savedKeys.Add(foldoutKey);
 
             if (!EditorPrefs.HasKey(foldoutKey))
             {
