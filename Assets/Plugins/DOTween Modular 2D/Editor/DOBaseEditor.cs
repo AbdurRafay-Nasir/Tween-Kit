@@ -185,60 +185,6 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Scene Draw Functions
-
-        protected Vector3 DrawHandle(Vector3 handlePosition)
-        {
-            Vector3 newHandlePosition = Handles.PositionHandle(handlePosition, Quaternion.identity);
-
-            Vector3 delta;
-
-            if (newHandlePosition != handlePosition)
-            {
-                Undo.RecordObject(doBase, "Move Handle");
-
-                // Perform the handle move and update the serialized data
-                delta = newHandlePosition - handlePosition;
-            }
-            else
-            {
-                delta = Vector3.zero;
-            }
-
-            return delta;
-        }
-
-        protected void DrawLine(Vector3 from, Vector3 to, Color color, float thickness = 2f)
-        {
-            Color previousColor = Handles.color;
-            Handles.color = color;
-
-            Handles.DrawLine(from, to, thickness);
-
-            Handles.color = previousColor;
-        }
-
-        protected void DrawDottedLine(Vector3 from, Vector3 to, Color color, float size = 2f)
-        {
-            Color previousColor = Handles.color;
-            Handles.color = color;
-
-            Handles.DrawDottedLine(from, to, size);
-
-            Handles.color = previousColor;
-        }
-
-        protected void DrawPoint(Vector3 pointPosition, Color color, float size = 1f)
-        {
-            Color previousColor = Handles.color;
-            Handles.color = color;
-
-            Handles.SphereHandleCap(0, pointPosition, Quaternion.identity, size, EventType.Repaint);
-            Handles.color = previousColor;
-        }
-
-        #endregion
-
         #region Inspector Draw Functions
 
         protected void DrawProperty(SerializedProperty property)
@@ -342,7 +288,57 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Preview Functions
+        #region Scene Draw Functions
+
+        protected Vector3 DrawHandle(Vector3 handlePosition)
+        {
+            Vector3 newHandlePosition = Handles.PositionHandle(handlePosition, Quaternion.identity);
+
+            Vector3 delta;
+
+            if (newHandlePosition != handlePosition)
+            {
+                Undo.RecordObject(doBase, "Move Handle");
+
+                // Perform the handle move and update the serialized data
+                delta = newHandlePosition - handlePosition;
+            }
+            else
+            {
+                delta = Vector3.zero;
+            }
+
+            return delta;
+        }
+
+        protected void DrawLine(Vector3 from, Vector3 to, Color color, float thickness = 2f)
+        {
+            Color previousColor = Handles.color;
+            Handles.color = color;
+
+            Handles.DrawLine(from, to, thickness);
+
+            Handles.color = previousColor;
+        }
+
+        protected void DrawDottedLine(Vector3 from, Vector3 to, Color color, float size = 2f)
+        {
+            Color previousColor = Handles.color;
+            Handles.color = color;
+
+            Handles.DrawDottedLine(from, to, size);
+
+            Handles.color = previousColor;
+        }
+
+        protected void DrawPoint(Vector3 pointPosition, Color color, float size = 1f)
+        {
+            Color previousColor = Handles.color;
+            Handles.color = color;
+
+            Handles.SphereHandleCap(0, pointPosition, Quaternion.identity, size, EventType.Repaint);
+            Handles.color = previousColor;
+        }
 
         /// <summary>
         /// Draws complete lines to backward Tween Objects, also displays arrow head and Begin Property
@@ -380,7 +376,7 @@ namespace DOTweenModular.Editor
 
                 Handles.DrawLine(lineStart, lineEnd);
 
-                midPoint = (lineStart + lineEnd) * 0.5f;                
+                midPoint = (lineStart + lineEnd) * 0.5f;
                 Handles.Label(midPoint, text);
 
                 arrowPosition = Vector2.Lerp(lineStart, lineEnd, 0.1f);

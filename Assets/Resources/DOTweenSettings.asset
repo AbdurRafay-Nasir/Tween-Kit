@@ -33,7 +33,7 @@ MonoBehaviour:
   defaultEasePeriod: 0
   defaultAutoKill: 0
   defaultLoopType: 0
-  debugMode: 0
+  debugMode: 1
   debugStoreTargetId: 1
   showPreviewPanel: 1
   storeSettingsLocation: 0
