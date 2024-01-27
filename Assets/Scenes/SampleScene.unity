@@ -389,25 +389,85 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   loops: -1
-  duration: 1
+  duration: 3
   delay: 0
   onTweenCreated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 163096810}
+        m_TargetAssemblyTypeName: tester, Assembly-CSharp
+        m_MethodName: OnTweenCreated
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onTweenStarted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 163096810}
+        m_TargetAssemblyTypeName: tester, Assembly-CSharp
+        m_MethodName: OnTweenStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onTweenUpdated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 163096810}
+        m_TargetAssemblyTypeName: tester, Assembly-CSharp
+        m_MethodName: OnTweenUpdated
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onTweenCompleted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 163096810}
+        m_TargetAssemblyTypeName: tester, Assembly-CSharp
+        m_MethodName: OnTweenCompleted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onTweenKilled:
     m_PersistentCalls:
-      m_Calls: []
-  lookAt: 0
-  lookAtPosition: {x: 0, y: 0, z: 0}
+      m_Calls:
+      - m_Target: {fileID: 163096810}
+        m_TargetAssemblyTypeName: tester, Assembly-CSharp
+        m_MethodName: OnTweenKilled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  lookAt: 1
+  lookAtPosition: {x: 1.0714588, y: 6.808335, z: 0}
   lookAtTarget: {fileID: 0}
   interpolate: 0.01
   speedBased: 0
