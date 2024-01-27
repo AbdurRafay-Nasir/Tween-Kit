@@ -466,8 +466,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  lookAt: 0
-  lookAtPosition: {x: -10.35, y: 0, z: 0}
+  lookAt: 1
+  lookAtPosition: {x: 1.0714588, y: 6.808335, z: 0}
   lookAtTarget: {fileID: 0}
   speedBased: 0
   relative: 0

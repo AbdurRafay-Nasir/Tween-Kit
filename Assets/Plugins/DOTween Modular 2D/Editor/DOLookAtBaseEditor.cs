@@ -9,6 +9,7 @@ namespace DOTweenModular.Editor
         protected SerializedProperty lookAtProp;
         protected SerializedProperty lookAtPositionProp;
         protected SerializedProperty lookAtTargetProp;
+        protected SerializedProperty interpolateProp;
 
         public override void OnEnable()
         {
@@ -17,17 +18,23 @@ namespace DOTweenModular.Editor
             lookAtProp = serializedObject.FindProperty("lookAt");
             lookAtPositionProp = serializedObject.FindProperty("lookAtPosition");
             lookAtTargetProp = serializedObject.FindProperty("lookAtTarget");
+            interpolateProp = serializedObject.FindProperty("interpolate");
         }
 
         protected void DrawLookAtSettings()
         {
             DrawProperty(lookAtProp);
 
+            if ((Enums.LookAtSimple)lookAtProp.enumValueIndex == Enums.LookAtSimple.None)
+                return;
+
             if ((Enums.LookAtSimple) lookAtProp.enumValueIndex == Enums.LookAtSimple.Position)
                 DrawProperty(lookAtPositionProp);
 
             if ((Enums.LookAtSimple) lookAtProp.enumValueIndex == Enums.LookAtSimple.Transform)
                 DrawProperty(lookAtTargetProp);
+
+            DrawProperty(interpolateProp);
         }
     }
 
