@@ -6,6 +6,7 @@ namespace DOTweenModular.Editor
     using DG.Tweening;
     using UnityEngine;
     using UnityEditor;
+    using System.Collections.Generic;
 
     public class DOBaseEditor : Editor
     {
@@ -32,15 +33,14 @@ namespace DOTweenModular.Editor
         #endregion
 
         private DOBase doBase;
-        protected string componentName; 
         protected int instanceId;
+        private List<string> savedKeys;
 
         #region Unity Functions
 
         public virtual void OnEnable()
         {
             doBase = (DOBase)target;
-            componentName = doBase.GetType().ToString();
             instanceId = doBase.GetInstanceID();
 
             beginProp = serializedObject.FindProperty("begin");
@@ -90,29 +90,29 @@ namespace DOTweenModular.Editor
             GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
             toggleStyle.fixedHeight = 30f;
 
-            string[] keys = new string[toggleNames.Length];
+            string[] toggleKeys = new string[toggleNames.Length];
 
             bool[] toggleStates = new bool[toggleNames.Length];
 
-            for (int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < toggleKeys.Length; i++)
             {
-                keys[i] = componentName + "_" + instanceId + "_" + "Toggle_" + toggleNames[i];
+                toggleKeys[i] = instanceId + "_" + "Toggle_" + toggleNames[i];
             }
 
             GUILayout.BeginHorizontal();
 
-            for (int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < toggleKeys.Length; i++)
             {
                 bool isOn;
 
-                if (!EditorPrefs.HasKey(keys[i]))
+                if (!EditorPrefs.HasKey(toggleKeys[i]))
                 {
                     isOn = GUILayout.Toggle(true, toggleNames[i], toggleStyle);                    
-                    EditorPrefs.SetBool(keys[i], isOn);
+                    EditorPrefs.SetBool(toggleKeys[i], isOn);
                 }
                 else
                 {
-                    isOn = EditorPrefs.GetBool(keys[i]);
+                    isOn = EditorPrefs.GetBool(toggleKeys[i]);
 
                     EditorGUI.BeginChangeCheck();
                     isOn = GUILayout.Toggle(isOn, toggleNames[i], toggleStyle);
@@ -120,7 +120,7 @@ namespace DOTweenModular.Editor
                     if (EditorGUI.EndChangeCheck())
                     {
                         toggleStates[i] = isOn;
-                        EditorPrefs.SetBool(keys[i], isOn);
+                        EditorPrefs.SetBool(toggleKeys[i], isOn);
                     }
                     else
                     {
@@ -147,19 +147,19 @@ namespace DOTweenModular.Editor
 
         protected bool BeginFoldout(string foldoutName, bool openByDefault = true)
         {
-            string key = componentName + "_" + instanceId + "_" + "Foldout_" + foldoutName;
+            string foldoutKey = instanceId + "_" + "Foldout_" + foldoutName;
 
-            if (!EditorPrefs.HasKey(key))
+            if (!EditorPrefs.HasKey(foldoutKey))
             {
                 bool open = EditorGUILayout.BeginFoldoutHeaderGroup(openByDefault, foldoutName);
-                EditorPrefs.SetBool(key, open);
+                EditorPrefs.SetBool(foldoutKey, open);
                 return open;
             }
             else
             {
-                bool open = EditorPrefs.GetBool(key);
+                bool open = EditorPrefs.GetBool(foldoutKey);
                 open = EditorGUILayout.BeginFoldoutHeaderGroup(open, foldoutName);
-                EditorPrefs.SetBool(key, open);
+                EditorPrefs.SetBool(foldoutKey, open);
                 return open;
             }
         }

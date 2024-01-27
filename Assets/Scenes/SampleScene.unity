@@ -469,6 +469,7 @@ MonoBehaviour:
   lookAt: 1
   lookAtPosition: {x: 1.0714588, y: 6.808335, z: 0}
   lookAtTarget: {fileID: 0}
+  interpolate: 0.01
   speedBased: 0
   relative: 0
   snapping: 0
