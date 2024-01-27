@@ -47,11 +47,11 @@ namespace DOTweenModular.Editor
             bool[] toggleStates = DrawToggles("Life", "Type", "Look At", "Move", "Values", "Events");
 
             Space();
+            DrawSeparatorLine();
+            Space();
 
             if (toggleStates[0])
-            {
-                DrawSeparatorLine();
-
+            {               
                 if (BeginFoldout("Life Time Settings"))
                 {
                     EditorGUI.indentLevel++;
@@ -68,14 +68,14 @@ namespace DOTweenModular.Editor
                 }
 
                 EndFoldout();
+
+                DrawSeparatorLine();
             }
 
             DrawTweenObjectHelpBox();
 
             if (toggleStates[1])
             {
-                DrawSeparatorLine();
-
                 if (BeginFoldout("Type Settings"))
                 {
                     EditorGUI.indentLevel++;
@@ -92,12 +92,12 @@ namespace DOTweenModular.Editor
                 }
 
                 EndFoldout();
+
+                DrawSeparatorLine();
             }
 
             if (toggleStates[2])
             {
-                DrawSeparatorLine();
-
                 if (BeginFoldout("Look At Settings"))
                 {
                     EditorGUI.indentLevel++;
@@ -114,12 +114,12 @@ namespace DOTweenModular.Editor
                 }
 
                 EndFoldout();
+
+                DrawSeparatorLine();
             }
 
             if (toggleStates[3])
             {
-                DrawSeparatorLine();
-
                 if (BeginFoldout("Move Settings"))
                 {
                     EditorGUI.indentLevel++;
@@ -136,12 +136,12 @@ namespace DOTweenModular.Editor
                 }
 
                 EndFoldout();
+
+                DrawSeparatorLine();
             }
 
             if (toggleStates[4])
             {
-                DrawSeparatorLine();
-
                 if (BeginFoldout("Values"))
                 {
                     EditorGUI.indentLevel++;
@@ -158,12 +158,12 @@ namespace DOTweenModular.Editor
                 }
 
                 EndFoldout();
+
+                DrawSeparatorLine();
             }
 
             if (toggleStates[5])
             {
-                DrawSeparatorLine();
-
                 if (BeginFoldout("Events"))
                 {
                     EditorGUI.indentLevel++;
