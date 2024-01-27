@@ -2,11 +2,12 @@
 
 namespace DOTweenModular.Editor
 {
-    using DOTweenModular.Enums;
-    using DG.Tweening;
+    using System.Collections.Generic;
     using UnityEngine;
     using UnityEditor;
-    using System.Collections.Generic;
+    using DG.Tweening;
+    using DG.DOTweenEditor;
+    using DOTweenModular.Enums;
 
     public class DOBaseEditor : Editor
     {
@@ -66,15 +67,17 @@ namespace DOTweenModular.Editor
 
         private void OnDisable()
         { 
+            // BUG - Inspector is not updated correctly when getting out
+            //       of play mode, if this code is not commented
             if (target == null)
             {
-                for (int i = 0; i < savedKeys.Count; i++)
-                {
-                    EditorPrefs.DeleteKey(savedKeys[i]);
-                }
+                //for (int i = 0; i < savedKeys.Count; i++)
+                //{
+                //    EditorPrefs.DeleteKey(savedKeys[i]);
+                //}
 
-                savedKeys = null;
-                Debug.Log("DESTROYED AHHHHH!!!!");
+                //savedKeys = null;
+                //Debug.Log("DESTROYED AHHHHH!!!!");
             }
         }
 
@@ -181,6 +184,37 @@ namespace DOTweenModular.Editor
         protected void EndFoldout()
         {
             EditorGUILayout.EndFoldoutHeaderGroup();
+        }
+
+        protected void DrawPlayButton()
+        {
+            if (EditorApplication.isPlaying)
+                return;
+
+            GUIStyle style = new GUIStyle(EditorStyles.miniButton);
+            style.fixedHeight = 30f;
+            style.fontSize = 20;
+
+            if (GUILayout.Button("Play", style))
+            {
+                DOTweenEditorPreview.PrepareTweenForPreview(doBase.CreateTween(), true, false);
+                DOTweenEditorPreview.Start();
+            }
+        }
+
+        protected void DrawStopButton()
+        {
+            if (EditorApplication.isPlaying)
+                return;
+
+            GUIStyle style = new GUIStyle(EditorStyles.miniButton);
+            style.fixedHeight = 30f;
+            style.fontSize = 20;
+
+            if (GUILayout.Button("Stop", style))
+            {
+                DOTweenEditorPreview.Stop(true);
+            }
         }
 
         #endregion

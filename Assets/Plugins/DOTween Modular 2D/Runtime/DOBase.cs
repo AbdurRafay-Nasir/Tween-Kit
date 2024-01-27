@@ -108,15 +108,18 @@ namespace DOTweenModular
         private void OnDestroy()
         {
             // TODO - This condition is not correct
-            if (tween.IsPlaying() || tween.playedOnce)
+            if (tween != null)
             {
-                tween.Kill();
-                onTweenKilled?.Invoke();
-            } 
+                if (tween.IsPlaying() || tween.playedOnce)
+                {
+                    tween.Kill();
+                    onTweenKilled?.Invoke();
+                }
 
-            tween.OnUpdate(null);
-            tween.OnComplete(null);
-            tween.OnKill(null);
+                tween.OnUpdate(null);
+                tween.OnComplete(null);
+                tween.OnKill(null);
+            }
 
             onTweenCreated?.RemoveAllListeners();
             onTweenStarted?.RemoveAllListeners();

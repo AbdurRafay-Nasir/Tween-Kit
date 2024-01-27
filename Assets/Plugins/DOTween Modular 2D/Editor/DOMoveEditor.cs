@@ -177,6 +177,11 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
+            DrawSeparatorLine();
+
+            DrawPlayButton();
+            DrawStopButton();
+
             serializedObject.ApplyModifiedProperties();
         }
 
