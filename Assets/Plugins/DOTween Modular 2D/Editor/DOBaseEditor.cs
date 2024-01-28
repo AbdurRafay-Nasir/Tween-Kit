@@ -35,16 +35,10 @@ namespace DOTweenModular.Editor
         private DOBase doBase;
         protected int instanceId;
 
-        private GUIStyle previewButtonStyle;
-
         public virtual void OnEnable()
         {
             doBase = (DOBase)target;
             instanceId = doBase.GetInstanceID();
-
-            previewButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            previewButtonStyle.fixedHeight = 30f;
-            previewButtonStyle.fontSize = 20;
 
             beginProp = serializedObject.FindProperty("begin");
             tweenObjectProp = serializedObject.FindProperty("tweenObject");
@@ -152,7 +146,11 @@ namespace DOTweenModular.Editor
             if (EditorApplication.isPlaying)
                 return;
 
-            if (GUILayout.Button("Play", previewButtonStyle))
+            GUIStyle style = new GUIStyle(EditorStyles.miniButton);
+            style.fixedHeight = 30f;
+            style.fontSize = 20;
+
+            if (GUILayout.Button("Play", style))
             {
                 DOTweenEditorPreview.PrepareTweenForPreview(doBase.CreateTween(), true, false);
                 DOTweenEditorPreview.Start();
@@ -164,7 +162,11 @@ namespace DOTweenModular.Editor
             if (EditorApplication.isPlaying)
                 return;
 
-            if (GUILayout.Button("Stop", previewButtonStyle))
+            GUIStyle style = new GUIStyle(EditorStyles.miniButton);
+            style.fixedHeight = 30f;
+            style.fontSize = 20;
+
+            if (GUILayout.Button("Stop", style))
             {
                 DOTweenEditorPreview.Stop(true);
             }
