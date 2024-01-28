@@ -1,25 +1,42 @@
+using DOTweenModular;
 using UnityEngine;
 
 public class tester : MonoBehaviour
 {
+    private DOMove doMove;
+
+    private void Awake()
+    {
+        doMove = GetComponent<DOMove>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            doMove.CreateTween();
+            doMove.PlayTween();
+        }
+    }
+
     public void OnTweenCreated()
     {
-        print("Created");
+        print(gameObject.name + " Created");
     }
-    public void OnTweenStarted()
+    public void OnTweenPlayed()
     {
-        print("Started");
+        print(gameObject.name + " Started");
     }
     public void OnTweenUpdated()
     {
-        print("Updating");
+        print(gameObject.name + " Updating");
     }
     public void OnTweenCompleted()
     {
-        print("Completed");
+        print(gameObject.name + " Completed");
     }
     public void OnTweenKilled()
     {
-        print("Killed");
+        print(gameObject.name + " Killed");
     }
 }

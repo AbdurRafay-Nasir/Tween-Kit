@@ -26,7 +26,7 @@ namespace DOTweenModular.Editor
         protected SerializedProperty durationProp;
 
         private SerializedProperty onTweenCreatedProp;
-        private SerializedProperty onTweenStartedProp;
+        private SerializedProperty onTweenPlayedProp;
         private SerializedProperty onTweenUpdatedProp;
         private SerializedProperty onTweenCompletedProp;
         private SerializedProperty onTweenKilledProp;
@@ -59,7 +59,7 @@ namespace DOTweenModular.Editor
             durationProp = serializedObject.FindProperty("duration");
 
             onTweenCreatedProp = serializedObject.FindProperty("onTweenCreated");
-            onTweenStartedProp = serializedObject.FindProperty("onTweenStarted");
+            onTweenPlayedProp = serializedObject.FindProperty("onTweenPlayed");
             onTweenUpdatedProp = serializedObject.FindProperty("onTweenUpdated");
             onTweenCompletedProp = serializedObject.FindProperty("onTweenCompleted");
             onTweenKilledProp = serializedObject.FindProperty("onTweenKilled");
@@ -71,13 +71,14 @@ namespace DOTweenModular.Editor
             //       of play mode, if this code is not commented
             if (target == null)
             {
-                //for (int i = 0; i < savedKeys.Count; i++)
-                //{
-                //    EditorPrefs.DeleteKey(savedKeys[i]);
-                //}
+                for (int i = 0; i < savedKeys.Count; i++)
+                {
+                    if (EditorPrefs.HasKey(savedKeys[i]))
+                        EditorPrefs.DeleteKey(savedKeys[i]);
+                }
 
-                //savedKeys = null;
-                //Debug.Log("DESTROYED AHHHHH!!!!");
+                savedKeys = null;
+                Debug.Log("DESTROYED AHHHHH!!!!");
             }
         }
 
@@ -314,7 +315,7 @@ namespace DOTweenModular.Editor
         protected void DrawEvents()
         {
             DrawProperty(onTweenCreatedProp);
-            DrawProperty(onTweenStartedProp);
+            DrawProperty(onTweenPlayedProp);
             DrawProperty(onTweenUpdatedProp);
             DrawProperty(onTweenCompletedProp);
             DrawProperty(onTweenKilledProp);

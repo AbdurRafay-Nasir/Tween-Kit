@@ -29,27 +29,27 @@ namespace DOTweenModular
 
         public override Tween CreateTween()
         {
-            Tween tween;
-
             if (useLocal)
-                tween = transform.DOLocalMove(targetPosition, duration, snapping);
+                Tween = transform.DOLocalMove(targetPosition, duration, snapping);
 
             else
-                tween = transform.DOMove(targetPosition, duration, snapping);
+                Tween = transform.DOMove(targetPosition, duration, snapping);
 
             if (easeType == Ease.INTERNAL_Custom)
-                tween.SetEase(curve);
+                Tween.SetEase(curve);
             else
-                tween.SetEase(easeType);
+                Tween.SetEase(easeType);
 
             if (tweenType == Enums.TweenType.Looped)
-                tween.SetLoops(loops, loopType);
+                Tween.SetLoops(loops, loopType);
 
-            tween.SetSpeedBased(speedBased);
-            tween.SetRelative(relative);
-            tween.SetDelay(delay);
+            Tween.SetSpeedBased(speedBased);
+            Tween.SetRelative(relative);
+            Tween.SetDelay(delay);
 
-            return tween;
+            TweenCreated();
+
+            return Tween;
         }
     }
 }

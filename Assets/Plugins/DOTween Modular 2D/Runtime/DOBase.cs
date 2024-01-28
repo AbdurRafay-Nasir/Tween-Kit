@@ -51,7 +51,7 @@ namespace DOTweenModular
         /// <summary>
         /// Called the first time this tween starts
         /// </summary>
-        public UnityEvent onTweenStarted;
+        public UnityEvent onTweenPlayed;
 
         /// <summary>
         /// Called every frame while this tween runs
@@ -70,7 +70,7 @@ namespace DOTweenModular
 
         #endregion
 
-        private Tween tween;
+        public Tween Tween { get; protected set; }
 
         #region Unity Functions
 
@@ -79,10 +79,10 @@ namespace DOTweenModular
             if (begin == Begin.Manual) return;
 
             if (begin == Begin.With)
-                tweenObject.onTweenStarted.AddListener(OnTweenObjectTweenStarted);
+                tweenObject.onTweenPlayed.AddListener(TweenObjectTween);
 
             if (begin == Begin.After)
-                tweenObject.onTweenCompleted.AddListener(OnTweenObjectTweenCompleted);
+                tweenObject.onTweenCompleted.AddListener(TweenObjectTween);
         }
 
         private void Start()
@@ -91,7 +91,8 @@ namespace DOTweenModular
 
             if (begin == Begin.OnSceneStart)
             {
-                SetupAndPlayTween();
+                CreateTween();
+                PlayTween();
             }
         }
 
@@ -101,41 +102,64 @@ namespace DOTweenModular
 
             if (begin == Begin.OnVisible)
             {
-                SetupAndPlayTween();
+                CreateTween();
+                PlayTween();
             }
         }
 
         private void OnDestroy()
-        {
-            // TODO - This condition is not correct
-            if (tween != null)
-            {
-                if (tween.IsPlaying() || tween.playedOnce)
-                {
-                    tween.Kill();
-                    onTweenKilled?.Invoke();
-                }
+        {            
+            onTweenCreated.RemoveAllListeners();
+            onTweenPlayed.RemoveAllListeners();
+            onTweenUpdated.RemoveAllListeners();
+            onTweenCompleted.RemoveAllListeners();
+            onTweenKilled.RemoveAllListeners();
 
-                tween.OnUpdate(null);
-                tween.OnComplete(null);
-                tween.OnKill(null);
+            if (Tween.IsPlaying())
+            {
+                Tween.Kill();
             }
 
-            onTweenCreated?.RemoveAllListeners();
-            onTweenStarted?.RemoveAllListeners();
-            onTweenCompleted?.RemoveAllListeners();
-            onTweenKilled?.RemoveAllListeners();
+            Tween.OnPlay(null);
+            Tween.OnUpdate(null);
+            Tween.OnComplete(null);
+            Tween.OnKill(null);
 
             curve = null;
             tweenObject = null;
-            tween = null;
+            Tween = null;
         }
 
         #endregion
 
-        protected virtual void OnTweenCreated() { }
+        public abstract Tween CreateTween();
 
-        protected virtual void OnTweenStarted() { }
+        protected void TweenCreated()
+        {
+            OnTweenCreated();
+        }
+
+        public void PlayTween()
+        {
+            Tween.Play();
+        }
+
+        #region Tween Callbacks
+
+        protected virtual void OnTweenCreated() 
+        {
+            onTweenCreated?.Invoke();
+
+            Tween.onPlay += OnTweenPlayed;
+            Tween.onUpdate += OnTweenUpdate;
+            Tween.onComplete += OnTweenCompleted;
+            Tween.onKill += OnTweenKilled;
+        }
+
+        protected virtual void OnTweenPlayed()
+        {
+            onTweenPlayed?.Invoke();
+        }
 
         protected virtual void OnTweenUpdate() 
         {
@@ -145,44 +169,19 @@ namespace DOTweenModular
         protected virtual void OnTweenCompleted()
         {
             onTweenCompleted?.Invoke();
-
-            tween.Kill();
         }
 
         protected virtual void OnTweenKilled()
         {
             onTweenKilled?.Invoke();
-
-            tween.OnUpdate(null);
-            tween.OnComplete(null);
-            tween.OnKill(null);
         }
 
-        private void OnTweenObjectTweenStarted()
+        #endregion
+
+        private void TweenObjectTween()
         {
-            SetupAndPlayTween();
+            CreateTween();
+            PlayTween();
         }
-
-        private void OnTweenObjectTweenCompleted()
-        {
-            SetupAndPlayTween();
-        }
-
-        private void SetupAndPlayTween()
-        {
-            tween = CreateTween();
-            onTweenCreated?.Invoke();
-            OnTweenCreated();
-
-            tween.onUpdate += OnTweenUpdate;
-            tween.onComplete += OnTweenCompleted;
-            tween.onKill += OnTweenKilled;
-
-            tween.Play();
-            onTweenStarted?.Invoke();
-            OnTweenStarted();
-        }
-
-        public abstract Tween CreateTween();
     }
 }

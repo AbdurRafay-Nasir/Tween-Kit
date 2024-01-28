@@ -123,50 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &163096808
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 163096809}
-  - component: {fileID: 163096810}
-  m_Layer: 0
-  m_Name: Tester
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &163096809
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 163096808}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &163096810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 163096808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abc4e48e4d4055749bb399b7d4553d5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,6 +228,7 @@ GameObject:
   - component: {fileID: 1458270660}
   - component: {fileID: 1458270659}
   - component: {fileID: 1458270663}
+  - component: {fileID: 1458270664}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -359,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 1458270658}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 2.76, z: 0}
+  m_LocalPosition: {x: 5.68, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -394,7 +351,7 @@ MonoBehaviour:
   onTweenCreated:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 163096810}
+      - m_Target: {fileID: 1458270664}
         m_TargetAssemblyTypeName: tester, Assembly-CSharp
         m_MethodName: OnTweenCreated
         m_Mode: 1
@@ -406,12 +363,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onTweenStarted:
+  onTweenPlayed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 163096810}
+      - m_Target: {fileID: 1458270664}
         m_TargetAssemblyTypeName: tester, Assembly-CSharp
-        m_MethodName: OnTweenStarted
+        m_MethodName: OnTweenPlayed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -424,7 +381,7 @@ MonoBehaviour:
   onTweenUpdated:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 163096810}
+      - m_Target: {fileID: 1458270664}
         m_TargetAssemblyTypeName: tester, Assembly-CSharp
         m_MethodName: OnTweenUpdated
         m_Mode: 1
@@ -439,7 +396,7 @@ MonoBehaviour:
   onTweenCompleted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 163096810}
+      - m_Target: {fileID: 1458270664}
         m_TargetAssemblyTypeName: tester, Assembly-CSharp
         m_MethodName: OnTweenCompleted
         m_Mode: 1
@@ -454,7 +411,7 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 163096810}
+      - m_Target: {fileID: 1458270664}
         m_TargetAssemblyTypeName: tester, Assembly-CSharp
         m_MethodName: OnTweenKilled
         m_Mode: 1
@@ -475,10 +432,21 @@ MonoBehaviour:
   snapping: 0
   targetPosition: {x: 0, y: 0, z: 0}
   useLocal: 0
+--- !u!114 &1458270664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458270658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc4e48e4d4055749bb399b7d4553d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963194228}
   - {fileID: 1458270662}
-  - {fileID: 163096809}
