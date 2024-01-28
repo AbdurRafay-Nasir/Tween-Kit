@@ -5,18 +5,23 @@ public class tester : MonoBehaviour
 {
     private DOMove doMove;
 
-    private void Awake()
+    private void OnEnable()
     {
         doMove = GetComponent<DOMove>();
-    }
 
-    private void Update()
+        doMove.onTweenCreated.AddListener(OnTweenCreated);
+        doMove.onTweenPlayed.AddListener(OnTweenPlayed);
+        doMove.onTweenUpdated.AddListener(OnTweenUpdated);
+        doMove.onTweenCompleted.AddListener(OnTweenCompleted);
+        doMove.onTweenKilled.AddListener(OnTweenKilled);
+    }
+    private void OnDisable()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            doMove.CreateTween();
-            doMove.PlayTween();
-        }
+        doMove.onTweenCreated.RemoveListener(OnTweenCreated);
+        doMove.onTweenPlayed.RemoveListener(OnTweenPlayed);
+        doMove.onTweenUpdated.RemoveListener(OnTweenUpdated);
+        doMove.onTweenCompleted.RemoveListener(OnTweenCompleted);
+        doMove.onTweenKilled.RemoveListener(OnTweenKilled);
     }
 
     public void OnTweenCreated()

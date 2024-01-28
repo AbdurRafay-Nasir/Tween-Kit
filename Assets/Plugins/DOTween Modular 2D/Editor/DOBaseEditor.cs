@@ -2,7 +2,6 @@
 
 namespace DOTweenModular.Editor
 {
-    using System.Collections.Generic;
     using UnityEngine;
     using UnityEditor;
     using DG.Tweening;
@@ -35,17 +34,11 @@ namespace DOTweenModular.Editor
 
         private DOBase doBase;
         protected int instanceId;
-        private static List<string> savedKeys;
-
-        #region Unity Functions
 
         public virtual void OnEnable()
         {
             doBase = (DOBase)target;
             instanceId = doBase.GetInstanceID();
-
-            if (savedKeys == null)
-                savedKeys = new();
 
             beginProp = serializedObject.FindProperty("begin");
             tweenObjectProp = serializedObject.FindProperty("tweenObject");
@@ -64,25 +57,6 @@ namespace DOTweenModular.Editor
             onTweenCompletedProp = serializedObject.FindProperty("onTweenCompleted");
             onTweenKilledProp = serializedObject.FindProperty("onTweenKilled");
         }
-
-        private void OnDisable()
-        { 
-            // BUG - Inspector is not updated correctly when getting out
-            //       of play mode, if this code is not commented
-            if (target == null)
-            {
-                for (int i = 0; i < savedKeys.Count; i++)
-                {
-                    if (EditorPrefs.HasKey(savedKeys[i]))
-                        EditorPrefs.DeleteKey(savedKeys[i]);
-                }
-
-                savedKeys = null;
-                Debug.Log("DESTROYED AHHHHH!!!!");
-            }
-        }
-
-        #endregion
 
         #region GUI Handling
 
@@ -108,38 +82,27 @@ namespace DOTweenModular.Editor
             for (int i = 0; i < toggleKeys.Length; i++)
             {
                 toggleKeys[i] = instanceId + "_" + "Toggle_" + toggleNames[i];
-                savedKeys.Add(toggleKeys[i]);
             }
 
             GUILayout.BeginHorizontal();
 
             for (int i = 0; i < toggleKeys.Length; i++)
             {
-                bool isOn;
+                bool isOn = SessionState.GetBool(toggleKeys[i], true);
 
-                if (!EditorPrefs.HasKey(toggleKeys[i]))
+                EditorGUI.BeginChangeCheck();
+                isOn = GUILayout.Toggle(isOn, toggleNames[i], toggleStyle);
+
+                if (EditorGUI.EndChangeCheck())
                 {
-                    isOn = GUILayout.Toggle(true, toggleNames[i], toggleStyle);                    
-                    EditorPrefs.SetBool(toggleKeys[i], isOn);
+                    toggleStates[i] = isOn;
+                    SessionState.SetBool(toggleKeys[i], isOn);
                 }
                 else
                 {
-                    isOn = EditorPrefs.GetBool(toggleKeys[i]);
-
-                    EditorGUI.BeginChangeCheck();
-                    isOn = GUILayout.Toggle(isOn, toggleNames[i], toggleStyle);
-
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        toggleStates[i] = isOn;
-                        EditorPrefs.SetBool(toggleKeys[i], isOn);
-                    }
-                    else
-                    {
-                        // If no change, use the stored value
-                        toggleStates[i] = isOn;
-                    }
-                }                
+                    // If no change, use the stored value
+                    toggleStates[i] = isOn;
+                }               
             }
 
             GUILayout.EndHorizontal();
@@ -160,21 +123,12 @@ namespace DOTweenModular.Editor
         protected bool BeginFoldout(string foldoutName, bool openByDefault = true)
         {
             string foldoutKey = instanceId + "_" + "Foldout_" + foldoutName;
-            savedKeys.Add(foldoutKey);
 
-            if (!EditorPrefs.HasKey(foldoutKey))
-            {
-                bool open = EditorGUILayout.BeginFoldoutHeaderGroup(openByDefault, foldoutName);
-                EditorPrefs.SetBool(foldoutKey, open);
-                return open;
-            }
-            else
-            {
-                bool open = EditorPrefs.GetBool(foldoutKey);
-                open = EditorGUILayout.BeginFoldoutHeaderGroup(open, foldoutName);
-                EditorPrefs.SetBool(foldoutKey, open);
-                return open;
-            }
+            bool open = SessionState.GetBool(foldoutKey, openByDefault);
+            open = EditorGUILayout.BeginFoldoutHeaderGroup(open, foldoutName);
+            SessionState.SetBool(foldoutKey, open);
+            return open;
+
         }
 
         protected void EndBackgroundBox()
