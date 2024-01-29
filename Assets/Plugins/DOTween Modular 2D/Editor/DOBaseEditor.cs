@@ -34,6 +34,7 @@ namespace DOTweenModular.Editor
 
         private DOBase doBase;
         protected int instanceId;
+        private bool tweenPreviewing;
 
         public virtual void OnEnable()
         {
@@ -146,21 +147,36 @@ namespace DOTweenModular.Editor
             if (EditorApplication.isPlaying)
                 return;
 
+            GUI.enabled = !tweenPreviewing;
+
             GUIStyle style = new GUIStyle(EditorStyles.miniButton);
             style.fixedHeight = 30f;
             style.fontSize = 20;
 
             if (GUILayout.Button("Play", style))
             {
-                DOTweenEditorPreview.PrepareTweenForPreview(doBase.CreateTween(), true, false);
+                tweenPreviewing = true;
+                SessionState.SetBool(nameof(tweenPreviewing), tweenPreviewing);
+
+                Tween tween = doBase.CreateTween();
+
+                tween.onComplete += OnPreviewStopped;
+
+                DOTweenEditorPreview.PrepareTweenForPreview(tween, false, false);
                 DOTweenEditorPreview.Start();
+
+                OnPreviewStarted();
             }
+
+            GUI.enabled = true;
         }
 
         protected void DrawStopButton()
         {
             if (EditorApplication.isPlaying)
                 return;
+
+            GUI.enabled = tweenPreviewing;
 
             GUIStyle style = new GUIStyle(EditorStyles.miniButton);
             style.fixedHeight = 30f;
@@ -169,7 +185,31 @@ namespace DOTweenModular.Editor
             if (GUILayout.Button("Stop", style))
             {
                 DOTweenEditorPreview.Stop(true);
+                OnPreviewForceStopped();
             }
+
+            GUI.enabled = true;
+        }
+        
+        protected virtual void OnPreviewStarted()
+        {
+            Debug.Log("COMPLETEDDDDDD");
+        }
+
+        protected virtual void OnPreviewStopped()
+        {
+            tweenPreviewing = false;
+            SessionState.SetBool(nameof(tweenPreviewing), tweenPreviewing);
+
+            Debug.Log("STOPPPPPED");
+        }
+
+        protected virtual void OnPreviewForceStopped()
+        {
+            tweenPreviewing = false;
+            SessionState.SetBool(nameof(tweenPreviewing), tweenPreviewing);
+
+            Debug.Log("FORCE STOPPPPPED");
         }
 
         #endregion
