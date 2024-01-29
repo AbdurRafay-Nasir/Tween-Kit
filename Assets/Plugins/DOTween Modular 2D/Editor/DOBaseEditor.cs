@@ -190,27 +190,6 @@ namespace DOTweenModular.Editor
 
             GUI.enabled = true;
         }
-        
-        protected virtual void OnPreviewStarted()
-        {
-            Debug.Log("COMPLETEDDDDDD");
-        }
-
-        protected virtual void OnPreviewStopped()
-        {
-            tweenPreviewing = false;
-            SessionState.SetBool(nameof(tweenPreviewing), tweenPreviewing);
-
-            Debug.Log("STOPPPPPED");
-        }
-
-        protected virtual void OnPreviewForceStopped()
-        {
-            tweenPreviewing = false;
-            SessionState.SetBool(nameof(tweenPreviewing), tweenPreviewing);
-
-            Debug.Log("FORCE STOPPPPPED");
-        }
 
         #endregion
 
@@ -412,6 +391,27 @@ namespace DOTweenModular.Editor
                 arrowDirection = lineStart - midPoint;
                 Handles.ConeHandleCap(10, arrowPosition, Quaternion.LookRotation(arrowDirection), 0.5f, EventType.Repaint);
             }
+        }
+
+        #endregion
+
+        #region Tween Preview Callbacks
+
+        protected virtual void OnPreviewStarted()
+        {
+
+        }
+
+        protected virtual void OnPreviewStopped()
+        {
+            tweenPreviewing = false;
+            SessionState.SetBool(nameof(tweenPreviewing), tweenPreviewing);
+        }
+
+        protected virtual void OnPreviewForceStopped()
+        {
+            tweenPreviewing = false;
+            SessionState.SetBool(nameof(tweenPreviewing), tweenPreviewing);
         }
 
         #endregion
