@@ -215,7 +215,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1458270658
+--- !u!1 &1176409124
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,12 +223,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1458270662}
-  - component: {fileID: 1458270661}
-  - component: {fileID: 1458270660}
-  - component: {fileID: 1458270659}
-  - component: {fileID: 1458270663}
-  - component: {fileID: 1458270664}
+  - component: {fileID: 1176409128}
+  - component: {fileID: 1176409127}
+  - component: {fileID: 1176409126}
+  - component: {fileID: 1176409125}
+  - component: {fileID: 1176409129}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -236,13 +235,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1458270659
+--- !u!65 &1176409125
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458270658}
+  m_GameObject: {fileID: 1176409124}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -257,13 +256,13 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1458270660
+--- !u!23 &1176409126
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458270658}
+  m_GameObject: {fileID: 1176409124}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -299,36 +298,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1458270661
+--- !u!33 &1176409127
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458270658}
+  m_GameObject: {fileID: 1176409124}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1458270662
+--- !u!4 &1176409128
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458270658}
+  m_GameObject: {fileID: 1176409124}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.68, y: 3, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.57, y: 4.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1458270663
+--- !u!114 &1176409129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458270658}
+  m_GameObject: {fileID: 1176409124}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 718d1b7a79bcb6b4d94839fc21923a81, type: 3}
@@ -346,7 +345,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   loops: -1
-  duration: 3
+  duration: 1
   delay: 0
   onTweenCreated:
     m_PersistentCalls:
@@ -364,7 +363,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   lookAt: 1
-  lookAtPosition: {x: 1.0714588, y: 6.808335, z: 0}
+  lookAtPosition: {x: -3.6252658, y: 9.107032, z: 0}
   lookAtTarget: {fileID: 0}
   interpolate: 0.01
   speedBased: 0
@@ -372,21 +371,9 @@ MonoBehaviour:
   snapping: 0
   targetPosition: {x: 0, y: 0, z: 0}
   useLocal: 0
---- !u!114 &1458270664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458270658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abc4e48e4d4055749bb399b7d4553d5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963194228}
-  - {fileID: 1458270662}
+  - {fileID: 1176409128}

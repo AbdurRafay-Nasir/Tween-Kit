@@ -7,9 +7,6 @@ namespace DOTweenModular
 {
     public abstract class DOBase : MonoBehaviour
     {
-        // BUG - onTweenKilled is called twice if gameObject was deleted
-        //       while the tween was running
-
         #region Properties
 
         [Tooltip("When this tween should start")]
@@ -70,7 +67,7 @@ namespace DOTweenModular
 
         #endregion
 
-        public Tween Tween { get; protected set; }
+        protected Tween Tween;
 
         #region Unity Functions
 
@@ -154,26 +151,45 @@ namespace DOTweenModular
             Tween.onUpdate += OnTweenUpdate;
             Tween.onComplete += OnTweenCompleted;
             Tween.onKill += OnTweenKilled;
+
+            print("CREATED");
         }
 
         protected virtual void OnTweenPlayed()
         {
             onTweenPlayed?.Invoke();
+            print("PLAYED");
         }
 
         protected virtual void OnTweenUpdate() 
         {
             onTweenUpdated?.Invoke();
+            print("UPDATE");
         }
 
         protected virtual void OnTweenCompleted()
         {
             onTweenCompleted?.Invoke();
+            Tween.Kill();
+            print("COMPLETE");
         }
 
         protected virtual void OnTweenKilled()
         {
             onTweenKilled?.Invoke();
+
+            Tween.onPlay -= OnTweenPlayed;
+            Tween.onUpdate -= OnTweenUpdate;
+            Tween.onComplete -= OnTweenCompleted;
+            Tween.onKill -= OnTweenKilled;
+
+            // Just to be extra sure
+            Tween.OnPlay(null);
+            Tween.OnUpdate(null);
+            Tween.OnComplete(null);
+            Tween.OnKill(null);
+
+            print("KILLED");
         }
 
         #endregion

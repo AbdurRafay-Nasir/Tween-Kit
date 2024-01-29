@@ -15,7 +15,8 @@ public class tester : MonoBehaviour
         doMove.onTweenCompleted.AddListener(OnTweenCompleted);
         doMove.onTweenKilled.AddListener(OnTweenKilled);
     }
-    private void OnDisable()
+
+    private void OnDestroy()
     {
         doMove.onTweenCreated.RemoveListener(OnTweenCreated);
         doMove.onTweenPlayed.RemoveListener(OnTweenPlayed);
@@ -42,6 +43,6 @@ public class tester : MonoBehaviour
     }
     public void OnTweenKilled()
     {
-        print(gameObject.name + " Killed");
+        print(gameObject.name + " Killed"); 
     }
 }
