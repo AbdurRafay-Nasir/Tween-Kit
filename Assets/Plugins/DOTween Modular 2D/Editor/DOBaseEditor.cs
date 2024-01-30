@@ -33,13 +33,22 @@ namespace DOTweenModular.Editor
         #endregion
 
         private DOBase doBase;
-        protected int instanceId;
+        protected string gameObjectId;
+        protected string instanceId;
         private bool tweenPreviewing;
+
+        private GUIStyle previewButtonStyle;
 
         public virtual void OnEnable()
         {
             doBase = (DOBase)target;
-            instanceId = doBase.GetInstanceID();
+
+            gameObjectId = doBase.gameObject.GetInstanceID().ToString();
+            instanceId = doBase.GetInstanceID().ToString();
+
+            previewButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            previewButtonStyle.fixedHeight = 30f;
+            previewButtonStyle.fontSize = 20;
 
             beginProp = serializedObject.FindProperty("begin");
             tweenObjectProp = serializedObject.FindProperty("tweenObject");
@@ -146,17 +155,13 @@ namespace DOTweenModular.Editor
         {
             if (EditorApplication.isPlaying)
                 return;
+                        
+            GUI.enabled = !SessionState.GetBool(gameObjectId, true);
 
-            GUI.enabled = !tweenPreviewing;
-
-            GUIStyle style = new GUIStyle(EditorStyles.miniButton);
-            style.fixedHeight = 30f;
-            style.fontSize = 20;
-
-            if (GUILayout.Button("Play", style))
+            if (GUILayout.Button("Play", previewButtonStyle))
             {
                 tweenPreviewing = true;
-                SessionState.SetBool(nameof(tweenPreviewing), tweenPreviewing);
+                SessionState.SetBool(gameObjectId.ToString(), tweenPreviewing);
 
                 Tween tween = doBase.CreateTween();
 
@@ -165,7 +170,7 @@ namespace DOTweenModular.Editor
                 DOTweenEditorPreview.PrepareTweenForPreview(tween, false, false);
                 DOTweenEditorPreview.Start();
 
-                OnPreviewStarted();
+                OnPreviewStarted(); 
             }
 
             GUI.enabled = true;
@@ -176,13 +181,9 @@ namespace DOTweenModular.Editor
             if (EditorApplication.isPlaying)
                 return;
 
-            GUI.enabled = tweenPreviewing;
+            GUI.enabled = SessionState.GetBool(gameObjectId, true);
 
-            GUIStyle style = new GUIStyle(EditorStyles.miniButton);
-            style.fixedHeight = 30f;
-            style.fontSize = 20;
-
-            if (GUILayout.Button("Stop", style))
+            if (GUILayout.Button("Stop", previewButtonStyle))
             {
                 DOTweenEditorPreview.Stop(true);
                 OnPreviewForceStopped();
@@ -405,13 +406,13 @@ namespace DOTweenModular.Editor
         protected virtual void OnPreviewStopped()
         {
             tweenPreviewing = false;
-            SessionState.SetBool(nameof(tweenPreviewing), tweenPreviewing);
+            SessionState.SetBool(gameObjectId.ToString(), tweenPreviewing);
         }
 
         protected virtual void OnPreviewForceStopped()
         {
             tweenPreviewing = false;
-            SessionState.SetBool(nameof(tweenPreviewing), tweenPreviewing);
+            SessionState.SetBool(gameObjectId.ToString(), tweenPreviewing);
         }
 
         #endregion

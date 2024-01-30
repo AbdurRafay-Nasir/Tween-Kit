@@ -314,8 +314,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176409124}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.57, y: 4.16, z: 0}
+  m_LocalRotation: {x: -0.07447123, y: -0.4895526, z: -0.07447123, w: 0.8655902}
+  m_LocalPosition: {x: 5.06, y: 2.42, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -363,7 +363,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   lookAt: 1
-  lookAtPosition: {x: -3.6252658, y: 9.107032, z: 0}
+  lookAtPosition: {x: -0.67659646, y: 6.9592776, z: 0}
   lookAtTarget: {fileID: 0}
   interpolate: 0.01
   speedBased: 0
