@@ -33,16 +33,18 @@ namespace DOTweenModular.Editor
         #endregion
 
         private DOBase doBase;
-        protected string gameObjectId;
-        protected string instanceId;
+        protected int instanceId;
+
+        private string previewKey;
         private bool tweenPreviewing;
 
         public virtual void OnEnable()
         {
             doBase = (DOBase)target;
 
-            gameObjectId = doBase.gameObject.GetInstanceID().ToString();
-            instanceId = doBase.GetInstanceID().ToString();
+            instanceId = doBase.GetInstanceID();
+
+            previewKey = doBase.gameObject.GetInstanceID() + "Tween Preview";
 
             beginProp = serializedObject.FindProperty("begin");
             tweenObjectProp = serializedObject.FindProperty("tweenObject");
@@ -150,7 +152,7 @@ namespace DOTweenModular.Editor
             if (EditorApplication.isPlaying)
                 return;
                         
-            GUI.enabled = !SessionState.GetBool(gameObjectId, true);
+            GUI.enabled = !SessionState.GetBool(previewKey, true);
 
             GUIStyle style = new GUIStyle(EditorStyles.miniButton);
             style.fixedHeight = 30f;
@@ -159,7 +161,7 @@ namespace DOTweenModular.Editor
             if (GUILayout.Button("Play", style))
             {
                 tweenPreviewing = true;
-                SessionState.SetBool(gameObjectId.ToString(), tweenPreviewing);
+                SessionState.SetBool(previewKey, tweenPreviewing);
 
                 Tween tween = doBase.CreateTween();
 
@@ -179,7 +181,7 @@ namespace DOTweenModular.Editor
             if (EditorApplication.isPlaying)
                 return;
 
-            GUI.enabled = SessionState.GetBool(gameObjectId, true);
+            GUI.enabled = SessionState.GetBool(previewKey, true);
 
             GUIStyle style = new GUIStyle(EditorStyles.miniButton);
             style.fixedHeight = 30f;
@@ -408,13 +410,13 @@ namespace DOTweenModular.Editor
         protected virtual void OnPreviewStopped()
         {
             tweenPreviewing = false;
-            SessionState.SetBool(gameObjectId.ToString(), tweenPreviewing);
+            SessionState.SetBool(previewKey, tweenPreviewing);
         }
 
         protected virtual void OnPreviewForceStopped()
         {
             tweenPreviewing = false;
-            SessionState.SetBool(gameObjectId.ToString(), tweenPreviewing);
+            SessionState.SetBool(previewKey, tweenPreviewing);
         }
 
         #endregion
