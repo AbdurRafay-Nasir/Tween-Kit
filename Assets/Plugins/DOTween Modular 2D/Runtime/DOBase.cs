@@ -68,6 +68,7 @@ namespace DOTweenModular
         #endregion
 
         protected Tween Tween;
+        private bool tweenKilled;
 
         #region Unity Functions
 
@@ -112,15 +113,17 @@ namespace DOTweenModular
             onTweenCompleted.RemoveAllListeners();
             onTweenKilled.RemoveAllListeners();
 
-            if (Tween.IsPlaying())
+            if (!tweenKilled)
             {
                 Tween.Kill();
-            }
 
-            Tween.OnPlay(null);
-            Tween.OnUpdate(null);
-            Tween.OnComplete(null);
-            Tween.OnKill(null);
+                Tween.OnPlay(null);
+                Tween.OnUpdate(null);
+                Tween.OnComplete(null);
+                Tween.OnKill(null);
+
+                tweenKilled = true;
+            }
 
             curve = null;
             tweenObject = null;
@@ -176,6 +179,8 @@ namespace DOTweenModular
 
         protected virtual void OnTweenKilled()
         {
+            tweenKilled = true;
+
             onTweenKilled?.Invoke();
 
             Tween.onPlay -= OnTweenPlayed;

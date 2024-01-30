@@ -362,7 +362,7 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  lookAt: 2
+  lookAt: 0
   lookAtPosition: {x: -0.67659646, y: 6.9592776, z: 0}
   lookAtTarget: {fileID: 0}
   interpolate: 0.01
