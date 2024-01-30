@@ -23,21 +23,24 @@ namespace DOTweenModular.Editor
         private DOMove doMove;
         private RelativeFlags relativeFlags;
 
+        private string key;
+
         #region Unity Functions
 
         public override void OnEnable()
         {
             base.OnEnable();
 
+            doMove = (DOMove)target;
+            relativeFlags = CreateInstance<RelativeFlags>();
+
+            key = "DOMove_" + instanceId;
+
             speedBasedProp = serializedObject.FindProperty("speedBased");
             useLocalProp = serializedObject.FindProperty("useLocal");
             relativeProp = serializedObject.FindProperty("relative");
             snappingProp = serializedObject.FindProperty("snapping");
             targetPositionProp = serializedObject.FindProperty("targetPosition");
-
-            doMove = (DOMove)target;
-
-            relativeFlags = CreateInstance<RelativeFlags>();
         }
 
         public override void OnInspectorGUI()
@@ -298,6 +301,20 @@ namespace DOTweenModular.Editor
             }
 
             return handlePosition;
+        }
+
+        protected override void OnPreviewStarted()
+        {
+            base.OnPreviewStarted();
+
+            SessionState.SetVector3(key, doMove.transform.position);
+        }
+
+        protected override void OnPreviewStopped()
+        {
+            base.OnPreviewStopped();
+
+            doMove.transform.position = SessionState.GetVector3(key, doMove.transform.position);
         }
 
     }
