@@ -37,18 +37,12 @@ namespace DOTweenModular.Editor
         protected string instanceId;
         private bool tweenPreviewing;
 
-        private GUIStyle previewButtonStyle;
-
         public virtual void OnEnable()
         {
             doBase = (DOBase)target;
 
             gameObjectId = doBase.gameObject.GetInstanceID().ToString();
             instanceId = doBase.GetInstanceID().ToString();
-
-            previewButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            previewButtonStyle.fixedHeight = 30f;
-            previewButtonStyle.fontSize = 20;
 
             beginProp = serializedObject.FindProperty("begin");
             tweenObjectProp = serializedObject.FindProperty("tweenObject");
@@ -158,7 +152,11 @@ namespace DOTweenModular.Editor
                         
             GUI.enabled = !SessionState.GetBool(gameObjectId, true);
 
-            if (GUILayout.Button("Play", previewButtonStyle))
+            GUIStyle style = new GUIStyle(EditorStyles.miniButton);
+            style.fixedHeight = 30f;
+            style.fontSize = 20;
+
+            if (GUILayout.Button("Play", style))
             {
                 tweenPreviewing = true;
                 SessionState.SetBool(gameObjectId.ToString(), tweenPreviewing);
@@ -170,7 +168,7 @@ namespace DOTweenModular.Editor
                 DOTweenEditorPreview.PrepareTweenForPreview(tween, false, false);
                 DOTweenEditorPreview.Start();
 
-                OnPreviewStarted(); 
+                OnPreviewStarted();
             }
 
             GUI.enabled = true;
@@ -183,7 +181,11 @@ namespace DOTweenModular.Editor
 
             GUI.enabled = SessionState.GetBool(gameObjectId, true);
 
-            if (GUILayout.Button("Stop", previewButtonStyle))
+            GUIStyle style = new GUIStyle(EditorStyles.miniButton);
+            style.fixedHeight = 30f;
+            style.fontSize = 20;
+
+            if (GUILayout.Button("Stop", style))
             {
                 DOTweenEditorPreview.Stop(true);
                 OnPreviewForceStopped();
