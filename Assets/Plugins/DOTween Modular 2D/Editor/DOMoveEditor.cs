@@ -119,6 +119,8 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
+            DrawLookAtTransformHelpbox();
+
             if (toggleStates[3])
             {
                 DrawSeparatorLine();

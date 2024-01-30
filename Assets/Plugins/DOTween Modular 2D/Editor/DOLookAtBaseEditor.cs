@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 
 using UnityEditor;
+using UnityEngine;
 
 namespace DOTweenModular.Editor
 {
@@ -12,14 +13,14 @@ namespace DOTweenModular.Editor
         protected SerializedProperty interpolateProp;
 
         private DOLookAtBase doLookAt;
-        private string key;
+        private string lookAtkey;
 
         public override void OnEnable()
         {
             base.OnEnable();
 
             doLookAt = (DOLookAtBase)target;
-            key = "DOLookAtBase_" + doLookAt.gameObject.GetInstanceID();
+            lookAtkey = "DOLookAtBase_" + doLookAt.gameObject.GetInstanceID();
 
             lookAtProp = serializedObject.FindProperty("lookAt");
             lookAtPositionProp = serializedObject.FindProperty("lookAtPosition");
@@ -31,37 +32,64 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(key, doLookAt.transform.localEulerAngles);
+            SessionState.SetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            doLookAt.transform.localEulerAngles = SessionState.GetVector3(key, doLookAt.transform.localEulerAngles);
+            doLookAt.transform.localEulerAngles = SessionState.GetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
         }
 
         protected override void OnPreviewForceStopped()
         {
             base.OnPreviewForceStopped();
 
-            doLookAt.transform.localEulerAngles = SessionState.GetVector3(key, doLookAt.transform.localEulerAngles);
+            doLookAt.transform.localEulerAngles = SessionState.GetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
         }
 
         protected void DrawLookAtSettings()
         {
             DrawProperty(lookAtProp);
 
-            if ((Enums.LookAtSimple)lookAtProp.enumValueIndex == Enums.LookAtSimple.None)
+            if (doLookAt.lookAt == Enums.LookAtSimple.None)
                 return;
 
-            if ((Enums.LookAtSimple) lookAtProp.enumValueIndex == Enums.LookAtSimple.Position)
+            if (doLookAt.lookAt == Enums.LookAtSimple.Position)
                 DrawProperty(lookAtPositionProp);
 
-            if ((Enums.LookAtSimple) lookAtProp.enumValueIndex == Enums.LookAtSimple.Transform)
+            if (doLookAt.lookAt == Enums.LookAtSimple.Transform)
                 DrawProperty(lookAtTargetProp);
 
             DrawProperty(interpolateProp);
+        }
+
+        protected void DrawLookAtTransformHelpbox()
+        {
+            if (doLookAt.lookAt == Enums.LookAtSimple.Transform &&
+                doLookAt.lookAtTarget == null)
+            {
+                DrawHelpbox("LookAt Target not assigned", MessageType.Error);
+            }
+
+            if (doLookAt.lookAt != Enums.LookAtSimple.Transform &&
+                doLookAt.lookAtTarget != null)
+            {
+                EditorGUILayout.BeginHorizontal();
+
+                DrawHelpbox("LookAt Target is assigned, it should be removed", MessageType.Warning);
+
+                GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
+                trashButton.tooltip = "Remove LookAt Target";
+
+                if (GUILayout.Button(trashButton, GUILayout.Height(40), GUILayout.Width(40 * 2f)))
+                {
+                    doLookAt.lookAtTarget = null;
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
         }
     }
 
