@@ -152,7 +152,7 @@ namespace DOTweenModular.Editor
             if (EditorApplication.isPlaying)
                 return;
                         
-            GUI.enabled = !SessionState.GetBool(previewKey, true);
+            GUI.enabled = !SessionState.GetBool(previewKey, false);
 
             GUIStyle style = new GUIStyle(EditorStyles.miniButton);
             style.fixedHeight = 30f;
@@ -181,7 +181,7 @@ namespace DOTweenModular.Editor
             if (EditorApplication.isPlaying)
                 return;
 
-            GUI.enabled = SessionState.GetBool(previewKey, true);
+            GUI.enabled = SessionState.GetBool(previewKey, false);
 
             GUIStyle style = new GUIStyle(EditorStyles.miniButton);
             style.fixedHeight = 30f;
