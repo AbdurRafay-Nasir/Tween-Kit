@@ -228,23 +228,23 @@ namespace DOTweenModular.Editor
             if (doBase.begin == Begin.After ||
                 doBase.begin == Begin.With)
             {
-                if (tweenObjectProp.objectReferenceValue == null)
+                if (doBase.tweenObject == null)
                     EditorGUILayout.HelpBox("Tween Object is not assigned", MessageType.Error);
             }
             else
             {
-                if (tweenObjectProp.objectReferenceValue != null)
+                if (doBase.tweenObject != null)
                 {
                     EditorGUILayout.BeginHorizontal();
 
-                    EditorGUILayout.HelpBox("Tween Object is assigned, it should be removed", MessageType.Warning);
+                    DrawHelpbox("Tween Object is assigned, it should be removed", MessageType.Warning);
 
                     GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
                     trashButton.tooltip = "Remove Tween Object";
 
                     if (GUILayout.Button(trashButton, GUILayout.Height(40), GUILayout.Width(40 * 2f)))
                     {
-                        tweenObjectProp.objectReferenceValue = null;
+                        doBase.tweenObject = null;
                     }
 
                     EditorGUILayout.EndHorizontal();

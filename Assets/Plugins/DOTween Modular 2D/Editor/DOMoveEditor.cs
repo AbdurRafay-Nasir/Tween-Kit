@@ -305,6 +305,8 @@ namespace DOTweenModular.Editor
             return handlePosition;
         }
 
+        #region Tween Preview Functions
+
         protected override void OnPreviewStarted()
         {
             base.OnPreviewStarted();
@@ -318,6 +320,8 @@ namespace DOTweenModular.Editor
 
             doMove.transform.position = SessionState.GetVector3(key, doMove.transform.position);
         }
+
+        #endregion
 
     }
 }
