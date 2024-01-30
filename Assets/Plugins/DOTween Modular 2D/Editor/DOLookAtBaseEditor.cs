@@ -7,10 +7,14 @@ namespace DOTweenModular.Editor
 {
     public class DOLookAtBaseEditor : DOBaseEditor
     {
+        #region Serialized Properties
+
         protected SerializedProperty lookAtProp;
         protected SerializedProperty lookAtPositionProp;
         protected SerializedProperty lookAtTargetProp;
         protected SerializedProperty interpolateProp;
+
+        #endregion
 
         private DOLookAtBase doLookAt;
         private string lookAtkey;
@@ -28,26 +32,7 @@ namespace DOTweenModular.Editor
             interpolateProp = serializedObject.FindProperty("interpolate");
         }
 
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doLookAt.transform.localEulerAngles = SessionState.GetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
-        }
-
-        protected override void OnPreviewForceStopped()
-        {
-            base.OnPreviewForceStopped();
-
-            doLookAt.transform.localEulerAngles = SessionState.GetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
-        }
+        #region Inspector Draw Functions
 
         protected void DrawLookAtSettings()
         {
@@ -83,7 +68,7 @@ namespace DOTweenModular.Editor
                 GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
                 trashButton.tooltip = "Remove LookAt Target";
 
-                if (GUILayout.Button(trashButton, GUILayout.Height(40), GUILayout.Width(40 * 2f)))
+                if (GUILayout.Button(trashButton, GUILayout.Height(40), GUILayout.Width(80)))
                 {
                     doLookAt.lookAtTarget = null;
                 }
@@ -91,6 +76,33 @@ namespace DOTweenModular.Editor
                 EditorGUILayout.EndHorizontal();
             }
         }
+
+        #endregion
+
+        #region Tween Preview Functions
+
+        protected override void OnPreviewStarted()
+        {
+            base.OnPreviewStarted();
+
+            SessionState.SetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
+        }
+
+        protected override void OnPreviewStopped()
+        {
+            base.OnPreviewStopped();
+
+            doLookAt.transform.localEulerAngles = SessionState.GetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
+        }
+
+        protected override void OnPreviewForceStopped()
+        {
+            base.OnPreviewForceStopped();
+
+            doLookAt.transform.localEulerAngles = SessionState.GetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
+        }
+
+        #endregion
     }
 
 }
