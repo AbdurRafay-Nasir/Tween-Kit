@@ -16,6 +16,7 @@ namespace DOTweenModular.Editor
         #endregion
 
         private DOScale doScale;
+        private RelativeFlags relativeFlags;
         private string key;
 
         #region Unity Functions
@@ -25,6 +26,7 @@ namespace DOTweenModular.Editor
             base.OnEnable();
 
             doScale = (DOScale)target;
+            relativeFlags = CreateInstance<RelativeFlags>();
 
             key = "DOScale_" + instanceId;
 
@@ -99,6 +101,7 @@ namespace DOTweenModular.Editor
                     Space();
 
                     DrawScaleSettings();
+                    SetTargetScale();
 
                     Space();
                     EndBackgroundBox();
@@ -217,6 +220,33 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        private void SetTargetScale()
+        {
+            if (doScale.relative)
+            {
+                if (relativeFlags.firstTimeRelative)
+                {
+                    doScale.targetScale -= doScale.transform.localScale;
+
+                    Undo.RecordObject(relativeFlags, "DOScaleEditor_firstTimeNonRelative");
+                    relativeFlags.firstTimeRelative = false;
+                }
+
+                relativeFlags.firstTimeNonRelative = true;
+            }
+            else
+            {
+                if (relativeFlags.firstTimeNonRelative)
+                {
+                    doScale.targetScale += doScale.transform.localScale;
+
+                    Undo.RecordObject(relativeFlags, "DOScaleEditor_firstTimeRelative");
+                    relativeFlags.firstTimeNonRelative = false;
+                }
+
+                relativeFlags.firstTimeRelative = true;
+            }
+        }
     }
 }
 

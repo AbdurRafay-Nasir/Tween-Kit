@@ -519,7 +519,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   lookAt: 0
-  lookAtPosition: {x: -4.7616377, y: 2.2626224, z: 0}
+  lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}
   interpolate: 0.01
   speedBased: 0
