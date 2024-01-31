@@ -4,20 +4,18 @@ using UnityEditor;
 
 namespace DOTweenModular.Editor
 {
-    [CustomEditor(typeof(DORotate)), CanEditMultipleObjects]
-    public class DORotateEditor : DOBaseEditor
+    [CustomEditor(typeof(DOScale)), CanEditMultipleObjects]
+    public class DOScaleEditor : DOLookAtBaseEditor
     {
         #region Serialized Properties
 
-        private SerializedProperty rotateModeProp;
+        private SerializedProperty relativeProp;
         private SerializedProperty speedBasedProp;
-        private SerializedProperty useLocalProp;
-        private SerializedProperty targetRotationProp;
+        private SerializedProperty targetScaleProp;
 
         #endregion
 
-        private DORotate doRotate;
-
+        private DOScale doScale;
         private string key;
 
         #region Unity Functions
@@ -26,21 +24,20 @@ namespace DOTweenModular.Editor
         {
             base.OnEnable();
 
-            doRotate = (DORotate)target;
+            doScale = (DOScale)target;
 
-            key = "DORotate_" + instanceId;
+            key = "DOScale_" + instanceId;
 
-            rotateModeProp = serializedObject.FindProperty("rotateMode");
+            relativeProp = serializedObject.FindProperty("relative");
             speedBasedProp = serializedObject.FindProperty("speedBased");
-            useLocalProp = serializedObject.FindProperty("useLocal");
-            targetRotationProp = serializedObject.FindProperty("targetRotation");
+            targetScaleProp = serializedObject.FindProperty("targetScale");
         }
 
         public override void OnInspectorGUI()
         {
             Space();
 
-            bool[] toggleStates = DrawToggles("Life", "Type", "Rotate", "Values", "Events");
+            bool[] toggleStates = DrawToggles("Life", "Type", "Scale", "Look At", "Values", "Events");
 
             Space();
 
@@ -94,14 +91,14 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Rotate Settings"))
+                if (BeginFoldout("Scale Settings"))
                 {
                     EditorGUI.indentLevel++;
 
                     BeginBackgroundBox();
                     Space();
 
-                    DrawRotateSettings();
+                    DrawScaleSettings();
 
                     Space();
                     EndBackgroundBox();
@@ -113,6 +110,30 @@ namespace DOTweenModular.Editor
             }
 
             if (toggleStates[3])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Look At Settings"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawLookAtSettings();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            DrawLookAtTransformHelpbox();
+
+            if (toggleStates[4])
             {
                 DrawSeparatorLine();
 
@@ -134,7 +155,7 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (toggleStates[4])
+            if (toggleStates[5])
             {
                 DrawSeparatorLine();
 
@@ -163,16 +184,15 @@ namespace DOTweenModular.Editor
 
         #region Inspector Draw Functions
 
-        private void DrawRotateSettings()
+        private void DrawScaleSettings()
         {
-            DrawProperty(rotateModeProp);
             DrawProperty(speedBasedProp);
-            DrawProperty(useLocalProp);
+            DrawProperty(relativeProp);            
         }
 
         protected override void DrawValues()
         {
-            DrawProperty(targetRotationProp);
+            DrawProperty(targetScaleProp);
 
             base.DrawValues();
         }
@@ -185,14 +205,14 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(key, doRotate.transform.localEulerAngles);
+            SessionState.SetVector3(key, doScale.transform.localScale);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            doRotate.transform.localEulerAngles = SessionState.GetVector3(key, doRotate.transform.localEulerAngles);
+            doScale.transform.localScale = SessionState.GetVector3(key, doScale.transform.localScale);
         }
 
         #endregion
