@@ -1,8 +1,8 @@
 #if UNITY_EDITOR
 
-using DOTweenModular.Enums;
 using UnityEngine;
 using UnityEditor;
+using DOTweenModular.Enums;
 
 namespace DOTweenModular.Editor
 {
@@ -190,7 +190,7 @@ namespace DOTweenModular.Editor
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void OnSceneGUI()
+        public override void OnSceneGUI()
         {
             if (doMove.begin == Begin.After ||
                 doMove.begin == Begin.With)
@@ -204,27 +204,6 @@ namespace DOTweenModular.Editor
 
             doMove.targetPosition += DrawHandle(handlePosition);
             DrawLine(doMove.transform.position, handlePosition, Color.green);
-
-
-            // LookAt
-            if (doMove.lookAt == LookAtSimple.None) return;
-
-            Vector3 lookTarget = Vector3.zero;
-
-            if (doMove.lookAt == LookAtSimple.Position)
-            {
-                doMove.lookAtPosition += DrawHandle(doMove.lookAtPosition);
-
-                lookTarget = doMove.lookAtPosition;
-            }
-
-            else if (doMove.lookAt == LookAtSimple.Transform)
-            {
-                if (doMove.lookAtTarget != null)
-                    lookTarget = doMove.lookAtTarget.position;
-            }
-
-            DrawDottedLine(doMove.transform.position, lookTarget, Color.green, 10f);
         }
 
         #endregion
