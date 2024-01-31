@@ -5,8 +5,8 @@ using UnityEditor;
 
 namespace DOTweenModular.Editor
 {
-    [CustomEditor(typeof(#SCRIPTNAME#)), CanEditMultipleObjects]
-    public class #EDITORSCRIPTNAME# : DOBaseEditor
+    [CanEditMultipleObjects]
+    public class #SCRIPTNAME# : DOBaseEditor
     {
         #region Serialized Properties
 
