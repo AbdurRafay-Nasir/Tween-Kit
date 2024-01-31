@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 namespace DOTweenModular.Editor
 {
@@ -30,6 +30,24 @@ namespace DOTweenModular.Editor
             lookAtPositionProp = serializedObject.FindProperty("lookAtPosition");
             lookAtTargetProp = serializedObject.FindProperty("lookAtTarget");
             interpolateProp = serializedObject.FindProperty("interpolate");
+        }
+
+        public virtual void OnSceneGUI()
+        {
+            if (doLookAt.lookAt == Enums.LookAtSimple.None) return;
+
+            if (doLookAt.lookAt == Enums.LookAtSimple.Position)
+            {
+                doLookAt.lookAtPosition += DrawHandle(doLookAt.lookAtPosition);
+
+                DrawDottedLine(doLookAt.transform.position, doLookAt.lookAtPosition, Color.green, 10f);
+            }
+
+            else if (doLookAt.lookAt == Enums.LookAtSimple.Transform)
+            {
+                if (doLookAt.lookAtTarget != null)
+                    DrawDottedLine(doLookAt.transform.position, doLookAt.lookAtPosition, Color.green, 10f);
+            }            
         }
 
         #region Inspector Draw Functions
