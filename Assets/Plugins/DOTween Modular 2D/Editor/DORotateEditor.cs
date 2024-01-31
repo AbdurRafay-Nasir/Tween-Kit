@@ -13,7 +13,6 @@ namespace DOTweenModular.Editor
         private SerializedProperty rotateModeProp;
         private SerializedProperty speedBasedProp;
         private SerializedProperty useLocalProp;
-        private SerializedProperty relativeProp;
         private SerializedProperty targetRotationProp;
 
         #endregion
@@ -37,7 +36,6 @@ namespace DOTweenModular.Editor
             rotateModeProp = serializedObject.FindProperty("rotateMode");
             speedBasedProp = serializedObject.FindProperty("speedBased");
             useLocalProp = serializedObject.FindProperty("useLocal");
-            relativeProp = serializedObject.FindProperty("relative");
             targetRotationProp = serializedObject.FindProperty("targetRotation");
         }
 
@@ -107,7 +105,6 @@ namespace DOTweenModular.Editor
                     Space();
 
                     DrawRotateSettings();
-                    SetTargetRotation();
 
                     Space();
                     EndBackgroundBox();
@@ -173,12 +170,7 @@ namespace DOTweenModular.Editor
         {
             DrawProperty(rotateModeProp);
             DrawProperty(speedBasedProp);
-
-            if (!doRotate.relative)
-                DrawProperty(useLocalProp);
-
-            if (!doRotate.useLocal)
-                DrawProperty(relativeProp);
+            DrawProperty(useLocalProp);
         }
 
         protected override void DrawValues()
@@ -208,46 +200,6 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        private void SetTargetRotation()
-        {
-            if (doRotate.useLocal && !doRotate.relative)
-            {
-                if (doRotate.transform.parent != null)
-                {
-                    doRotate.targetRotation = doRotate.transform.parent.TransformPoint(doRotate.targetRotation);
-                }
-            }
-
-            else
-            {
-
-                if (doRotate.relative)
-                {
-                    if (relativeFlags.firstTimeRelative)
-                    {
-                        doRotate.targetRotation = doRotate.targetRotation - doRotate.transform.eulerAngles;
-
-                        Undo.RecordObject(relativeFlags, "DORotateEditor_firstTimeNonRelative");
-                        relativeFlags.firstTimeRelative = false;
-                    }
-
-                    relativeFlags.firstTimeNonRelative = true;
-                }
-                else
-                {
-                    if (relativeFlags.firstTimeNonRelative)
-                    {
-                        doRotate.targetRotation = doRotate.targetRotation + doRotate.transform.eulerAngles;
-
-                        Undo.RecordObject(relativeFlags, "DORotateEditor_firstTimeRelative");
-                        relativeFlags.firstTimeNonRelative = false;
-                    }
-
-                    relativeFlags.firstTimeRelative = true;
-                }
-
-            }
-        }
     }
 }
 

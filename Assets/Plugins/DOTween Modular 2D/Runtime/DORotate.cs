@@ -20,10 +20,6 @@ namespace DOTweenModular
         [Tooltip("If TRUE, the Tween will Move duration amount in each second")]
         public bool speedBased;
 
-        [Tooltip("If TRUE, the targetZRotation will be calculated as: " + "\n" +
-                 "targetZRotation = targetZRotation + transform.rotation")]
-        public bool relative;
-
         [Tooltip("The rotation to reach, if relative is true game object will rotate as: " + "\n" +
                  "targetZRotation = targetZRotation + transform.rotation")]
         public Vector3 targetRotation = new Vector3(90f, 90f, 90f);
@@ -48,7 +44,6 @@ namespace DOTweenModular
                 Tween.SetLoops(loops, loopType);
 
             Tween.SetSpeedBased(speedBased);
-            Tween.SetRelative(relative);
             Tween.SetDelay(delay);
 
             TweenCreated();

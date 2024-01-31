@@ -521,7 +521,6 @@ MonoBehaviour:
   rotateMode: 0
   useLocal: 0
   speedBased: 0
-  relative: 0
   targetRotation: {x: 90, y: 90, z: 90}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
