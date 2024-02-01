@@ -246,7 +246,7 @@ namespace DOTweenModular.Editor
                     {
                         doJump.targetPosition = doJump.targetPosition - doJump.transform.position;
 
-                        Undo.RecordObject(relativeFlags, "DOMoveEditor_firstTimeNonRelative");
+                        Undo.RecordObject(relativeFlags, "DOJumpEditor_firstTimeNonRelative");
                         relativeFlags.firstTimeRelative = false;
                     }
 
@@ -260,7 +260,7 @@ namespace DOTweenModular.Editor
                     {
                         doJump.targetPosition = doJump.targetPosition + doJump.transform.position;
 
-                        Undo.RecordObject(relativeFlags, "DOMoveEditor_firstTimeRelative");
+                        Undo.RecordObject(relativeFlags, "DOJumpEditor_firstTimeRelative");
                         relativeFlags.firstTimeNonRelative = false;
                     }
 
