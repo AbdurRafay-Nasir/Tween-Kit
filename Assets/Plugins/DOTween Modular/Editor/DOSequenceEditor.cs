@@ -108,10 +108,13 @@ namespace DOTweenModular.Editor
 
             DrawSeparatorLine();
 
-            if (!doSequence.sequenceTweens.Any(sequenceTween => sequenceTween.tweenObject == null))
+            if (doSequence.sequenceTweens != null && doSequence.sequenceTweens.Length != 0)
             {
-                DrawPlayButton();
-                DrawStopButton();
+                if (!doSequence.sequenceTweens.Any(sequenceTween => sequenceTween.tweenObject == null))
+                {
+                    DrawPlayButton();
+                    DrawStopButton();
+                }
             }
 
             serializedObject.ApplyModifiedProperties();
@@ -119,6 +122,9 @@ namespace DOTweenModular.Editor
 
         private void OnSceneGUI()
         {
+            if (doSequence.sequenceTweens == null) return;
+            if (doSequence.sequenceTweens.Length == 0) return;
+
             DrawLinesToSequenceTweens();
             DrawLabelsToSequenceTweens();
         }
