@@ -484,11 +484,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 988583669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff360f88506056049ae8ab1ebace9887, type: 3}
+  m_Script: {fileID: 11500000, guid: ef21ca72a76bebc46ba4c2092f408546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  begin: 4
-  tweenObject: {fileID: 132144601}
+  begin: 0
+  tweenObject: {fileID: 0}
   tweenType: 0
   loopType: 0
   easeType: 0
@@ -499,7 +499,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   loops: -1
-  duration: 5
+  duration: 1
   delay: 0
   onTweenCreated:
     m_PersistentCalls:
@@ -516,12 +516,11 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  power: 5
-  jumpCount: 2
-  snapping: 0
   useLocal: 0
   relative: 0
-  targetPosition: {x: 10, y: 0, z: 0}
+  snapping: 0
+  center: {x: 12, y: 0, z: 0}
+  endDegree: 315
 --- !u!1 &1129293186
 GameObject:
   m_ObjectHideFlags: 0
