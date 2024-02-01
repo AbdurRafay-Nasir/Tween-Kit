@@ -1129,7 +1129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e967e4bc20e43c94ea932f873bbd1d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  begin: 3
+  begin: 0
   tweenObject: {fileID: 0}
   tweenType: 0
   loopType: 0

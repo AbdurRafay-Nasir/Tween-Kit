@@ -82,12 +82,10 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                DrawProperty(sequenceTweensProp);
-
-                DrawSequenceTweensHelpbox();
-
-                EndFoldout();
+                DrawProperty(sequenceTweensProp);             
             }
+
+            DrawSequenceTweensHelpbox();
 
             if (toggleStates[3])
             {
@@ -155,6 +153,11 @@ namespace DOTweenModular.Editor
                     if (currentTween == null)
                     {
                         DrawHelpbox("Element: " + i + " Tween Object is not assigned", MessageType.Error);
+                    }
+                    else if (currentTween.begin != Enums.Begin.Manual)
+                    {
+                        DrawHelpbox("Element: " + i + " Tween Object's Begin is not" + "\n" + 
+                                    "Set to Manual", MessageType.Warning);
                     }
                 }
             }
