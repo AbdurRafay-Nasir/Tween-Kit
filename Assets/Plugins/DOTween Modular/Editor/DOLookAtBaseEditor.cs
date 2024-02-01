@@ -19,6 +19,8 @@ namespace DOTweenModular.Editor
         private DOLookAtBase doLookAt;
         private string lookAtkey;
 
+        #region Unity Functions
+
         public override void OnEnable()
         {
             base.OnEnable();
@@ -32,8 +34,10 @@ namespace DOTweenModular.Editor
             interpolateProp = serializedObject.FindProperty("interpolate");
         }
 
-        public virtual void OnSceneGUI()
+        public override void OnSceneGUI()
         {
+            base.OnSceneGUI();
+
             if (doLookAt.lookAt == Enums.LookAtSimple.None) return;
 
             if (doLookAt.lookAt == Enums.LookAtSimple.Position)
@@ -49,6 +53,8 @@ namespace DOTweenModular.Editor
                     DrawDottedLine(doLookAt.transform.position, doLookAt.lookAtPosition, Color.green, 10f);
             }            
         }
+
+        #endregion
 
         #region Inspector Draw Functions
 
