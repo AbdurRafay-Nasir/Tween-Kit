@@ -930,8 +930,6 @@ GameObject:
   - component: {fileID: 1833572672}
   - component: {fileID: 1833572671}
   - component: {fileID: 1833572675}
-  - component: {fileID: 1833572676}
-  - component: {fileID: 1833572677}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -1034,53 +1032,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1833572669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ddee3edbad716a42b9a6054be6ba499, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  begin: 3
-  tweenObject: {fileID: 0}
-  tweenType: 0
-  loopType: 0
-  easeType: 0
-  curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  loops: -1
-  duration: 3
-  delay: 0
-  onTweenCreated:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenPlayed:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenCompleted:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenKilled:
-    m_PersistentCalls:
-      m_Calls: []
-  fadeout: 1
-  vibrato: 10
-  randomness: 90
-  randomnessMode: 0
-  strength: {x: 10, y: 10, z: 10}
---- !u!114 &1833572676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1833572669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e967e4bc20e43c94ea932f873bbd1d5e, type: 3}
+  m_Script: {fileID: 11500000, guid: e151f95113c80ac40bf12772205374e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   begin: 0
@@ -1112,57 +1064,10 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  fadeout: 1
-  vibrato: 10
-  randomness: 90
-  randomnessMode: 0
-  strength: {x: 5, y: 5, z: 5}
---- !u!114 &1833572677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1833572669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a882e7072f170147aa6e84f269b2419, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  begin: 0
-  tweenObject: {fileID: 0}
-  tweenType: 0
-  loopType: 0
-  easeType: 0
-  curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  loops: -1
-  duration: 1
-  delay: 0
-  onTweenCreated:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenPlayed:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenCompleted:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenKilled:
-    m_PersistentCalls:
-      m_Calls: []
-  sequenceTweens:
-  - join: 0
-    tweenObject: {fileID: 1833572675}
-  - join: 1
-    tweenObject: {fileID: 1833572676}
+  vibrato: 20
+  elasticity: 0.206
+  punch: {x: 10, y: 0, z: 0}
+  snapping: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
