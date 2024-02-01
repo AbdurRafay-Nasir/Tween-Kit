@@ -7,12 +7,7 @@ namespace DOTweenModular.Editor
     [CustomEditor(typeof(DOShakePosition)), CanEditMultipleObjects]
     public class DOShakePositionEditor : DOShakeBaseEditor
     {
-        #region Serialized Properties
-
-        private SerializedProperty strengthProp;
         private SerializedProperty snappingProp;
-
-        #endregion
 
         private DOShakePosition doShakePosition;
         private string key;
@@ -23,8 +18,7 @@ namespace DOTweenModular.Editor
 
             doShakePosition = (DOShakePosition)target;
             key = "DOShakePosition_" + instanceId;
-
-            strengthProp = serializedObject.FindProperty("strength");
+            
             snappingProp = serializedObject.FindProperty("snapping");
         }
 

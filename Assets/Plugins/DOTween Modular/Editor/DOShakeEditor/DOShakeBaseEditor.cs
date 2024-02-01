@@ -12,6 +12,7 @@ namespace DOTweenModular.Editor
         protected SerializedProperty vibratoProp;
         protected SerializedProperty randomnessProp;
         protected SerializedProperty randomnessModeProp;
+        protected SerializedProperty strengthProp;
 
         #endregion
 
@@ -25,6 +26,7 @@ namespace DOTweenModular.Editor
             vibratoProp = serializedObject.FindProperty("vibrato");
             randomnessProp = serializedObject.FindProperty("randomness");
             randomnessModeProp = serializedObject.FindProperty("randomnessMode");
+            strengthProp = serializedObject.FindProperty("strength");
         }
 
         public override void OnInspectorGUI()
