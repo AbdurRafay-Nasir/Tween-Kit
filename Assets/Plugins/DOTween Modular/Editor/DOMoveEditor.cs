@@ -2,7 +2,6 @@
 
 using UnityEngine;
 using UnityEditor;
-using DOTweenModular.Enums;
 
 namespace DOTweenModular.Editor
 {
@@ -196,13 +195,8 @@ namespace DOTweenModular.Editor
 
         public override void OnSceneGUI()
         {
-            if (doMove.begin == Begin.After ||
-                doMove.begin == Begin.With)
-            {
-                if (doMove.tweenObject != null)
-                    DrawTweenObjectInfo();
-            }
-                        
+            base.OnSceneGUI();
+
             if (!SessionState.GetBool(previewKey, false))
             {
                 startPosition = doMove.transform.position;
