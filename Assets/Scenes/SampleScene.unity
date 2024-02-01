@@ -1032,14 +1032,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1833572669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e151f95113c80ac40bf12772205374e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 27b962d012a51fc4f98295813a078298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   begin: 0
   tweenObject: {fileID: 0}
-  tweenType: 0
+  tweenType: 1
   loopType: 0
-  easeType: 0
+  easeType: 16
   curve:
     serializedVersion: 2
     m_Curve: []
@@ -1064,10 +1064,9 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  vibrato: 20
-  elasticity: 0.206
-  punch: {x: 10, y: 0, z: 0}
-  snapping: 0
+  vibrato: 2
+  elasticity: 0.145
+  punch: {x: 50, y: 50, z: 50}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
