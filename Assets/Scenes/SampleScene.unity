@@ -520,8 +520,6 @@ MonoBehaviour:
   - join: 0
     tweenObject: {fileID: 1176409129}
   - join: 0
-    tweenObject: {fileID: 1833572675}
-  - join: 0
     tweenObject: {fileID: 132144601}
 --- !u!1 &1129293186
 GameObject:
@@ -690,7 +688,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176409124}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19191118, y: 0.32132047, z: 0.021490123, w: 0.92707145}
+  m_LocalRotation: {x: 0.19191118, y: 0.3213205, z: 0.0214901, w: 0.92707145}
   m_LocalPosition: {x: 4.6, y: 3.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1080,7 +1078,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1833572669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718d1b7a79bcb6b4d94839fc21923a81, type: 3}
+  m_Script: {fileID: 11500000, guid: b4f7185519ca07745a7b8e52f29f7d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   begin: 0
@@ -1112,15 +1110,12 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  lookAt: 0
-  lookAtPosition: {x: 0, y: 0, z: 0}
-  lookAtTarget: {fileID: 0}
-  interpolate: 0.01
-  speedBased: 0
-  relative: 0
+  fadeout: 1
+  vibrato: 10
+  randomness: 90
+  randomnessMode: 0
+  strength: {x: 10, y: 10, z: 10}
   snapping: 0
-  targetPosition: {x: 4.15, y: -0.78, z: 0}
-  useLocal: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
