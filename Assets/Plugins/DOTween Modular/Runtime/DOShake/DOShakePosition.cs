@@ -5,12 +5,7 @@ namespace DOTweenModular
 {
     public sealed class DOShakePosition : DOShakeBase
     {
-        #region Properties
-
-        public Vector3 strength = new Vector3(10f, 10f, 10f);
         public bool snapping;
-
-        #endregion
 
         protected override void InitializeTween()
         {

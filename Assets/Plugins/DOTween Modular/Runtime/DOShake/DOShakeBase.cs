@@ -22,6 +22,8 @@ namespace DOTweenModular
                  "Harmonic - Creates a more balanced randomness that looks more harmonic")]
         public ShakeRandomnessMode randomnessMode;
 
+        public Vector3 strength = new Vector3(10f, 10f, 10f);
+
         #endregion
 
         public override Tween CreateTween()
