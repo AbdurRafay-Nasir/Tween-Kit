@@ -118,7 +118,7 @@ namespace DOTweenModular.Editor
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void OnSceneGUI()
+        public override void OnSceneGUI()
         {
             if (doSequence.sequenceTweens == null) return;
             if (doSequence.sequenceTweens.Length == 0) return;
