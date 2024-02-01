@@ -10,7 +10,19 @@ namespace DOTweenModular.Editor
     {
         #region Serialized Properties
 
+        private SerializedProperty speedBasedProp;
+        private SerializedProperty relativeProp;
+        private SerializedProperty snappingProp;
+        private SerializedProperty targetPositionProp;
+
         #endregion
+
+        private DOAnchorPos doAnchorPos;
+        private RectTransform rectTransform;
+
+        private RelativeFlags relativeFlags;
+
+        private string saveKey;
 
         #region Unity Functions
 
@@ -18,13 +30,24 @@ namespace DOTweenModular.Editor
         {
             base.OnEnable();
 
+            doAnchorPos = (DOAnchorPos)target;
+            rectTransform = (RectTransform)doAnchorPos.transform;
+
+            relativeFlags = CreateInstance<RelativeFlags>();
+
+            saveKey = "DOAnchorPos_" + instanceId;
+
+            speedBasedProp = serializedObject.FindProperty("speedBased");            
+            relativeProp = serializedObject.FindProperty("relative");
+            snappingProp = serializedObject.FindProperty("snapping");
+            targetPositionProp = serializedObject.FindProperty("targetPosition");
         }
 
         public override void OnInspectorGUI()
         {
             Space();
 
-            bool[] toggleStates = DrawToggles("Life", "Type", "", "Values", "Events");
+            bool[] toggleStates = DrawToggles("Life", "Type", "Move", "Values", "Events");
 
             Space();
 
@@ -78,14 +101,15 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout(""))
+                if (BeginFoldout("Move Settings"))
                 {
                     EditorGUI.indentLevel++;
 
                     BeginBackgroundBox();
                     Space();
 
-                    
+                    DrawMoveSettings();
+                    SetTargetPosition();
 
                     Space();
                     EndBackgroundBox();
@@ -147,10 +171,16 @@ namespace DOTweenModular.Editor
 
         #region Inspector Draw Functions
 
+        private void DrawMoveSettings()
+        {
+            DrawProperty(speedBasedProp);
+            DrawProperty(relativeProp);
+            DrawProperty(snappingProp);
+        }
+
         protected override void DrawValues()
         {
-            
-
+            DrawProperty(targetPositionProp);
             base.DrawValues();
         }
 
@@ -162,17 +192,45 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            
+            SessionState.SetVector3(saveKey, doAnchorPos.transform.position);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            
+            doAnchorPos.transform.position = SessionState.GetVector3(saveKey, doAnchorPos.transform.position);
         }
 
         #endregion
+
+        private void SetTargetPosition()
+        {
+            if (doAnchorPos.relative)
+            {
+                if (relativeFlags.firstTimeRelative)
+                {
+                    doAnchorPos.targetPosition -= rectTransform.anchoredPosition;
+
+                    Undo.RecordObject(relativeFlags, "DOAnchorPosEditor_firstTimeNonRelative");
+                    relativeFlags.firstTimeRelative = false;
+                }
+
+                relativeFlags.firstTimeNonRelative = true;
+            }
+            else
+            {
+                if (relativeFlags.firstTimeNonRelative)
+                {
+                    doAnchorPos.targetPosition += rectTransform.anchoredPosition;
+
+                    Undo.RecordObject(relativeFlags, "DOAnchorPosEditor_firstTimeRelative");
+                    relativeFlags.firstTimeNonRelative = false;
+                }
+
+                relativeFlags.firstTimeRelative = true;
+            }
+        }
 
     }
 }
