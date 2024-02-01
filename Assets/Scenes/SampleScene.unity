@@ -469,7 +469,7 @@ Transform:
   m_GameObject: {fileID: 988583669}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.15, y: -0.55, z: 0}
+  m_LocalPosition: {x: -4.67, y: -1.61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -521,9 +521,7 @@ MonoBehaviour:
     tweenObject: {fileID: 1176409129}
   - join: 0
     tweenObject: {fileID: 1833572675}
-  - join: 1
-    tweenObject: {fileID: 132144601}
-  - join: 1
+  - join: 0
     tweenObject: {fileID: 132144601}
 --- !u!1 &1176409124
 GameObject:
@@ -624,7 +622,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176409124}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19191118, y: 0.32132053, z: 0.021490157, w: 0.92707145}
+  m_LocalRotation: {x: 0.19191118, y: 0.32132047, z: 0.021490123, w: 0.92707145}
   m_LocalPosition: {x: 4.6, y: 3.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -2,6 +2,7 @@
 
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 namespace DOTweenModular.Editor
 {
@@ -116,6 +117,12 @@ namespace DOTweenModular.Editor
             serializedObject.ApplyModifiedProperties();
         }
 
+        private void OnSceneGUI()
+        {
+            DrawLinesToSequenceTweens();
+            DrawLabelsToSequenceTweens();
+        }
+
         #endregion
 
         #region Inspector Draw Functions
@@ -143,6 +150,52 @@ namespace DOTweenModular.Editor
                     {
                         DrawHelpbox("Element: " + i + " Tween Object is not assigned", MessageType.Error);
                     }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Scene Draw Functions
+
+        private void DrawLinesToSequenceTweens()
+        {
+            Vector3 startPosition = doSequence.transform.position;
+
+            for (int i = 0; i < doSequence.sequenceTweens.Length; i++)
+            {
+                DOBase sequenceTweenObj = doSequence.sequenceTweens[i].tweenObject;
+                if (sequenceTweenObj == null)
+                    continue;
+
+                Vector3 sequenceTweenObjPos = sequenceTweenObj.transform.position;
+
+                DrawLine(startPosition, sequenceTweenObjPos, Color.cyan);
+            }
+        }
+
+        private void DrawLabelsToSequenceTweens()
+        {
+            int num = 1;
+
+            Vector3 startPosition = doSequence.transform.position;
+
+            for (int i = 0; i < doSequence.sequenceTweens.Length; i++)
+            {
+                DOBase sequenceTweenObj = doSequence.sequenceTweens[i].tweenObject;
+                if (sequenceTweenObj == null)
+                    continue;
+
+                Vector3 sequenceTweenObjPos = sequenceTweenObj.transform.position;
+                Vector3 midPoint = (startPosition + sequenceTweenObjPos) * 0.5f;
+
+                Handles.Label(midPoint, num.ToString(), new GUIStyle() { fontSize = 20 });
+
+                if (i + 1 < doSequence.sequenceTweens.Length &&
+                    doSequence.sequenceTweens[i + 1].tweenObject != null &&
+                    !doSequence.sequenceTweens[i + 1].join)
+                {
+                    num++;
                 }
             }
         }
