@@ -23,7 +23,10 @@ namespace DOTweenModular.Editor
         private DOMove doMove;
         private RelativeFlags relativeFlags;
 
-        private string key;
+        private string previewKey;
+        private string saveKey;
+
+        private Vector3 startPosition;
 
         #region Unity Functions
 
@@ -34,7 +37,8 @@ namespace DOTweenModular.Editor
             doMove = (DOMove)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
-            key = "DOMove_" + instanceId;
+            previewKey = "DOMove_preview" + instanceId;
+            saveKey = "DOMove_" + instanceId;
 
             speedBasedProp = serializedObject.FindProperty("speedBased");
             useLocalProp = serializedObject.FindProperty("useLocal");
@@ -198,12 +202,17 @@ namespace DOTweenModular.Editor
                 if (doMove.tweenObject != null)
                     DrawTweenObjectInfo();
             }
+                        
+            if (!SessionState.GetBool(previewKey, false))
+            {
+                startPosition = doMove.transform.position;
+            }
 
             // TargetPosition
-            Vector3 handlePosition = CalculateTargetPosition(doMove.transform.position);
+            Vector3 handlePosition = CalculateTargetPosition(startPosition);
 
             doMove.targetPosition += DrawHandle(handlePosition);
-            DrawLine(doMove.transform.position, handlePosition, Color.green);
+            DrawLine(startPosition, handlePosition, Color.green);
         }
 
         #endregion
@@ -290,14 +299,18 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(key, doMove.transform.position);
+            startPosition = doMove.transform.position;
+
+            SessionState.SetBool(previewKey, true);
+            SessionState.SetVector3(saveKey, doMove.transform.position);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            doMove.transform.position = SessionState.GetVector3(key, doMove.transform.position);
+            SessionState.SetBool(previewKey, false);
+            doMove.transform.position = SessionState.GetVector3(saveKey, doMove.transform.position);
         }
 
         #endregion
