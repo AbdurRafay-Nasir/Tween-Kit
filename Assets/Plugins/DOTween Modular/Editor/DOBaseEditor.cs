@@ -64,6 +64,16 @@ namespace DOTweenModular.Editor
             onTweenKilledProp = serializedObject.FindProperty("onTweenKilled");
         }
 
+        public virtual void OnSceneGUI()
+        {
+            if (doBase.begin == Begin.After ||
+                doBase.begin == Begin.With)
+            {
+                if (doBase.tweenObject != null)
+                    DrawTweenObjectInfo();
+            }
+        }
+
         #region GUI Handling
 
         protected void Space()
@@ -356,7 +366,7 @@ namespace DOTweenModular.Editor
         /// <summary>
         /// Draws complete lines to backward Tween Objects, also displays arrow head and Begin Property
         /// </summary>
-        protected void DrawTweenObjectInfo()
+        private void DrawTweenObjectInfo()
         {
             Handles.color = Color.cyan;
 
