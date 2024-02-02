@@ -1,0 +1,222 @@
+#if UNITY_EDITOR
+
+using UnityEngine;
+using UnityEditor;
+
+namespace DOTweenModular.Editor
+{
+    [CustomEditor(typeof(DOPath)), CanEditMultipleObjects]
+    public class DOPathEditor : DOBaseEditor
+    {
+        #region Serialized Properties
+
+        private SerializedProperty pathTypeProp;
+        private SerializedProperty pathModeProp;
+        private SerializedProperty resolutionProp;
+        private SerializedProperty speedBasedProp;
+        private SerializedProperty relativeProp;
+        private SerializedProperty pathPointsProp;
+
+        #endregion
+
+        private DOPath doPath;
+        private string key;
+
+        #region Unity Functions
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+
+            doPath = (DOPath)target;
+            key = "DOPath_" + instanceId;
+
+            pathTypeProp = serializedObject.FindProperty("pathType");
+            pathModeProp = serializedObject.FindProperty("pathMode");
+            resolutionProp = serializedObject.FindProperty("resolution");
+            speedBasedProp = serializedObject.FindProperty("speedBased");
+            relativeProp = serializedObject.FindProperty("relative");
+            pathPointsProp = serializedObject.FindProperty("pathPoints");
+        }
+
+        public override void OnInspectorGUI()
+        {
+            Space();
+
+            bool[] toggleStates = DrawToggles("Life", "Type", "Path", "Points", "Values", "Events");
+
+            Space();
+
+            if (toggleStates[0])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Life Time Settings"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawLifeTimeSettings();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            DrawTweenObjectHelpBox();
+
+            if (toggleStates[1])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Type Settings"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawTypeSettings();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            if (toggleStates[2])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Path Settings"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawPathSettings();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            if (toggleStates[3])
+            {
+                DrawSeparatorLine();
+
+                DrawProperty(pathPointsProp);
+            }
+
+
+            if (toggleStates[4])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Values"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawValues();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            if (toggleStates[5])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Events"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    Space();
+
+                    DrawEvents();
+
+                    EditorGUI.indentLevel--;
+                }
+                EndFoldout();
+            }
+
+            DrawSeparatorLine();
+
+            DrawPlayButton();
+            DrawStopButton();
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        public override void OnSceneGUI()
+        {
+            base.OnSceneGUI();
+
+            if (doPath.pathPoints == null)
+                return;
+
+            Vector3 currentPoint = doPath.transform.position;
+
+            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            {
+                doPath.pathPoints[i] += DrawHandle(doPath.pathPoints[i]);
+                DrawLine(currentPoint, doPath.pathPoints[i], Color.green);
+                currentPoint = doPath.pathPoints[i];
+            }
+        }
+
+        #endregion
+
+        private void DrawPathSettings()
+        {
+            DrawProperty(pathTypeProp);
+            DrawProperty(pathModeProp);
+            DrawProperty(resolutionProp);
+            DrawProperty(speedBasedProp);
+            DrawProperty(relativeProp);
+        }
+
+        #region Tween Preview Functions
+
+        protected override void OnPreviewStarted()
+        {
+            base.OnPreviewStarted();
+
+            SessionState.SetVector3(key, doPath.transform.position);
+        }
+
+        protected override void OnPreviewStopped()
+        {
+            base.OnPreviewStopped();
+
+            doPath.transform.position = SessionState.GetVector3(key, doPath.transform.position);
+        }
+
+        #endregion
+
+    }
+}
+
+#endif
