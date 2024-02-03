@@ -21,19 +21,16 @@ namespace DOTweenModular.Miscellaneous
             /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are more computationally expensive.</param>
             /// <returns>An array of points representing an open Catmull-Rom spline curve.</returns>
             /// <remarks>Returns NULL if points are NULL or the number of points is less than 2.</remarks>
-            public static Vector3[] GetOpenCurve(Vector3 startPosition, Vector3[] points, int resolution)
+            public static Vector3[] GetOpenSpline(Vector3 startPosition, Vector3[] points, int resolution)
             {
-                if (points.Length < 2)
-                {
-                    Debug.LogError("Atleast 2 points needed to Generate Catmull Rom Spline, returning NULL");
+                if (points == null || points.Length < 2)
                     return null;
-                }
 
                 Vector3[] pointsWithStartPosition = new Vector3[points.Length + 1];
                 pointsWithStartPosition[0] = startPosition;
                 Array.Copy(points, 0, pointsWithStartPosition, 1, points.Length);
 
-                List<Vector3> catmullRomPoints = new();
+                List<Vector3> catmullRomPoints = new List<Vector3>();
 
                 // Loop through the points, computing the Catmull-Rom spline segments
                 for (int i = 0; i < pointsWithStartPosition.Length - 1; i++)
@@ -57,6 +54,7 @@ namespace DOTweenModular.Miscellaneous
 
                 return catmullRomPoints.ToArray();
             }
+
 
             /// <summary>
             /// Generates a closed Catmull-Rom spline curve.
