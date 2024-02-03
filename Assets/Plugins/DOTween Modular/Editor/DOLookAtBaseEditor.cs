@@ -50,7 +50,7 @@ namespace DOTweenModular.Editor
             else if (doLookAt.lookAt == Enums.LookAtSimple.Transform)
             {
                 if (doLookAt.lookAtTarget != null)
-                    DrawDottedLine(doLookAt.transform.position, doLookAt.lookAtPosition, Color.green, 10f);
+                    DrawDottedLine(doLookAt.transform.position, doLookAt.lookAtTarget.position, Color.green, 10f);
             }            
         }
 
