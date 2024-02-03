@@ -243,9 +243,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   begin: 0
   tweenObject: {fileID: 0}
-  tweenType: 0
-  loopType: 0
-  easeType: 0
+  tweenType: 1
+  loopType: 1
+  easeType: 1
   curve:
     serializedVersion: 2
     m_Curve: []
@@ -253,7 +253,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   loops: -1
-  duration: 5
+  duration: 50
   delay: 0
   onTweenCreated:
     m_PersistentCalls:
@@ -277,8 +277,8 @@ MonoBehaviour:
   speedBased: 0
   relative: 0
   pathPoints:
-  - {x: -1, y: 4, z: 4}
-  - {x: 2, y: 4, z: 4}
+  - {x: -20.182837, y: 4.646612, z: 4}
+  - {x: 19.88961, y: 10.55234, z: 4}
   - {x: 4, y: 0, z: 4}
   lookAt: 3
   lookAtPosition: {x: 0, y: 0, z: 0}
