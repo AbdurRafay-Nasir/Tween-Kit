@@ -185,6 +185,8 @@ namespace DOTweenModular.Editor
             {
                 ConvertPointsToRelative(doPath.transform.position);
 
+                DrawRelativeLinearPath(doPath.transform.position);
+
                 for (int i = 0; i < doPath.pathPoints.Length; i++)
                 {
                     doPath.pathPoints[i] += DrawHandle(doPath.transform.position + doPath.pathPoints[i]);
@@ -194,15 +196,12 @@ namespace DOTweenModular.Editor
             {
                 ConvertPointsToAbsolute(doPath.transform.position);
 
-                Vector3 currentLineStart = doPath.transform.position;
+                DrawAbsoluteLinearPath(doPath.transform.position);
 
                 for (int i = 0; i < doPath.pathPoints.Length; i++)
                 {
                     doPath.pathPoints[i] += DrawHandle(doPath.pathPoints[i]);
-                    DrawLine(currentLineStart, doPath.pathPoints[i], Color.green);
-                    currentLineStart = doPath.pathPoints[i];
                 }
-
 
             }
         }
@@ -216,6 +215,28 @@ namespace DOTweenModular.Editor
             DrawProperty(resolutionProp);
             DrawProperty(speedBasedProp);
             DrawProperty(relativeProp);
+        }
+
+        private void DrawRelativeLinearPath(Vector3 startPosition)
+        {
+            Vector3 lineStart = startPosition;
+
+            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            {
+                DrawLine(lineStart, startPosition + doPath.pathPoints[i], Color.green);
+                lineStart = startPosition + doPath.pathPoints[i];
+            }
+        }
+
+        private void DrawAbsoluteLinearPath(Vector3 startPosition)
+        {
+            Vector3 lineStart = startPosition;
+
+            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            {
+                DrawLine(lineStart, doPath.pathPoints[i], Color.green);
+                lineStart = doPath.pathPoints[i];
+            }
         }
 
         private void ConvertPointsToRelative(Vector3 relativeTo)

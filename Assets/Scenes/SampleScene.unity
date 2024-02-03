@@ -270,7 +270,7 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  pathType: 1
+  pathType: 0
   pathMode: 3
   resolution: 1
   speedBased: 0
