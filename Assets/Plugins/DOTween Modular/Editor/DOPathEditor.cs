@@ -13,6 +13,7 @@ namespace DOTweenModular.Editor
         private SerializedProperty pathTypeProp;
         private SerializedProperty pathModeProp;
         private SerializedProperty resolutionProp;
+        private SerializedProperty closePathProp;
         private SerializedProperty speedBasedProp;
         private SerializedProperty relativeProp;
         private SerializedProperty pathPointsProp;
@@ -38,6 +39,7 @@ namespace DOTweenModular.Editor
             pathTypeProp = serializedObject.FindProperty("pathType");
             pathModeProp = serializedObject.FindProperty("pathMode");
             resolutionProp = serializedObject.FindProperty("resolution");
+            closePathProp = serializedObject.FindProperty("closePath");
             speedBasedProp = serializedObject.FindProperty("speedBased");
             relativeProp = serializedObject.FindProperty("relative");
             pathPointsProp = serializedObject.FindProperty("pathPoints");
@@ -185,7 +187,7 @@ namespace DOTweenModular.Editor
             {
                 ConvertPointsToRelative(doPath.transform.position);
 
-                DrawRelativeLinearPath(doPath.transform.position);
+                DrawRelativeLinearPath(doPath.transform.position, doPath.closePath);
 
                 for (int i = 0; i < doPath.pathPoints.Length; i++)
                 {
@@ -196,7 +198,7 @@ namespace DOTweenModular.Editor
             {
                 ConvertPointsToAbsolute(doPath.transform.position);
 
-                DrawAbsoluteLinearPath(doPath.transform.position);
+                DrawAbsoluteLinearPath(doPath.transform.position, doPath.closePath);
 
                 for (int i = 0; i < doPath.pathPoints.Length; i++)
                 {
@@ -213,11 +215,12 @@ namespace DOTweenModular.Editor
             DrawProperty(pathTypeProp);
             DrawProperty(pathModeProp);
             DrawProperty(resolutionProp);
+            DrawProperty(closePathProp);
             DrawProperty(speedBasedProp);
             DrawProperty(relativeProp);
         }
 
-        private void DrawRelativeLinearPath(Vector3 startPosition)
+        private void DrawRelativeLinearPath(Vector3 startPosition, bool closed)
         {
             Vector3 lineStart = startPosition;
 
@@ -226,9 +229,12 @@ namespace DOTweenModular.Editor
                 DrawLine(lineStart, startPosition + doPath.pathPoints[i], Color.green);
                 lineStart = startPosition + doPath.pathPoints[i];
             }
+
+            if (closed)
+                DrawLine(lineStart, startPosition, Color.green);
         }
 
-        private void DrawAbsoluteLinearPath(Vector3 startPosition)
+        private void DrawAbsoluteLinearPath(Vector3 startPosition, bool closed)
         {
             Vector3 lineStart = startPosition;
 
@@ -237,6 +243,9 @@ namespace DOTweenModular.Editor
                 DrawLine(lineStart, doPath.pathPoints[i], Color.green);
                 lineStart = doPath.pathPoints[i];
             }
+
+            if (closed)
+                DrawLine(lineStart, startPosition, Color.green);
         }
 
         private void ConvertPointsToRelative(Vector3 relativeTo)
