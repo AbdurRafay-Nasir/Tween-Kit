@@ -142,7 +142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &180327341
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -274,13 +274,16 @@ MonoBehaviour:
   pathType: 2
   pathMode: 3
   resolution: 1
-  closePath: 0
+  closePath: 1
   speedBased: 0
   relative: 0
   pathPoints:
-  - {x: 4, y: 0, z: 0}
-  - {x: -1, y: 3, z: 0}
-  - {x: 3, y: 3, z: 0}
+  - {x: 8, y: 3, z: 0}
+  - {x: -1, y: 5, z: 0}
+  - {x: 4, y: 6, z: 0}
+  - {x: -6, y: -3, z: 0}
+  - {x: 12, y: -1, z: 0}
+  - {x: 3, y: -7, z: 0}
   lookAt: 3
   lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}
@@ -551,9 +554,12 @@ MonoBehaviour:
   speedBased: 0
   relative: 0
   pathPoints:
-  - {x: -1, y: 3, z: 0}
-  - {x: 3, y: 3, z: 0}
-  - {x: 4, y: 0, z: 0}
+  - {x: 4.8696747, y: 8.182344, z: 0}
+  - {x: 15.583877, y: 12.437525, z: 0}
+  - {x: 22.92461, y: 4.814593, z: 0}
+  - {x: 29.23785, y: -0.38640785, z: 0}
+  - {x: 20.758474, y: -9.047005, z: 0}
+  - {x: -3.655075, y: -3.7472758, z: -2}
   lookAt: 3
   lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}
@@ -639,7 +645,7 @@ Transform:
   m_GameObject: {fileID: 1078801815}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 2}
+  m_LocalPosition: {x: -5.2, y: 2.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

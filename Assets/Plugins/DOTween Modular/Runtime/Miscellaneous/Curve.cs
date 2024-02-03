@@ -131,7 +131,7 @@ namespace DOTweenModular.Miscellaneous
             /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are more computationally expensive.</param>
             /// <returns>An array of points representing a cubic Bezier curve.</returns>
             /// <remarks>Returns NULL if points are NULL or the number of points is not a multiple of 3.</remarks>
-            public static Vector3[] GetCurve(Vector3 startPosition, Vector3[] points, int resolution)
+            public static Vector3[] GetSpline(Vector3 startPosition, Vector3[] points, int resolution)
             {
                 if (points == null || points.Length % 3 != 0)
                     return null;
@@ -140,7 +140,7 @@ namespace DOTweenModular.Miscellaneous
 
                 for (int i = 0; i < points.Length; i += 3)
                 {
-                    Vector3 controlPoint1 = (i == 0) ? startPosition : points[i - 3];
+                    Vector3 controlPoint1 = (i == 0) ? startPosition : points[i - 1];
                     Vector3 controlPoint2 = points[i + 2];
                     Vector3 tangent1 = points[i];
                     Vector3 tangent2 = points[i + 1];
@@ -178,6 +178,7 @@ namespace DOTweenModular.Miscellaneous
 
                 return p;
             }
+
         }
 
     }
