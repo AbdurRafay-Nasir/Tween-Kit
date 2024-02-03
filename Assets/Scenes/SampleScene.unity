@@ -253,7 +253,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   loops: -1
-  duration: 30
+  duration: 1
   delay: 0
   onTweenCreated:
     m_PersistentCalls:
@@ -273,6 +273,7 @@ MonoBehaviour:
   pathType: 0
   pathMode: 3
   resolution: 1
+  closePath: 1
   speedBased: 0
   relative: 0
   pathPoints:

@@ -15,6 +15,8 @@ namespace DOTweenModular
         [Tooltip("Smoothness of the Path")]
         [Min(1f)] public int resolution = 1;
 
+        public bool closePath;
+
         [Tooltip("If TRUE, the tween will Move duration amount in each second")]
         public bool speedBased;
 
@@ -30,7 +32,8 @@ namespace DOTweenModular
 
         public override Tween CreateTween()
         {
-            Tween = transform.DOPath(pathPoints, duration, pathType, pathMode, resolution);
+            Tween = transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
+                             .SetOptions(closePath);
 
             if (easeType == Ease.INTERNAL_Custom)
                 Tween.SetEase(curve);
