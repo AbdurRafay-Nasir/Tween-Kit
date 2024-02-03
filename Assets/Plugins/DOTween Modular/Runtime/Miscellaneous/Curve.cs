@@ -23,9 +23,9 @@ namespace DOTweenModular.Miscellaneous
             /// <remarks>Returns NULL if points are NULL or the number of points is less than 2.</remarks>
             public static Vector3[] GetOpenCurve(Vector3 startPosition, Vector3[] points, int resolution)
             {
-                if (points.Length < 3)
+                if (points.Length < 2)
                 {
-                    Debug.LogError("Atleast 3 points needed to Generate Catmull Rom Spline, returning NULL");
+                    Debug.LogError("Atleast 2 points needed to Generate Catmull Rom Spline, returning NULL");
                     return null;
                 }
 
@@ -140,17 +140,17 @@ namespace DOTweenModular.Miscellaneous
 
                 for (int i = 0; i < points.Length; i += 3)
                 {
-                    Vector3 startPoint = (i == 0) ? startPosition : points[i - 3];
-                    Vector3 endPoint = points[i];
-                    Vector3 controlPoint1 = points[i + 1];
+                    Vector3 controlPoint1 = (i == 0) ? startPosition : points[i - 3];
                     Vector3 controlPoint2 = points[i + 2];
+                    Vector3 tangent1 = points[i];
+                    Vector3 tangent2 = points[i + 1];
 
                     for (int j = 0; j <= resolution; j++)
                     {
                         float t = j / (float)resolution;
 
-                        Vector3 point = GetPoint(startPoint, controlPoint1,
-                                                 controlPoint2, endPoint, t);
+                        Vector3 point = GetPoint(controlPoint1, tangent1,
+                                                 controlPoint2, tangent2, t);
 
                         cubicBezierPoints.Add(point);
                     }
@@ -162,8 +162,8 @@ namespace DOTweenModular.Miscellaneous
             /// <summary>
             /// Get Cubic Bezier Point for given segment
             /// </summary>
-            public static Vector3 GetPoint(Vector3 startPoint, Vector3 controlPoint1,
-                                           Vector3 controlPoint2, Vector3 endPoint, float t)
+            public static Vector3 GetPoint(Vector3 controlPoint1, Vector3 tangent1,
+                                           Vector3 controlPoint2, Vector3 tangent2, float t)
             {
                 float u = 1 - t;
                 float tt = t * t;
@@ -171,14 +171,13 @@ namespace DOTweenModular.Miscellaneous
                 float uuu = uu * u;
                 float ttt = tt * t;
 
-                Vector3 p = uuu * startPoint;
-                p += 3 * uu * t * controlPoint1;
-                p += 3 * u * tt * controlPoint2;
-                p += ttt * endPoint;
+                Vector3 p = uuu * controlPoint1;
+                p += 3 * uu * t * tangent1;
+                p += 3 * u * tt * tangent2;
+                p += ttt * controlPoint2;
 
                 return p;
             }
-
         }
 
     }
