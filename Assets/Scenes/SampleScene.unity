@@ -277,9 +277,9 @@ MonoBehaviour:
   speedBased: 0
   relative: 0
   pathPoints:
-  - {x: -1, y: 4, z: 2}
-  - {x: 3, y: 4, z: 2}
-  - {x: 5, y: 0, z: 2}
+  - {x: -1, y: 4, z: 4}
+  - {x: 2, y: 4, z: 4}
+  - {x: 4, y: 0, z: 4}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

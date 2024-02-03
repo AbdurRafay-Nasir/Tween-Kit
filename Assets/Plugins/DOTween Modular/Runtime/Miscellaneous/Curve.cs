@@ -248,42 +248,6 @@ namespace DOTweenModular.Miscellaneous
 
     #endregion
 
-    #region Get Absolute/Relative Points Functions
-
-        /// <summary>
-        /// Converts an array of points from world position to be relative to a specified reference point.
-        /// </summary>
-        /// <param name="relativeTo">The reference point to which the points will be made relative.</param>
-        /// <param name="points">An array of points to be transformed.</param>
-        /// <returns>An array of points relative to the specified reference point.</returns>
-        public static Vector3[] GetRelativePoints(Vector3 relativeTo, Vector3[] points)
-        {
-            Vector3[] pointsCopy = (Vector3[])points.Clone();
-        
-            for (int i = 0; i < points.Length; i++)
-                pointsCopy[i] -= relativeTo;
-
-            return pointsCopy;
-        }
-
-        /// <summary>
-        /// Converts an array of points from relative to a specified reference point to absolute positions.
-        /// </summary>
-        /// <param name="absoluteTo">The reference point to which the points will be made absolute.</param>
-        /// <param name="points">An array of points in relative coordinates.</param>
-        /// <returns>An array of points in absolute coordinates (i.e,. World space).</returns>
-        public static Vector3[] GetAbsolutePoints(Vector3 absoluteTo, Vector3[] points)
-        {
-            Vector3[] pointsCopy = (Vector3[])points.Clone();
-
-            for (int i = 0; i < points.Length; i++)
-                pointsCopy[i] += absoluteTo;            
-
-            return pointsCopy;
-        }
-
-    #endregion
-
     }
 
 }
