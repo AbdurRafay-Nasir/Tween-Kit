@@ -257,6 +257,8 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        #region Inspector Draw Functions
+
         private void DrawPathSettings()
         {
             DrawProperty(pathTypeProp);
@@ -325,6 +327,10 @@ namespace DOTweenModular.Editor
             }
         }
 
+        #endregion
+
+        #region Scene Draw Functions
+
         private void DrawRelativeLinearPath(Vector3 startPosition, bool closed)
         {
             Vector3 lineStart = startPosition;
@@ -373,6 +379,10 @@ namespace DOTweenModular.Editor
             }
         }
 
+        #endregion
+
+        #region Path points ConvertTo Absolute/Relative Function
+
         private void ConvertPointsToRelative(Vector3 relativeTo)
         {
             if (relativeFlags.firstTimeRelative)
@@ -408,6 +418,8 @@ namespace DOTweenModular.Editor
 
             relativeFlags.firstTimeRelative = true;
         }
+
+        #endregion
 
         #region Tween Preview Functions
 
