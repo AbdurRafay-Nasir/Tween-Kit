@@ -131,7 +131,7 @@ namespace DOTweenModular.Miscellaneous
             /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are more computationally expensive.</param>
             /// <returns>An array of points representing a cubic Bezier curve.</returns>
             /// <remarks>Returns NULL if points are NULL or the number of points is not a multiple of 3.</remarks>
-            public static Vector3[] GetCubicBezierPoints(Vector3 startPosition, Vector3[] points, int resolution)
+            public static Vector3[] GetCurve(Vector3 startPosition, Vector3[] points, int resolution)
             {
                 if (points == null || points.Length % 3 != 0)
                     return null;
