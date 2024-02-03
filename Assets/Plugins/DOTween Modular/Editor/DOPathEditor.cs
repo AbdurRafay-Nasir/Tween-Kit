@@ -23,7 +23,10 @@ namespace DOTweenModular.Editor
         private DOPath doPath;
         private RelativeFlags relativeFlags;
 
+        private string tweenPreviewKey;
         private string key;
+
+        private Vector3 startPosition;
 
         #region Unity Functions
 
@@ -34,6 +37,7 @@ namespace DOTweenModular.Editor
             doPath = (DOPath)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
+            tweenPreviewKey = "DOPath_preview" + instanceId;
             key = "DOPath_" + instanceId;
 
             pathTypeProp = serializedObject.FindProperty("pathType");
@@ -183,22 +187,27 @@ namespace DOTweenModular.Editor
             if (doPath.pathPoints == null)
                 return;
 
+            if (!SessionState.GetBool(tweenPreviewKey, false))
+            {
+                startPosition = doPath.transform.position;
+            }
+
             if (doPath.relative)
             {
-                ConvertPointsToRelative(doPath.transform.position);
+                ConvertPointsToRelative(startPosition);
 
-                DrawRelativeLinearPath(doPath.transform.position, doPath.closePath);
+                DrawRelativeLinearPath(startPosition, doPath.closePath);
 
                 for (int i = 0; i < doPath.pathPoints.Length; i++)
                 {
-                    doPath.pathPoints[i] += DrawHandle(doPath.transform.position + doPath.pathPoints[i]);
+                    doPath.pathPoints[i] += DrawHandle(startPosition + doPath.pathPoints[i]);
                 }
             }
             else
             {
-                ConvertPointsToAbsolute(doPath.transform.position);
+                ConvertPointsToAbsolute(startPosition);
 
-                DrawAbsoluteLinearPath(doPath.transform.position, doPath.closePath);
+                DrawAbsoluteLinearPath(startPosition, doPath.closePath);
 
                 for (int i = 0; i < doPath.pathPoints.Length; i++)
                 {
@@ -290,6 +299,9 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
+            startPosition = doPath.transform.position;
+
+            SessionState.SetBool(tweenPreviewKey, true);
             SessionState.SetVector3(key, doPath.transform.position);
         }
 
@@ -297,6 +309,7 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStopped();
 
+            SessionState.SetBool(tweenPreviewKey, false);
             doPath.transform.position = SessionState.GetVector3(key, doPath.transform.position);
         }
 
