@@ -253,7 +253,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   loops: -1
-  duration: 1
+  duration: 5
   delay: 0
   onTweenCreated:
     m_PersistentCalls:
@@ -270,8 +270,8 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  pathType: 0
-  pathMode: 0
+  pathType: 1
+  pathMode: 3
   resolution: 1
   closePath: 0
   speedBased: 0
@@ -280,6 +280,11 @@ MonoBehaviour:
   - {x: -1, y: 4, z: 4}
   - {x: 2, y: 4, z: 4}
   - {x: 4, y: 0, z: 4}
+  lookAt: 3
+  lookAtPosition: {x: 0, y: 0, z: 0}
+  lookAtTarget: {fileID: 0}
+  lookAhead: 0.01
+  stableZRotation: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

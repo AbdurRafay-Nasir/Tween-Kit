@@ -18,6 +18,12 @@ namespace DOTweenModular.Editor
         private SerializedProperty relativeProp;
         private SerializedProperty pathPointsProp;
 
+        private SerializedProperty lookAtProp;
+        private SerializedProperty lookAtPositionProp;
+        private SerializedProperty lookAtTargetProp;
+        private SerializedProperty lookAheadProp;
+        private SerializedProperty stableZRotationProp;
+
         #endregion
 
         private DOPath doPath;
@@ -47,13 +53,19 @@ namespace DOTweenModular.Editor
             speedBasedProp = serializedObject.FindProperty("speedBased");
             relativeProp = serializedObject.FindProperty("relative");
             pathPointsProp = serializedObject.FindProperty("pathPoints");
+
+            lookAtProp = serializedObject.FindProperty("lookAt");
+            lookAtPositionProp = serializedObject.FindProperty("lookAtPosition");
+            lookAtTargetProp = serializedObject.FindProperty("lookAtTarget");
+            lookAheadProp = serializedObject.FindProperty("lookAhead");
+            stableZRotationProp = serializedObject.FindProperty("stableZRotation");
         }
 
         public override void OnInspectorGUI()
         {
             Space();
 
-            bool[] toggleStates = DrawToggles("Life", "Type", "Path", "Points", "Values", "Events");
+            bool[] toggleStates = DrawToggles("Life", "Type", "LookAt", "Path", "Points", "Values", "Events");
 
             Space();
 
@@ -107,6 +119,28 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
+                if (BeginFoldout("Look At Settings"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawLookAtSettings();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            if (toggleStates[3])
+            {
+                DrawSeparatorLine();
+
                 if (BeginFoldout("Path Settings"))
                 {
                     EditorGUI.indentLevel++;
@@ -125,7 +159,7 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (toggleStates[3])
+            if (toggleStates[4])
             {
                 DrawSeparatorLine();
 
@@ -133,7 +167,7 @@ namespace DOTweenModular.Editor
             }
 
 
-            if (toggleStates[4])
+            if (toggleStates[5])
             {
                 DrawSeparatorLine();
 
@@ -155,7 +189,7 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (toggleStates[5])
+            if (toggleStates[6])
             {
                 DrawSeparatorLine();
 
@@ -227,6 +261,31 @@ namespace DOTweenModular.Editor
             DrawProperty(closePathProp);
             DrawProperty(speedBasedProp);
             DrawProperty(relativeProp);
+        }
+
+        private void DrawLookAtSettings()
+        {
+            DrawProperty(lookAtProp);
+
+            switch (doPath.lookAt)
+            {
+                case Enums.LookAtAdvanced.Position:
+                    DrawProperty(lookAtPositionProp);
+                    break;
+
+                case Enums.LookAtAdvanced.Transform:
+                    DrawProperty(lookAtTargetProp);
+                    break;
+
+                case Enums.LookAtAdvanced.Percentage:
+                    DrawProperty(lookAheadProp);
+                    break;
+
+                default:
+                    return;
+            }
+
+            DrawProperty(stableZRotationProp);
         }
 
         private void DrawRelativeLinearPath(Vector3 startPosition, bool closed)
