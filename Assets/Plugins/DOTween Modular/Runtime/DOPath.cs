@@ -45,17 +45,17 @@ namespace DOTweenModular
         {
             Tween = lookAt switch
             {
-                LookAtAdvanced.Position => transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
-                                                    .SetOptions(closePath)
-                                                    .SetLookAt(lookAtPosition, stableZRotation),
+                LookAtAdvanced.Position =>   transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
+                                                      .SetOptions(closePath)
+                                                      .SetLookAt(lookAtPosition, stableZRotation),
 
-                LookAtAdvanced.Transform => transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
-                                                     .SetOptions(closePath)
-                                                     .SetLookAt(lookAtTarget, stableZRotation),
+                LookAtAdvanced.Transform =>  transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
+                                                      .SetOptions(closePath)
+                                                      .SetLookAt(lookAtTarget, stableZRotation),
 
                 LookAtAdvanced.Percentage => transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
-                                                     .SetOptions(closePath)
-                                                     .SetLookAt(lookAhead, stableZRotation),
+                                                      .SetOptions(closePath)
+                                                      .SetLookAt(lookAhead, stableZRotation),
 
                 _ => transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
                               .SetOptions(closePath),
