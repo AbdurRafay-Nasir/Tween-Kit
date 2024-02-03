@@ -137,6 +137,8 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
+            DrawLookAtHelpbox();
+
             if (toggleStates[3])
             {
                 DrawSeparatorLine();
@@ -286,6 +288,39 @@ namespace DOTweenModular.Editor
             }
 
             DrawProperty(stableZRotationProp);
+        }
+
+        private void DrawLookAtHelpbox()
+        {
+            if (doPath.lookAt != Enums.LookAtAdvanced.None &&
+                doPath.pathMode == DG.Tweening.PathMode.Ignore)
+            {
+                DrawHelpbox("PathMode is set to Ignore, LookAt will not work", MessageType.Warning);
+            }
+
+            if (doPath.lookAt == Enums.LookAtAdvanced.Transform &&
+                doPath.lookAtTarget == null)
+            {
+                DrawHelpbox("LookAt Target not assigned", MessageType.Error);
+            }
+
+            if (doPath.lookAt != Enums.LookAtAdvanced.Transform &&
+                doPath.lookAtTarget != null)
+            {
+                EditorGUILayout.BeginHorizontal();
+
+                DrawHelpbox("LookAt Target is assigned, it should be removed", MessageType.Warning);
+
+                GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
+                trashButton.tooltip = "Remove LookAt Target";
+
+                if (GUILayout.Button(trashButton, GUILayout.Height(40), GUILayout.Width(80)))
+                {
+                    doPath.lookAtTarget = null;
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
         }
 
         private void DrawRelativeLinearPath(Vector3 startPosition, bool closed)
