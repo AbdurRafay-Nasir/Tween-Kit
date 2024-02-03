@@ -235,12 +235,20 @@ namespace DOTweenModular.Editor
                 {
                     doPath.pathPoints[i] += DrawHandle(doPath.transform.position + doPath.pathPoints[i]);
                 }
+
+                if (doPath.pathType == DG.Tweening.PathType.Linear)
+                    DrawRelativeLinearPath(doPath.transform.position, doPath.closePath, Color.green);
+                else if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
+                    DrawRelativeCubicBezierPath(doPath.transform.position);
             }
             else
             {
                 ConvertPointsToAbsolute(doPath.transform.position);
 
-                DrawAbsoluteLinearPath(startPosition, doPath.closePath);
+                if (doPath.pathType == DG.Tweening.PathType.Linear)
+                    DrawAbsoluteLinearPath(doPath.transform.position, doPath.closePath, Color.green);
+                else if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
+                    DrawAbsoluteCubicBezierPath(doPath.transform.position);
 
                 for (int i = 0; i < doPath.pathPoints.Length; i++)
                 {
@@ -326,32 +334,77 @@ namespace DOTweenModular.Editor
 
         #region Scene Draw Functions
 
-        private void DrawRelativeLinearPath(Vector3 startPosition, bool closed)
+        private void DrawAbsoluteLinearPath(Vector3 startPosition, bool closed, 
+                                            Color lineColor, float lineThickness = 2f)
         {
             Vector3 lineStart = startPosition;
 
             for (int i = 0; i < doPath.pathPoints.Length; i++)
             {
-                DrawLine(lineStart, startPosition + doPath.pathPoints[i], Color.green);
-                lineStart = startPosition + doPath.pathPoints[i];
-            }
-
-            if (closed)
-                DrawLine(lineStart, startPosition, Color.green);
-        }
-
-        private void DrawAbsoluteLinearPath(Vector3 startPosition, bool closed)
-        {
-            Vector3 lineStart = startPosition;
-
-            for (int i = 0; i < doPath.pathPoints.Length; i++)
-            {
-                DrawLine(lineStart, doPath.pathPoints[i], Color.green);
+                DrawLine(lineStart, doPath.pathPoints[i], lineColor, lineThickness);
                 lineStart = doPath.pathPoints[i];
             }
 
             if (closed)
-                DrawLine(lineStart, startPosition, Color.green);
+                DrawLine(lineStart, startPosition, lineColor, lineThickness);
+        }
+
+        private void DrawRelativeLinearPath(Vector3 startPosition, bool closed, 
+                                            Color lineColor, float lineThickness = 2f)
+        {
+            Vector3 lineStart = startPosition;
+
+            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            {
+                DrawLine(lineStart, startPosition + doPath.pathPoints[i], lineColor, lineThickness);
+                lineStart = startPosition + doPath.pathPoints[i];
+            }
+
+            if (closed)
+                DrawLine(lineStart, startPosition, lineColor, lineThickness);
+        }
+
+        private void DrawAbsoluteCubicBezierPath(Vector3 startPosition)
+        {
+            Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(startPosition, doPath.pathPoints,
+                                                                      doPath.resolution);
+
+            if (cubicBezierPoints == null)
+                return;
+
+            Vector3 currentLineStart = startPosition;
+
+            for (int i = 0; i < cubicBezierPoints.Length; i++)
+            {
+                DrawLine(currentLineStart, cubicBezierPoints[i], Color.green);
+                currentLineStart = cubicBezierPoints[i];
+            }
+
+            DrawAbsoluteLinearPath(startPosition, false, Color.white, 0.5f);
+        }
+
+        private void DrawRelativeCubicBezierPath(Vector3 startPosition)
+        {
+            Vector3[] absoultePoints = (Vector3[])doPath.pathPoints.Clone();
+
+            for (int i = 0; i < absoultePoints.Length; i++)
+            {
+                absoultePoints[i] += startPosition;
+            }
+
+            Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(startPosition, absoultePoints,
+                                                                      doPath.resolution);
+
+            if (cubicBezierPoints == null)
+                return;
+
+            Vector3 currentLineStart = startPosition;
+
+            for (int i = 0; i < cubicBezierPoints.Length; i++)
+            {
+                DrawLine(currentLineStart, cubicBezierPoints[i], Color.green);
+                currentLineStart = cubicBezierPoints[i];
+            }
         }
 
         private void DrawLookAtLine()
