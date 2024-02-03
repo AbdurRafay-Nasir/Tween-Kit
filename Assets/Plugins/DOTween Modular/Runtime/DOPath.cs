@@ -42,7 +42,8 @@ namespace DOTweenModular
 
             if (tweenType == Enums.TweenType.Looped)
                 Tween.SetLoops(loops, loopType);
-                        
+
+            Tween.SetRelative(relative);
             Tween.SetSpeedBased(speedBased);
             Tween.SetDelay(delay);
 
