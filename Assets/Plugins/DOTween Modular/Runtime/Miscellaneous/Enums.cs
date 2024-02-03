@@ -29,7 +29,7 @@ namespace DOTweenModular.Enums
         Simple, Looped    
     }
 
-    public enum LookAtPath
+    public enum LookAtAdvanced
     {
         None, Position, Transform, Percentage
     }
