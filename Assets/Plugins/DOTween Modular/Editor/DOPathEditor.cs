@@ -20,6 +20,8 @@ namespace DOTweenModular.Editor
         #endregion
 
         private DOPath doPath;
+        private RelativeFlags relativeFlags;
+
         private string key;
 
         #region Unity Functions
@@ -29,6 +31,8 @@ namespace DOTweenModular.Editor
             base.OnEnable();
 
             doPath = (DOPath)target;
+            relativeFlags = CreateInstance<RelativeFlags>();
+
             key = "DOPath_" + instanceId;
 
             pathTypeProp = serializedObject.FindProperty("pathType");
@@ -177,13 +181,29 @@ namespace DOTweenModular.Editor
             if (doPath.pathPoints == null)
                 return;
 
-            Vector3 currentPoint = doPath.transform.position;
-
-            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            if (doPath.relative)
             {
-                doPath.pathPoints[i] += DrawHandle(doPath.pathPoints[i]);
-                DrawLine(currentPoint, doPath.pathPoints[i], Color.green);
-                currentPoint = doPath.pathPoints[i];
+                ConvertPointsToRelative(doPath.transform.position);
+
+                for (int i = 0; i < doPath.pathPoints.Length; i++)
+                {
+                    doPath.pathPoints[i] += DrawHandle(doPath.transform.position + doPath.pathPoints[i]);
+                }
+            }
+            else
+            {
+                ConvertPointsToAbsolute(doPath.transform.position);
+
+                Vector3 currentLineStart = doPath.transform.position;
+
+                for (int i = 0; i < doPath.pathPoints.Length; i++)
+                {
+                    doPath.pathPoints[i] += DrawHandle(doPath.pathPoints[i]);
+                    DrawLine(currentLineStart, doPath.pathPoints[i], Color.green);
+                    currentLineStart = doPath.pathPoints[i];
+                }
+
+
             }
         }
 
@@ -196,6 +216,42 @@ namespace DOTweenModular.Editor
             DrawProperty(resolutionProp);
             DrawProperty(speedBasedProp);
             DrawProperty(relativeProp);
+        }
+
+        private void ConvertPointsToRelative(Vector3 relativeTo)
+        {
+            if (relativeFlags.firstTimeRelative)
+            {
+
+                for (int i = 0; i < doPath.pathPoints.Length; i++)
+                {
+                    doPath.pathPoints[i] -= relativeTo;
+                }
+
+                Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeNonRelative");
+                relativeFlags.firstTimeRelative = false;
+
+            }
+
+            relativeFlags.firstTimeNonRelative = true;
+        }
+
+        private void ConvertPointsToAbsolute(Vector3 absoluteTo)
+        {
+            if (relativeFlags.firstTimeNonRelative)
+            {
+
+                for (int i = 0; i < doPath.pathPoints.Length; i++)
+                {
+                    doPath.pathPoints[i] += absoluteTo;
+                }
+
+                Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeRelative");
+                relativeFlags.firstTimeNonRelative = false;
+
+            }
+
+            relativeFlags.firstTimeRelative = true;
         }
 
         #region Tween Preview Functions
