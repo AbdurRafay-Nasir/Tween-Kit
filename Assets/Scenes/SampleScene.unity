@@ -271,7 +271,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   pathType: 1
-  pathMode: 3
+  pathMode: 1
   resolution: 1
   closePath: 0
   speedBased: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
   - {x: -1, y: 4, z: 4}
   - {x: 2, y: 4, z: 4}
   - {x: 4, y: 0, z: 4}
-  lookAt: 3
+  lookAt: 0
   lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}
   lookAhead: 0.01

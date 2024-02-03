@@ -220,6 +220,8 @@ namespace DOTweenModular.Editor
         {
             base.OnSceneGUI();
 
+            DrawLookAtLine();
+
             if (doPath.pathPoints == null)
                 return;
 
@@ -349,6 +351,26 @@ namespace DOTweenModular.Editor
 
             if (closed)
                 DrawLine(lineStart, startPosition, Color.green);
+        }
+
+        private void DrawLookAtLine()
+        {
+            if (doPath.lookAt == Enums.LookAtAdvanced.None || 
+                doPath.lookAt == Enums.LookAtAdvanced.Percentage) 
+                return;
+
+            if (doPath.lookAt == Enums.LookAtAdvanced.Position)
+            {
+                doPath.lookAtPosition += DrawHandle(doPath.lookAtPosition);
+
+                DrawDottedLine(doPath.transform.position, doPath.lookAtPosition, Color.green, 10f);
+            }
+
+            else if (doPath.lookAt == Enums.LookAtAdvanced.Transform)
+            {
+                if (doPath.lookAtTarget != null)
+                    DrawDottedLine(doPath.transform.position, doPath.lookAtTarget.position, Color.green, 10f);
+            }
         }
 
         private void ConvertPointsToRelative(Vector3 relativeTo)
