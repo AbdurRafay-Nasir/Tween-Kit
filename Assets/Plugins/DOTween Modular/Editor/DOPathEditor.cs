@@ -30,6 +30,7 @@ namespace DOTweenModular.Editor
         private RelativeFlags relativeFlags;
 
         private string tweenPreviewKey;
+        private string rotationkey;
         private string key;
 
         private Vector3 startPosition;
@@ -44,7 +45,10 @@ namespace DOTweenModular.Editor
             relativeFlags = CreateInstance<RelativeFlags>();
 
             tweenPreviewKey = "DOPath_preview" + instanceId;
+            rotationkey = "DOPath_LookAt_" + doPath.gameObject.GetInstanceID();
             key = "DOPath_" + instanceId;
+
+            startPosition = doPath.transform.position;
 
             pathTypeProp = serializedObject.FindProperty("pathType");
             pathModeProp = serializedObject.FindProperty("pathMode");
@@ -430,6 +434,7 @@ namespace DOTweenModular.Editor
             startPosition = doPath.transform.position;
 
             SessionState.SetBool(tweenPreviewKey, true);
+            SessionState.SetVector3(rotationkey, doPath.transform.localEulerAngles);
             SessionState.SetVector3(key, doPath.transform.position);
         }
 
@@ -438,7 +443,15 @@ namespace DOTweenModular.Editor
             base.OnPreviewStopped();
 
             SessionState.SetBool(tweenPreviewKey, false);
+            doPath.transform.localEulerAngles = SessionState.GetVector3(rotationkey, doPath.transform.localEulerAngles);
             doPath.transform.position = SessionState.GetVector3(key, doPath.transform.position);
+        }
+
+        protected override void OnPreviewForceStopped()
+        {
+            base.OnPreviewForceStopped();
+
+            doPath.transform.localEulerAngles = SessionState.GetVector3(rotationkey, doPath.transform.localEulerAngles);
         }
 
         #endregion
