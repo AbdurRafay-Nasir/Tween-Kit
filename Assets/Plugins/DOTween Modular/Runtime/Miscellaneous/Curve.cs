@@ -20,7 +20,7 @@ namespace DOTweenModular.Miscellaneous
             /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are computationally expensive</param>
             /// <param name="closed">If true connects startPosition with last point</param>
             /// <returns>A List of points representing a Open or Closed Catmull-Rom spline.</returns>
-            public static List<Vector3> GetSpline(Vector3 startPosition, Vector3[] points, int resolution = 5, bool closed = false)
+            public static Vector3[] GetSpline(Vector3 startPosition, Vector3[] points, int resolution = 5, bool closed = false)
             {
                 if (closed)
                     return GetClosedSpline(startPosition, points, resolution);
@@ -36,7 +36,7 @@ namespace DOTweenModular.Miscellaneous
             /// <param name="points">The points used to create the Open Catmull-Rom Spline.</param>
             /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are computationally more expensive.</param>
             /// <returns>A List of points representing an Open Catmull-Rom spline.</returns>
-            public static List<Vector3> GetOpenSpline(Vector3 startPosition, Vector3[] points, int resolution)
+            public static Vector3[] GetOpenSpline(Vector3 startPosition, Vector3[] points, int resolution)
             {
                 List<Vector3> modifiedPoints = new();
                 List<Vector3> catmullRomPoints = new();
@@ -67,7 +67,7 @@ namespace DOTweenModular.Miscellaneous
                     }
                 }
 
-                return catmullRomPoints;
+                return catmullRomPoints.ToArray();
             }
 
             /// <summary>
@@ -77,7 +77,7 @@ namespace DOTweenModular.Miscellaneous
             /// <param name="points">The points used to create the Closed Catmull-Rom Spline.</param>
             /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are computationally more expensive.</param>
             /// <returns>An array of points representing a Closed Catmull-Rom spline.</returns>
-            public static List<Vector3> GetClosedSpline(Vector3 startPosition, Vector3[] points, int resolution)
+            public static Vector3[] GetClosedSpline(Vector3 startPosition, Vector3[] points, int resolution)
             {
                 List<Vector3> catmullRomPoints = new();
                 List<Vector3> modifiedPoints = new(points);
@@ -105,7 +105,7 @@ namespace DOTweenModular.Miscellaneous
                     }
                 }
 
-                return catmullRomPoints;
+                return catmullRomPoints.ToArray();
             }
 
             /// <summary>
