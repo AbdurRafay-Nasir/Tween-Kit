@@ -17,10 +17,12 @@ namespace DOTweenModular
         [Tooltip("If TRUE the tween will smoothly snap all values to integers")]
         public bool snapping;
 
-        [Tooltip("If TRUE the tween will move in Local Space, regardless of 'relative'")]
+        [Tooltip("If TRUE the gameObject will move in Local Space, regardless of 'relative'")]
         public bool useLocal;
 
-        [Tooltip("If TRUE the tween will move relative to current Position in world space, regardless of 'Use Local'")]
+        [Tooltip("If TRUE the gameObject will move relative to current Position in world space, regardless of 'Use Local'" + "\n" +
+                 "targetPosition will be calculated as:" + "\n" +
+                 "targetPosition = targetPosition + tranform.position")]
         public bool relative;
 
         [Tooltip("The Position to reach")]
