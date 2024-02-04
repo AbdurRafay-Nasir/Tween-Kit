@@ -4,14 +4,22 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
+    [AddComponentMenu("DOTween Modular/DO Text")]
     [RequireComponent(typeof(Text))]
     public sealed class DOText : DOBase
     {
         #region Properties
 
+        [Tooltip("The text to write")]
+        [TextArea]
         public string targetText = "DOTween Modular";
+
         public bool useRichText;
+
+        [Tooltip("Type of scramble to apply to string")]
         public ScrambleMode scrambleMode;
+
+        [Tooltip("Custom Scamble Characters")]
         public string scrambleChars = "klawdfuiawjwn";
 
         #endregion
