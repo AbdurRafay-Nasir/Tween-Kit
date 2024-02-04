@@ -5,14 +5,20 @@ using DOTweenModular.Enums;
 
 namespace DOTweenModular
 {
+    /// <summary>
+    /// Base class for creating DOComponents
+    /// </summary>
     public abstract class DOBase : MonoBehaviour
     {
+        // DO NOT USE the Tween created using these components
+        // Instead use Functions provided by DOTween Modular
+
         #region Properties
 
         [Tooltip("When this tween should start")]
         public Begin begin;
 
-        [Tooltip("The DO component After/With this tween will start")]
+        [Tooltip("The DO component After/With which this tween will start")]
         public DOBase tweenObject;
 
         public Enums.TweenType tweenType;
@@ -23,6 +29,8 @@ namespace DOTweenModular
 
         [Tooltip("Ease to apply, for custom ease select INTERNAL_Custom. Do not assign INTERNAL_Zero")]
         public Ease easeType;
+
+        [Tooltip("Curve that defines Custom ease")]
         public AnimationCurve curve;
 
         [Tooltip("Number of loops, -1 for infinite loops " + "\n" +
@@ -39,7 +47,6 @@ namespace DOTweenModular
 
         #region Events
 
-        // Events
         /// <summary>
         /// Called when this tween is created
         /// </summary>
@@ -67,7 +74,11 @@ namespace DOTweenModular
 
         #endregion
 
+        /// <summary>
+        /// Assign this to your custom 'Tween'.
+        /// </summary>
         protected Tween Tween;
+
         private bool tweenKilled;
 
         #region Unity Functions
@@ -132,13 +143,23 @@ namespace DOTweenModular
 
         #endregion
 
+        /// <summary>
+        /// Implement this method for your custom 'Tweens'
+        /// </summary>
+        /// <returns></returns>
         public abstract Tween CreateTween();
 
+        /// <summary>
+        /// This must be called exactly before returning the 'Tween'
+        /// </summary>
         protected void TweenCreated()
         {
             OnTweenCreated();
         }
 
+        /// <summary>
+        /// Plays the Tween
+        /// </summary>
         public void PlayTween()
         {
             Tween.Play();
@@ -146,6 +167,9 @@ namespace DOTweenModular
 
         #region Tween Callbacks
 
+        /// <summary>
+        /// Called when Tween in Created
+        /// </summary>
         protected virtual void OnTweenCreated() 
         {
             onTweenCreated?.Invoke();
@@ -158,18 +182,27 @@ namespace DOTweenModular
             print("CREATED");
         }
 
+        /// <summary>
+        /// Called when Tween starts to play
+        /// </summary>
         protected virtual void OnTweenPlayed()
         {
             onTweenPlayed?.Invoke();
             print("PLAYED");
         }
 
+        /// <summary>
+        /// Called every frame while Tween plays
+        /// </summary>
         protected virtual void OnTweenUpdate() 
         {
             onTweenUpdated?.Invoke();
             print("UPDATE");
         }
 
+        /// <summary>
+        /// Called when the tween completes
+        /// </summary>
         protected virtual void OnTweenCompleted()
         {
             onTweenCompleted?.Invoke();
@@ -177,6 +210,9 @@ namespace DOTweenModular
             print("COMPLETE");
         }
 
+        /// <summary>
+        /// Called when the tween is killed
+        /// </summary>
         protected virtual void OnTweenKilled()
         {
             tweenKilled = true;
@@ -199,6 +235,9 @@ namespace DOTweenModular
 
         #endregion
 
+        /// <summary>
+        /// Invoked by OnTweenCreated/OnTweenPlayed events of tweenObject
+        /// </summary>
         private void TweenObjectTween()
         {
             CreateTween();
