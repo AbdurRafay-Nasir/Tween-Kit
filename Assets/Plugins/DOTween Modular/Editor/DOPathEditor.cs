@@ -303,6 +303,8 @@ namespace DOTweenModular.Editor
             if (doPath.pathType != DG.Tweening.PathType.CubicBezier)
                 DrawProperty(closePathProp);
 
+            DrawSeparatorLine();
+
             DrawProperty(speedBasedProp);
             DrawProperty(relativeProp);
         }
