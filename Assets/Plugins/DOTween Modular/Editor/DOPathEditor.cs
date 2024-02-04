@@ -1,10 +1,9 @@
 #if UNITY_EDITOR
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using DOTweenModular.Miscellaneous;
-using System;
-using System.Collections.Generic;
 
 namespace DOTweenModular.Editor
 {
@@ -394,12 +393,12 @@ namespace DOTweenModular.Editor
 
         private void DrawAbsoluteCatmullRomPath(Vector3 startPosition, Vector3[] points, bool closed)
         {
-            List<Vector3> catmullRomPoints = Curve.CatmullRom.GetSpline(startPosition, points, 
-                                                                        doPath.resolution, closed);
+            Vector3[] catmullRomPoints = Curve.CatmullRom.GetSpline(startPosition, points, 
+                                                                    doPath.resolution, closed);
 
             Vector3 currentLineStart = catmullRomPoints[0];
 
-            for (int i = 0; i < catmullRomPoints.Count; i++)
+            for (int i = 0; i < catmullRomPoints.Length; i++)
             {
                 DrawLine(currentLineStart, catmullRomPoints[i], Color.green);
                 currentLineStart = catmullRomPoints[i];

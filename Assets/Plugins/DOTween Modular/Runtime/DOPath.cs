@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using DOTweenModular.Enums;
+using DOTweenModular.Miscellaneous;
 
 namespace DOTweenModular
 {
@@ -43,23 +44,20 @@ namespace DOTweenModular
 
         public override Tween CreateTween()
         {
-            Tween = lookAt switch
+            switch (pathType)
             {
-                LookAtAdvanced.Position =>   transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
-                                                      .SetOptions(closePath)
-                                                      .SetLookAt(lookAtPosition, stableZRotation),
+                case PathType.Linear:
+                    SetupLinearTweenWithLookAt();
+                    break;
 
-                LookAtAdvanced.Transform =>  transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
-                                                      .SetOptions(closePath)
-                                                      .SetLookAt(lookAtTarget, stableZRotation),
+                case PathType.CatmullRom:
+                    SetupCatmullRomTweenWithLookAt();
+                    break;
 
-                LookAtAdvanced.Percentage => transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
-                                                      .SetOptions(closePath)
-                                                      .SetLookAt(lookAhead, stableZRotation),
-
-                _ => transform.DOPath(pathPoints, duration, pathType, pathMode, resolution)
-                              .SetOptions(closePath),
-            };
+                case PathType.CubicBezier:
+                    SetupCubicBezierTweenWithLookAt();
+                    break;
+            }
 
             if (easeType == Ease.INTERNAL_Custom)
                 Tween.SetEase(curve);
@@ -76,6 +74,67 @@ namespace DOTweenModular
             TweenCreated();
 
             return Tween;
+        }
+
+        private void SetupLinearTweenWithLookAt()
+        {
+            Tween = lookAt switch
+            {
+                LookAtAdvanced.Position =>   transform.DOPath(pathPoints, duration, PathType.Linear, pathMode, 1)
+                                                      .SetOptions(closePath)
+                                                      .SetLookAt(lookAtPosition, stableZRotation),
+
+                LookAtAdvanced.Transform =>  transform.DOPath(pathPoints, duration, PathType.Linear, pathMode, 1)
+                                                      .SetOptions(closePath)
+                                                      .SetLookAt(lookAtTarget, stableZRotation),
+
+                LookAtAdvanced.Percentage => transform.DOPath(pathPoints, duration, PathType.Linear, pathMode, 1)
+                                                      .SetOptions(closePath)
+                                                      .SetLookAt(lookAhead, stableZRotation),
+
+                _ => transform.DOPath(pathPoints, duration, PathType.Linear, pathMode, 1)
+                              .SetOptions(closePath),
+            };
+        }
+
+        private void SetupCatmullRomTweenWithLookAt()
+        {
+            Vector3[] catmullRomPoints = Curve.CatmullRom.GetSpline(transform.position, pathPoints,
+                                                                        resolution, closePath);
+
+            Tween = lookAt switch
+            {
+                LookAtAdvanced.Position =>   transform.DOPath(catmullRomPoints, duration, PathType.Linear, pathMode, resolution)                                                      
+                                                      .SetLookAt(lookAtPosition, stableZRotation),
+
+                LookAtAdvanced.Transform =>  transform.DOPath(catmullRomPoints, duration, PathType.Linear, pathMode, resolution)
+                                                      .SetLookAt(lookAtTarget, stableZRotation),
+
+                LookAtAdvanced.Percentage => transform.DOPath(catmullRomPoints, duration, PathType.Linear, pathMode, resolution)
+                                                      .SetLookAt(lookAhead, stableZRotation),
+
+                _ => transform.DOPath(catmullRomPoints, duration, PathType.Linear, pathMode, resolution)                              
+            };
+        }
+
+        private void SetupCubicBezierTweenWithLookAt()
+        {
+            Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(transform.position, pathPoints,
+                                                                          resolution);
+
+            Tween = lookAt switch
+            {
+                LookAtAdvanced.Position =>   transform.DOPath(cubicBezierPoints, duration, PathType.Linear, pathMode, resolution)
+                                                      .SetLookAt(lookAtPosition, stableZRotation),
+
+                LookAtAdvanced.Transform =>  transform.DOPath(cubicBezierPoints, duration, PathType.Linear, pathMode, resolution)
+                                                      .SetLookAt(lookAtTarget, stableZRotation),
+
+                LookAtAdvanced.Percentage => transform.DOPath(cubicBezierPoints, duration, PathType.Linear, pathMode, resolution)
+                                                      .SetLookAt(lookAhead, stableZRotation),
+
+                _ => transform.DOPath(cubicBezierPoints, duration, PathType.Linear, pathMode, resolution)
+            };
         }
     }
 }
