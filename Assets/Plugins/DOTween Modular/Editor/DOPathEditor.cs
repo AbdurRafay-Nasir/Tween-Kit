@@ -287,7 +287,10 @@ namespace DOTweenModular.Editor
         {
             DrawProperty(pathTypeProp);
             DrawProperty(pathModeProp);
-            DrawProperty(resolutionProp);
+            
+            if (doPath.pathType != DG.Tweening.PathType.Linear)
+                DrawProperty(resolutionProp);
+
             DrawProperty(closePathProp);
             DrawProperty(speedBasedProp);
             DrawProperty(relativeProp);
