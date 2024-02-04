@@ -170,7 +170,7 @@ namespace DOTweenModular.Editor
 
             Vector3 handlePosition = CalculateTargetPosition(doShapeCircle.transform.position);
 
-            doShapeCircle.center += DrawHandle(handlePosition);
+            doShapeCircle.center += (Vector2)DrawHandle(handlePosition);
             DrawLine(doShapeCircle.transform.position, handlePosition, Color.green);
         }
 
@@ -180,9 +180,13 @@ namespace DOTweenModular.Editor
 
         private void DrawCircleSettings()
         {
-            DrawProperty(useLocalProp);
-            DrawProperty(relativeProp);
             DrawProperty(snappingProp);
+
+            if (!doShapeCircle.relative)
+                DrawProperty(useLocalProp);
+
+            if (!doShapeCircle.useLocal)
+                DrawProperty(relativeProp);
         }
 
         protected override void DrawValues()
@@ -215,7 +219,7 @@ namespace DOTweenModular.Editor
 
         private Vector3 CalculateTargetPosition(Vector3 currentPosition)
         {
-            Vector3 handlePosition;
+            Vector2 handlePosition;
 
             if (doShapeCircle.useLocal && !doShapeCircle.relative)
             {
@@ -236,13 +240,13 @@ namespace DOTweenModular.Editor
                 {
                     if (relativeFlags.firstTimeRelative)
                     {
-                        doShapeCircle.center = doShapeCircle.center - doShapeCircle.transform.position;
+                        doShapeCircle.center = doShapeCircle.center - (Vector2)doShapeCircle.transform.position;
 
                         Undo.RecordObject(relativeFlags, "DOShapeCircleEditor_firstTimeNonRelative");
                         relativeFlags.firstTimeRelative = false;
                     }
 
-                    handlePosition = currentPosition + doShapeCircle.center;
+                    handlePosition = (Vector2)currentPosition + doShapeCircle.center;
 
                     relativeFlags.firstTimeNonRelative = true;
                 }
@@ -250,7 +254,7 @@ namespace DOTweenModular.Editor
                 {
                     if (relativeFlags.firstTimeNonRelative)
                     {
-                        doShapeCircle.center = doShapeCircle.center + doShapeCircle.transform.position;
+                        doShapeCircle.center = doShapeCircle.center + (Vector2)doShapeCircle.transform.position;
 
                         Undo.RecordObject(relativeFlags, "DOShapeCircleEditor_firstTimeRelative");
                         relativeFlags.firstTimeNonRelative = false;

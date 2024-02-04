@@ -4,22 +4,24 @@ using DOTweenModular.Miscellaneous;
 
 namespace DOTweenModular
 {
+    [AddComponentMenu("DOTween Modular/DO Shape Circle")]
     public sealed class DOShapeCircle : DOBase
     {
         #region Properties
 
-        [Tooltip("If TRUE, game object will move in local space")]
+        [Tooltip("If TRUE the gameObject will move in Local Space, regardless of 'relative")]
         public bool useLocal;
 
-        [Tooltip("If TRUE, the center will be calculated as: " + "\n" +
-          "center = center + transform.position")]
+        [Tooltip("If TRUE the gameObject will move relative to current Position in world space, regardless of 'Use Local'" + "\n" +
+                 "center will be calculated as: " + "\n" +
+                 "center = center + transform.position")]
         public bool relative;
 
         [Tooltip("If TRUE, the tween will smoothly snap all values to integers")]
         public bool snapping;
 
         [Tooltip("Center of Circle")]
-        public Vector3 center;
+        public Vector2 center;
 
         [Tooltip("The degree at which object will stop, 360 means mid of 1st & 2nd Quadrant")]
         public float endDegree;
@@ -41,7 +43,6 @@ namespace DOTweenModular
             if (tweenType == Enums.TweenType.Looped)
                 Tween.SetLoops(loops, loopType);
 
-            Tween.SetRelative(relative);
             Tween.SetDelay(delay);
 
             TweenCreated();
