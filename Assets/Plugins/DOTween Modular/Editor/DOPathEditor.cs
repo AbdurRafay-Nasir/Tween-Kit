@@ -493,8 +493,8 @@ namespace DOTweenModular.Editor
         {
             for (int i = 0; i < doPath.pathPoints.Length; i += 3)
             {
-                doPath.pathPoints[i] += DrawSphereHandle(doPath.pathPoints[i], 1f);
-                doPath.pathPoints[i + 1] += DrawSphereHandle(doPath.pathPoints[i + 1], 1f);
+                doPath.pathPoints[i] += DrawSphereHandle(doPath.pathPoints[i], 0.5f);
+                doPath.pathPoints[i + 1] += DrawSphereHandle(doPath.pathPoints[i + 1], 0.5f);
 
                 doPath.pathPoints[i + 2] += DrawHandle(doPath.pathPoints[i + 2]);
             }
@@ -504,8 +504,8 @@ namespace DOTweenModular.Editor
         {
             for (int i = 0; i < doPath.pathPoints.Length; i += 3)
             {
-                doPath.pathPoints[i] += DrawSphereHandle(doPath.transform.position + doPath.pathPoints[i], 1f);
-                doPath.pathPoints[i + 1] += DrawSphereHandle(doPath.transform.position + doPath.pathPoints[i + 1], 1f);
+                doPath.pathPoints[i] += DrawSphereHandle(doPath.transform.position + doPath.pathPoints[i], 0.5f);
+                doPath.pathPoints[i + 1] += DrawSphereHandle(doPath.transform.position + doPath.pathPoints[i + 1], 0.5f);
 
                 doPath.pathPoints[i + 2] += DrawHandle(doPath.transform.position + doPath.pathPoints[i + 2]);
             }
