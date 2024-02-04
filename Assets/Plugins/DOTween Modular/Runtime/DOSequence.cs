@@ -3,8 +3,10 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
+    [AddComponentMenu("DOTween Modular/DO Sequence")]
     public sealed class DOSequence : DOBase
     {
+        [Tooltip("The DO Compoents of which this sequence will be made")]
         public SequenceTweens[] sequenceTweens;
 
         public override Tween CreateTween()
@@ -37,7 +39,7 @@ namespace DOTweenModular
         [Tooltip("If TRUE, this Tween Object will play with previous Tween Object, has no effect if this is first Tween Object")]
         public bool join;
 
-        [Tooltip("Tween to play")]
+        [Tooltip("DO Component Tween to play")]
         public DOBase tweenObject;
     }
 }
