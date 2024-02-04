@@ -13,8 +13,8 @@ namespace DOTweenModular.Enums
         [Tooltip("Start when something enters the trigger")]
         OnTrigger,
 
-        [Tooltip("Will not start on its own, you have to either manually call CreateTween() & " + "\n" +
-                 "Tween.Play(), or use this componenet in a sequence component")]
+        [Tooltip("Will not start on its own, you have to either manually call CreateTween().PlayTween()" + "\n" +
+                 "or use this componenet in a sequence component")]
         Manual,
     
         [Tooltip("Start AFTER Tween Object's tween is completed")]
@@ -29,14 +29,14 @@ namespace DOTweenModular.Enums
         Simple, Looped    
     }
 
-    public enum LookAtAdvanced
-    {
-        None, Position, Transform, Percentage
-    }
-
     public enum LookAtSimple
     {
         None, Position, Transform
+    }
+
+    public enum LookAtAdvanced
+    {
+        None, Position, Transform, Percentage
     }
 
 }
