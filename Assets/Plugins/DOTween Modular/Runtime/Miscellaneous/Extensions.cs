@@ -209,20 +209,6 @@ namespace DOTweenModular.Miscellaneous
             transform.rotation = Quaternion.Slerp(transform.rotation, rotGoal, interpolate);
         }
 
-        /// <summary>
-        /// Rotate on Z-Axis to Look At target
-        /// </summary>
-        /// <param name="target">The target to look at</param>
-        /// <param name="offset">Offset to add in Z Rotation, -90 makes the game Object Look At the target</param>
-        /// <param name="interpolate">How smoothly the Game Object will rotate to Look At target, 1 means no smoothness</param>
-        public static void LookAt2DSmooth(this Transform transform, Transform target, float offset, float interpolate)
-        {
-            Vector2 direction = (target.position - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(0f, 0f, angle + offset);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, interpolate);
-        }
-
         #endregion
 
 
