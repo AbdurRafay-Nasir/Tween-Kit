@@ -30,9 +30,8 @@ namespace DOTweenModular.Editor
         private DOPath doPath;
         private RelativeFlags relativeFlags;
 
-        private string tweenPreviewKey;
-        private string rotationkey;
         private string positionKey;
+        private string rotationkey;
 
         private Vector3 startPosition;
 
@@ -45,9 +44,10 @@ namespace DOTweenModular.Editor
             doPath = (DOPath)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
-            tweenPreviewKey = "DOPath_preview" + instanceId;
-            rotationkey = "DOPath_LookAt_" + doPath.gameObject.GetInstanceID();
             positionKey = "DOPath_" + instanceId;
+            rotationkey = "DOPath_LookAt_" + doPath.gameObject.GetInstanceID();
+
+            startPosition = doPath.transform.position;
 
             pathTypeProp = serializedObject.FindProperty("pathType");
             pathModeProp = serializedObject.FindProperty("pathMode");
@@ -228,10 +228,8 @@ namespace DOTweenModular.Editor
             if (doPath.pathPoints == null)
                 return;
 
-            if (!SessionState.GetBool(tweenPreviewKey, false))
-            {
+            if (!tweenPreviewing)
                 startPosition = doPath.transform.position;
-            }
 
             if (doPath.relative)
             {
@@ -242,19 +240,19 @@ namespace DOTweenModular.Editor
                     case DG.Tweening.PathType.Linear:
 
                         DrawRelativeLinearPath(startPosition, doPath.closePath);
-                        DrawRelativeSimpleHandles();
+                        DrawRelativeSimpleHandles(startPosition);
                         break;
 
                     case DG.Tweening.PathType.CatmullRom:
                         DrawRelativeCatmullRomPath(startPosition, doPath.pathPoints, doPath.closePath);
-                        DrawRelativeSimpleHandles();
+                        DrawRelativeSimpleHandles(startPosition);
                         break;
 
                     case DG.Tweening.PathType.CubicBezier:
                         if (doPath.pathPoints.Length % 3 == 0)
                         {
                             DrawRelativeCubicBezierPath(startPosition);
-                            DrawRelativeCubicBezierHandles();
+                            DrawRelativeCubicBezierHandles(startPosition);
                         }
                         break;
                 }
@@ -262,7 +260,7 @@ namespace DOTweenModular.Editor
             }
             else
             {
-                ConvertPointsToAbsolute(startPosition);
+                ConvertPointsToAbsolute(doPath.transform.position);
 
                 switch (doPath.pathType)
                 {
@@ -490,11 +488,11 @@ namespace DOTweenModular.Editor
             }
         }
 
-        private void DrawRelativeSimpleHandles()
+        private void DrawRelativeSimpleHandles(Vector3 startPosition)
         {
             for (int i = 0; i < doPath.pathPoints.Length; i++)
             {
-                doPath.pathPoints[i] += DrawHandle(doPath.transform.position + doPath.pathPoints[i]);
+                doPath.pathPoints[i] += DrawHandle(startPosition + doPath.pathPoints[i]);
             }
         }
 
@@ -509,14 +507,14 @@ namespace DOTweenModular.Editor
             }
         }
 
-        private void DrawRelativeCubicBezierHandles()
+        private void DrawRelativeCubicBezierHandles(Vector3 startPosition)
         {
             for (int i = 0; i < doPath.pathPoints.Length; i += 3)
             {
-                doPath.pathPoints[i] += DrawSphereHandle(doPath.transform.position + doPath.pathPoints[i], 0.5f);
-                doPath.pathPoints[i + 1] += DrawSphereHandle(doPath.transform.position + doPath.pathPoints[i + 1], 0.5f);
+                doPath.pathPoints[i] += DrawSphereHandle(startPosition + doPath.pathPoints[i], 0.5f);
+                doPath.pathPoints[i + 1] += DrawSphereHandle(startPosition + doPath.pathPoints[i + 1], 0.5f);
 
-                doPath.pathPoints[i + 2] += DrawHandle(doPath.transform.position + doPath.pathPoints[i + 2]);
+                doPath.pathPoints[i + 2] += DrawHandle(startPosition + doPath.pathPoints[i + 2]);
             }
         }
 
@@ -590,7 +588,6 @@ namespace DOTweenModular.Editor
 
             startPosition = doPath.transform.position;
 
-            SessionState.SetBool(tweenPreviewKey, true);
             SessionState.SetVector3(rotationkey, doPath.transform.localEulerAngles);
             SessionState.SetVector3(positionKey, doPath.transform.position);
         }
@@ -599,7 +596,6 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStopped();
 
-            SessionState.SetBool(tweenPreviewKey, false);
             doPath.transform.localEulerAngles = SessionState.GetVector3(rotationkey, doPath.transform.localEulerAngles);
             doPath.transform.position = SessionState.GetVector3(positionKey, doPath.transform.position);
         }
