@@ -17,7 +17,7 @@ namespace DOTweenModular.Editor
         private SerializedProperty closePathProp;
         private SerializedProperty speedBasedProp;
         private SerializedProperty relativeProp;
-        private SerializedProperty pathPointsProp;
+        private SerializedProperty wayPointsProp;
 
         private SerializedProperty lookAtProp;
         private SerializedProperty lookAtPositionProp;
@@ -55,7 +55,7 @@ namespace DOTweenModular.Editor
             closePathProp = serializedObject.FindProperty("closePath");
             speedBasedProp = serializedObject.FindProperty("speedBased");
             relativeProp = serializedObject.FindProperty("relative");
-            pathPointsProp = serializedObject.FindProperty("pathPoints");
+            wayPointsProp = serializedObject.FindProperty("wayPoints");
 
             lookAtProp = serializedObject.FindProperty("lookAt");
             lookAtPositionProp = serializedObject.FindProperty("lookAtPosition");
@@ -168,7 +168,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                DrawProperty(pathPointsProp);
+                DrawProperty(wayPointsProp);
             }
 
 
@@ -225,7 +225,7 @@ namespace DOTweenModular.Editor
 
             DrawLookAtLine();
 
-            if (doPath.pathPoints == null)
+            if (doPath.wayPoints == null)
                 return;
 
             if (!tweenPreviewing)
@@ -244,12 +244,12 @@ namespace DOTweenModular.Editor
                         break;
 
                     case DG.Tweening.PathType.CatmullRom:
-                        DrawRelativeCatmullRomPath(startPosition, doPath.pathPoints, doPath.closePath);
+                        DrawRelativeCatmullRomPath(startPosition, doPath.wayPoints, doPath.closePath);
                         DrawRelativeSimpleHandles(startPosition);
                         break;
 
                     case DG.Tweening.PathType.CubicBezier:
-                        if (doPath.pathPoints.Length % 3 == 0)
+                        if (doPath.wayPoints.Length % 3 == 0)
                         {
                             DrawRelativeCubicBezierPath(startPosition);
                             DrawRelativeCubicBezierHandles(startPosition);
@@ -270,12 +270,12 @@ namespace DOTweenModular.Editor
                         break;
 
                     case DG.Tweening.PathType.CatmullRom:
-                        DrawAbsoluteCatmullRomPath(startPosition, doPath.pathPoints, doPath.closePath);
+                        DrawAbsoluteCatmullRomPath(startPosition, doPath.wayPoints, doPath.closePath);
                         DrawAbsoluteSimpleHandles();
                         break;
 
                     case DG.Tweening.PathType.CubicBezier:
-                        if (doPath.pathPoints.Length % 3 == 0)
+                        if (doPath.wayPoints.Length % 3 == 0)
                         {
                             DrawAbsoluteCubicBezierPath(startPosition);
                             DrawAbsoluteCubicBezierHandles();
@@ -373,10 +373,10 @@ namespace DOTweenModular.Editor
         {
             Vector3 lineStart = startPosition;
 
-            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            for (int i = 0; i < doPath.wayPoints.Length; i++)
             {
-                DrawLine(lineStart, doPath.pathPoints[i], Color.green);
-                lineStart = doPath.pathPoints[i];
+                DrawLine(lineStart, doPath.wayPoints[i], Color.green);
+                lineStart = doPath.wayPoints[i];
             }
 
             if (closed)
@@ -387,10 +387,10 @@ namespace DOTweenModular.Editor
         {
             Vector3 lineStart = startPosition;
 
-            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            for (int i = 0; i < doPath.wayPoints.Length; i++)
             {
-                DrawLine(lineStart, startPosition + doPath.pathPoints[i], Color.green);
-                lineStart = startPosition + doPath.pathPoints[i];
+                DrawLine(lineStart, startPosition + doPath.wayPoints[i], Color.green);
+                lineStart = startPosition + doPath.wayPoints[i];
             }
 
             if (closed)
@@ -425,7 +425,7 @@ namespace DOTweenModular.Editor
 
         private void DrawAbsoluteCubicBezierPath(Vector3 startPosition)
         {
-            Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(startPosition, doPath.pathPoints,
+            Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(startPosition, doPath.wayPoints,
                                                                       doPath.resolution);
 
             if (cubicBezierPoints == null)
@@ -439,18 +439,18 @@ namespace DOTweenModular.Editor
                 currentLineStart = cubicBezierPoints[i];
             }
 
-            DrawLine(startPosition, doPath.pathPoints[0], Color.green);
-            DrawLine(doPath.pathPoints[1], doPath.pathPoints[2], Color.green);
+            DrawLine(startPosition, doPath.wayPoints[0], Color.green);
+            DrawLine(doPath.wayPoints[1], doPath.wayPoints[2], Color.green);
 
-            for (int i = 2; i < doPath.pathPoints.Length - 1; i += 2)
+            for (int i = 2; i < doPath.wayPoints.Length - 1; i += 2)
             {
-                DrawLine(doPath.pathPoints[i], doPath.pathPoints[i + 1], Color.green, 0.5f);
+                DrawLine(doPath.wayPoints[i], doPath.wayPoints[i + 1], Color.green, 0.5f);
             }
         }
 
         private void DrawRelativeCubicBezierPath(Vector3 startPosition)
         {
-            Vector3[] absoultePoints = (Vector3[])doPath.pathPoints.Clone();
+            Vector3[] absoultePoints = (Vector3[])doPath.wayPoints.Clone();
 
             for (int i = 0; i < absoultePoints.Length; i++)
             {
@@ -474,7 +474,7 @@ namespace DOTweenModular.Editor
             DrawLine(startPosition, absoultePoints[0], Color.green);
             DrawLine(absoultePoints[1], absoultePoints[2], Color.green);
 
-            for (int i = 2; i < doPath.pathPoints.Length - 1; i += 2)
+            for (int i = 2; i < doPath.wayPoints.Length - 1; i += 2)
             {
                 DrawLine(absoultePoints[i], absoultePoints[i + 1], Color.green, 0.5f);
             }
@@ -482,39 +482,39 @@ namespace DOTweenModular.Editor
 
         private void DrawAbsoluteSimpleHandles()
         {
-            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            for (int i = 0; i < doPath.wayPoints.Length; i++)
             {
-                doPath.pathPoints[i] += DrawHandle(doPath.pathPoints[i]);
+                doPath.wayPoints[i] += DrawHandle(doPath.wayPoints[i]);
             }
         }
 
         private void DrawRelativeSimpleHandles(Vector3 startPosition)
         {
-            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            for (int i = 0; i < doPath.wayPoints.Length; i++)
             {
-                doPath.pathPoints[i] += DrawHandle(startPosition + doPath.pathPoints[i]);
+                doPath.wayPoints[i] += DrawHandle(startPosition + doPath.wayPoints[i]);
             }
         }
 
         private void DrawAbsoluteCubicBezierHandles()
         {
-            for (int i = 0; i < doPath.pathPoints.Length; i += 3)
+            for (int i = 0; i < doPath.wayPoints.Length; i += 3)
             {
-                doPath.pathPoints[i] += DrawSphereHandle(doPath.pathPoints[i], 0.5f);
-                doPath.pathPoints[i + 1] += DrawSphereHandle(doPath.pathPoints[i + 1], 0.5f);
+                doPath.wayPoints[i] += DrawSphereHandle(doPath.wayPoints[i], 0.5f);
+                doPath.wayPoints[i + 1] += DrawSphereHandle(doPath.wayPoints[i + 1], 0.5f);
 
-                doPath.pathPoints[i + 2] += DrawHandle(doPath.pathPoints[i + 2]);
+                doPath.wayPoints[i + 2] += DrawHandle(doPath.wayPoints[i + 2]);
             }
         }
 
         private void DrawRelativeCubicBezierHandles(Vector3 startPosition)
         {
-            for (int i = 0; i < doPath.pathPoints.Length; i += 3)
+            for (int i = 0; i < doPath.wayPoints.Length; i += 3)
             {
-                doPath.pathPoints[i] += DrawSphereHandle(startPosition + doPath.pathPoints[i], 0.5f);
-                doPath.pathPoints[i + 1] += DrawSphereHandle(startPosition + doPath.pathPoints[i + 1], 0.5f);
+                doPath.wayPoints[i] += DrawSphereHandle(startPosition + doPath.wayPoints[i], 0.5f);
+                doPath.wayPoints[i + 1] += DrawSphereHandle(startPosition + doPath.wayPoints[i + 1], 0.5f);
 
-                doPath.pathPoints[i + 2] += DrawHandle(startPosition + doPath.pathPoints[i + 2]);
+                doPath.wayPoints[i + 2] += DrawHandle(startPosition + doPath.wayPoints[i + 2]);
             }
         }
 
@@ -547,9 +547,9 @@ namespace DOTweenModular.Editor
             if (relativeFlags.firstTimeRelative)
             {
 
-                for (int i = 0; i < doPath.pathPoints.Length; i++)
+                for (int i = 0; i < doPath.wayPoints.Length; i++)
                 {
-                    doPath.pathPoints[i] -= relativeTo;
+                    doPath.wayPoints[i] -= relativeTo;
                 }
 
                 Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeNonRelative");
@@ -565,9 +565,9 @@ namespace DOTweenModular.Editor
             if (relativeFlags.firstTimeNonRelative)
             {
 
-                for (int i = 0; i < doPath.pathPoints.Length; i++)
+                for (int i = 0; i < doPath.wayPoints.Length; i++)
                 {
-                    doPath.pathPoints[i] += absoluteTo;
+                    doPath.wayPoints[i] += absoluteTo;
                 }
 
                 Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeRelative");

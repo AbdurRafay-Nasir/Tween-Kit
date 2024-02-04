@@ -5,6 +5,7 @@ using DOTweenModular.Miscellaneous;
 
 namespace DOTweenModular
 {
+    [AddComponentMenu("DOTween Modular/DO Path")]
     public sealed class DOPath : DOBase
     {
         #region Path Properties
@@ -12,14 +13,16 @@ namespace DOTweenModular
         [Tooltip("Type of Path")]
         public PathType pathType;
 
+        [Tooltip("Used to determine correct LookAt orientation")]
         public PathMode pathMode;
 
-        [Tooltip("Smoothness of the Path")]
+        [Tooltip("Smoothness of the Path, minimum value is 1")]
         [Min(1f)] public int resolution = 1;
 
+        [Tooltip("If TRUE, the last point and transform.position will be connected")]
         public bool closePath;
 
-        [Tooltip("If TRUE, the tween will Move duration amount in each second")]
+        [Tooltip("If TRUE, the tween will move 'duration' amount in each second")]
         public bool speedBased;
 
         [Tooltip("If TRUE, the targetPosition will be calculated as: " + "\n" +
@@ -27,17 +30,30 @@ namespace DOTweenModular
                  "pathPoints[1] = pathPoints[1] + transform.position and so on")]
         public bool relative;
 
-        [Tooltip("The Points at which object will move")]
-        public Vector3[] pathPoints;
+        [Tooltip("The Points through which gameObject will move")]
+        public Vector3[] wayPoints;
 
         #endregion
 
         #region LookAt Properties
 
+        [Tooltip("The type of Look At: " + "\n" + "\n" +
+                 "None - Nothing to Look At, what did you expect?" + "\n" +
+                 "Position - The Position to Look At, useful when lookAt target won't move" + "\n" +
+                 "Transform - The gameObject to Look At, useful when lookAt target can/will move" + "\n" + 
+                 "Percentage - Rotate along the path")]
         public LookAtAdvanced lookAt;
+
+        [Tooltip("The Position to Look At")]
         public Vector3 lookAtPosition;
+
+        [Tooltip("The gameObject to Look At")]
         public Transform lookAtTarget;
+
+        [Tooltip("The percentage of lookAhead to use (0 to 1)")]
         [Range(0f, 1f)] public float lookAhead;
+
+        [Tooltip("If TRUE doesn't rotate the gameObject along the Z-axis")]
         public bool stableZRotation;
 
         #endregion
@@ -79,19 +95,19 @@ namespace DOTweenModular
         {
             Tween = lookAt switch
             {
-                LookAtAdvanced.Position =>   transform.DOPath(pathPoints, duration, PathType.Linear, pathMode, 1)
+                LookAtAdvanced.Position =>   transform.DOPath(wayPoints, duration, PathType.Linear, pathMode, 1)
                                                       .SetOptions(closePath)
                                                       .SetLookAt(lookAtPosition, stableZRotation),
 
-                LookAtAdvanced.Transform =>  transform.DOPath(pathPoints, duration, PathType.Linear, pathMode, 1)
+                LookAtAdvanced.Transform =>  transform.DOPath(wayPoints, duration, PathType.Linear, pathMode, 1)
                                                       .SetOptions(closePath)
                                                       .SetLookAt(lookAtTarget, stableZRotation),
 
-                LookAtAdvanced.Percentage => transform.DOPath(pathPoints, duration, PathType.Linear, pathMode, 1)
+                LookAtAdvanced.Percentage => transform.DOPath(wayPoints, duration, PathType.Linear, pathMode, 1)
                                                       .SetOptions(closePath)
                                                       .SetLookAt(lookAhead, stableZRotation),
 
-                _ => transform.DOPath(pathPoints, duration, PathType.Linear, pathMode, 1)
+                _ => transform.DOPath(wayPoints, duration, PathType.Linear, pathMode, 1)
                               .SetOptions(closePath),
             };
 
@@ -100,7 +116,7 @@ namespace DOTweenModular
 
         private void SetupCatmullRomTweenWithLookAt()
         {
-            Vector3[] absolutePoints = (Vector3[])pathPoints.Clone();
+            Vector3[] absolutePoints = (Vector3[])wayPoints.Clone();
 
             if (relative)
             {
@@ -130,7 +146,7 @@ namespace DOTweenModular
 
         private void SetupCubicBezierTweenWithLookAt()
         {
-            Vector3[] absolutePoints = (Vector3[])pathPoints.Clone();
+            Vector3[] absolutePoints = (Vector3[])wayPoints.Clone();
 
             if (relative)
             {
