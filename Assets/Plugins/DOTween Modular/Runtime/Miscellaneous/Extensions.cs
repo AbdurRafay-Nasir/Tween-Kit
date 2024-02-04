@@ -210,7 +210,5 @@ namespace DOTweenModular.Miscellaneous
         }
 
         #endregion
-
-
     }
 }

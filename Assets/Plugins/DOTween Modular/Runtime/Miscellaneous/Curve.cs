@@ -4,11 +4,14 @@ using System.Collections.Generic;
 namespace DOTweenModular.Miscellaneous
 {
     /// <summary>
-    /// Utility methods for generating Curves
+    /// Utility Class for generating Curves
     /// </summary>
     public static class Curve
     {
 
+        /// <summary>
+        /// Utility Class for generating Catmull-Rom Splines
+        /// </summary>
         public static class CatmullRom
         {
 
@@ -19,7 +22,7 @@ namespace DOTweenModular.Miscellaneous
             /// <param name="points">The points used to create Catmull-Rom Spline.</param>
             /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are computationally expensive</param>
             /// <param name="closed">If true connects startPosition with last point</param>
-            /// <returns>A List of points representing a Open or Closed Catmull-Rom spline.</returns>
+            /// <returns>Array of points representing a Open or Closed Catmull-Rom spline.</returns>
             public static Vector3[] GetSpline(Vector3 startPosition, Vector3[] points, int resolution = 5, bool closed = false)
             {
                 if (closed)
@@ -35,7 +38,7 @@ namespace DOTweenModular.Miscellaneous
             /// <param name="startPosition">The point from which the curve will start, usually transform.position.</param>
             /// <param name="points">The points used to create the Open Catmull-Rom Spline.</param>
             /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are computationally more expensive.</param>
-            /// <returns>A List of points representing an Open Catmull-Rom spline.</returns>
+            /// <returns>Array of points representing an Open Catmull-Rom spline.</returns>
             public static Vector3[] GetOpenSpline(Vector3 startPosition, Vector3[] points, int resolution)
             {
                 List<Vector3> modifiedPoints = new();
@@ -127,6 +130,9 @@ namespace DOTweenModular.Miscellaneous
 
         }
 
+        /// <summary>
+        /// Utility Class for generating Cubic Bezier Splines
+        /// </summary>
         public static class CubicBezier
         {
 
@@ -136,7 +142,7 @@ namespace DOTweenModular.Miscellaneous
             /// <param name="startPosition">The starting position of the path, often `transform.position`.</param>
             /// <param name="points">The points used to create the cubic Bezier curve.</param>
             /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are more computationally expensive.</param>
-            /// <returns>An array of points representing a cubic Bezier curve.</returns>
+            /// <returns>Array of points representing a cubic Bezier curve.</returns>
             /// <remarks>Returns NULL if points are NULL or the number of points is not a multiple of 3.</remarks>
             public static Vector3[] GetSpline(Vector3 startPosition, Vector3[] points, int resolution)
             {
