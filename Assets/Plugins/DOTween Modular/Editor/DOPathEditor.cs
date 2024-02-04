@@ -260,7 +260,7 @@ namespace DOTweenModular.Editor
                 {
                     case DG.Tweening.PathType.Linear:
 
-                        DrawAbsoluteLinearPath(doPath.transform.position, doPath.closePath, Color.green);
+                        DrawAbsoluteLinearPath(doPath.transform.position, doPath.closePath);
                         DrawAbsoluteSimpleHandles();
                         break;
 
@@ -354,19 +354,18 @@ namespace DOTweenModular.Editor
 
         #region Scene Draw Functions
 
-        private void DrawAbsoluteLinearPath(Vector3 startPosition, bool closed, 
-                                            Color lineColor, float lineThickness = 2f)
+        private void DrawAbsoluteLinearPath(Vector3 startPosition, bool closed)
         {
             Vector3 lineStart = startPosition;
 
             for (int i = 0; i < doPath.pathPoints.Length; i++)
             {
-                DrawLine(lineStart, doPath.pathPoints[i], lineColor, lineThickness);
+                DrawLine(lineStart, doPath.pathPoints[i], Color.green);
                 lineStart = doPath.pathPoints[i];
             }
 
             if (closed)
-                DrawLine(lineStart, startPosition, lineColor, lineThickness);
+                DrawLine(lineStart, startPosition, Color.green);
         }
 
         private void DrawRelativeLinearPath(Vector3 startPosition, bool closed)
