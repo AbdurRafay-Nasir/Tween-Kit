@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace DOTweenModular.Miscellaneous
 {
@@ -14,93 +13,103 @@ namespace DOTweenModular.Miscellaneous
         {
 
             /// <summary>
-            /// Generates an open Catmull-Rom spline curve.
+            /// Generates Catmull-Rom spline.
             /// </summary>
             /// <param name="startPosition">The point from which the curve will start, usually transform.position.</param>
-            /// <param name="points">The points used to create the open Catmull-Rom curve.</param>
-            /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are more computationally expensive.</param>
-            /// <returns>An array of points representing an open Catmull-Rom spline curve.</returns>
-            /// <remarks>Returns NULL if points are NULL or the number of points is less than 2.</remarks>
-            public static Vector3[] GetOpenSpline(Vector3 startPosition, Vector3[] points, int resolution)
+            /// <param name="points">The points used to create Catmull-Rom Spline.</param>
+            /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are computationally expensive</param>
+            /// <param name="closed">If true connects startPosition with last point</param>
+            /// <returns>A List of points representing a Open or Closed Catmull-Rom spline.</returns>
+            public static List<Vector3> GetSpline(Vector3 startPosition, Vector3[] points, int resolution = 5, bool closed = false)
             {
-                if (points == null || points.Length < 2)
-                    return null;
+                if (closed)
+                    return GetClosedSpline(startPosition, points, resolution);
 
-                Vector3[] pointsWithStartPosition = new Vector3[points.Length + 1];
-                pointsWithStartPosition[0] = startPosition;
-                Array.Copy(points, 0, pointsWithStartPosition, 1, points.Length);
-
-                List<Vector3> catmullRomPoints = new List<Vector3>();
-
-                // Loop through the points, computing the Catmull-Rom spline segments
-                for (int i = 0; i < pointsWithStartPosition.Length - 1; i++)
-                {
-                    // Calculate the control points for this segment
-                    Vector3 previousPoint = (i == 0) ? pointsWithStartPosition[i] : pointsWithStartPosition[i - 1];
-                    Vector3 currentPoint = pointsWithStartPosition[i];
-                    Vector3 nextPoint = pointsWithStartPosition[i + 1];
-                    Vector3 nextNextPoint = (i + 2 == pointsWithStartPosition.Length) ?
-                                            pointsWithStartPosition[pointsWithStartPosition.Length - 1] :
-                                            pointsWithStartPosition[i + 2];
-
-                    for (int j = 0; j <= resolution; j++)
-                    {
-                        float t = (float)j / resolution;
-                        Vector3 point = GetPoint(previousPoint, currentPoint, nextPoint, nextNextPoint, t);
-
-                        catmullRomPoints.Add(point);
-                    }
-                }
-
-                return catmullRomPoints.ToArray();
+                else
+                    return GetOpenSpline(startPosition, points, resolution);
             }
 
-
             /// <summary>
-            /// Generates a closed Catmull-Rom spline curve.
+            /// Generates an Open Catmull-Rom spline.
             /// </summary>
-            /// <param name="startPosition">The point from which the curve will start, typically transform.position.</param>
-            /// <param name="points">The points used to create the open Catmull-Rom curve.</param>
-            /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are more computationally expensive.</param>
-            /// <returns>An array of points representing a closed Catmull-Rom spline curve.</returns>
-            /// <remarks>Returns NULL if points are NULL or the number of points is less than 2.</remarks>
-            public static Vector3[] GetClosedCurve(Vector3 startPosition, Vector3[] points, int resolution)
+            /// <param name="startPosition">The point from which the curve will start, usually transform.position.</param>
+            /// <param name="points">The points used to create the Open Catmull-Rom Spline.</param>
+            /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are computationally more expensive.</param>
+            /// <returns>A List of points representing an Open Catmull-Rom spline.</returns>
+            public static List<Vector3> GetOpenSpline(Vector3 startPosition, Vector3[] points, int resolution)
             {
-                if (points == null || points.Length < 2)
-                    return null;
-
-                Vector3[] pointsWithStartPosition = new Vector3[points.Length + 1];
-                pointsWithStartPosition[0] = startPosition;
-                Array.Copy(points, 0, pointsWithStartPosition, 1, points.Length);
-
+                List<Vector3> modifiedPoints = new();
                 List<Vector3> catmullRomPoints = new();
 
-                // Loop through the points, computing the Catmull-Rom spline segments
-                for (int i = 0; i < pointsWithStartPosition.Length; i++)
-                {
-                    int prevIndex = (i - 1 + pointsWithStartPosition.Length) % pointsWithStartPosition.Length;
-                    int nextIndex = (i + 1) % pointsWithStartPosition.Length;
+                modifiedPoints.Add(startPosition);
+                modifiedPoints.Add(startPosition);
 
-                    Vector3 previousPoint = pointsWithStartPosition[prevIndex];
-                    Vector3 currentPoint = pointsWithStartPosition[i];
-                    Vector3 nextPoint = pointsWithStartPosition[nextIndex];
-                    Vector3 nextNextPoint = pointsWithStartPosition[(nextIndex + 1) % pointsWithStartPosition.Length];
+                for (int i = 0; i < points.Length; i++)
+                {
+                    modifiedPoints.Add(points[i]);
+                }
+
+                modifiedPoints.Add(points[^1]);
+
+                for (int i = 0; i < modifiedPoints.Count - 3; i++)
+                {
+                    Vector3 p0 = modifiedPoints[i];
+                    Vector3 p1 = modifiedPoints[i + 1];
+                    Vector3 p2 = modifiedPoints[i + 2];
+                    Vector3 p3 = modifiedPoints[i + 3];
 
                     for (int j = 0; j <= resolution; j++)
                     {
-                        float t = (float)j / resolution;
+                        float t = j / (float)resolution;
+
+                        Vector3 newPos = GetPoint(p0, p1, p2, p3, t);
+                        catmullRomPoints.Add(newPos);
+                    }
+                }
+
+                return catmullRomPoints;
+            }
+
+            /// <summary>
+            /// Generates a Closed Catmull-Rom spline.
+            /// </summary>
+            /// <param name="startPosition">The point from which the curve will start, typically transform.position.</param>
+            /// <param name="points">The points used to create the Closed Catmull-Rom Spline.</param>
+            /// <param name="resolution">The smoothness of the curve; higher values generate smoother paths but are computationally more expensive.</param>
+            /// <returns>An array of points representing a Closed Catmull-Rom spline.</returns>
+            public static List<Vector3> GetClosedSpline(Vector3 startPosition, Vector3[] points, int resolution)
+            {
+                List<Vector3> catmullRomPoints = new();
+                List<Vector3> modifiedPoints = new(points);
+
+                modifiedPoints.Insert(0, startPosition);
+                modifiedPoints[0] = startPosition;
+
+                for (int i = 0; i < modifiedPoints.Count; i++)
+                {
+                    int prevIndex = (i - 1 + modifiedPoints.Count) % modifiedPoints.Count;
+                    int nextIndex = (i + 1) % modifiedPoints.Count;
+
+                    Vector3 previousPoint = modifiedPoints[prevIndex];
+                    Vector3 currentPoint = modifiedPoints[i];
+                    Vector3 nextPoint = modifiedPoints[nextIndex];
+                    Vector3 nextNextPoint = modifiedPoints[(nextIndex + 1) % modifiedPoints.Count];
+
+                    for (int j = 0; j <= resolution; j++)
+                    {
+                        float t = j / (float)resolution;
                         Vector3 point = GetPoint(previousPoint, currentPoint,
-                                                                nextPoint, nextNextPoint, t);
+                                                 nextPoint, nextNextPoint, t);
 
                         catmullRomPoints.Add(point);
                     }
                 }
 
-                return catmullRomPoints.ToArray();
+                return catmullRomPoints;
             }
 
             /// <summary>
-            /// Get Catmull Rom Point for given segment
+            /// Get Catmull-Rom Point for given segment
             /// </summary>
             public static Vector3 GetPoint(Vector3 previousPoint, Vector3 currentPoint, 
                                            Vector3 nextPoint, Vector3 nextNextPoint, float t)
