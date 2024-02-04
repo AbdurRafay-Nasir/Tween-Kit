@@ -182,7 +182,11 @@ namespace DOTweenModular.Miscellaneous
 
         #region LookAt2D Smooth Functions
 
-
+        /// <summary>
+        /// Smoothly rotate to LookAt target
+        /// </summary>
+        /// <param name="target">The Point to look at</param>
+        /// <param name="interpolate">Controls smoothness of look at, 0 to 1, 1 eliminates all smoothness</param>
         public static void LookAtSmooth(this Transform transform, Vector3 target, float interpolate)
         {
             Vector3 lookDirection = target - transform.position;
