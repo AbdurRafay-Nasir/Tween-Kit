@@ -295,7 +295,9 @@ namespace DOTweenModular.Editor
             if (doPath.pathType != DG.Tweening.PathType.Linear)
                 DrawProperty(resolutionProp);
 
-            DrawProperty(closePathProp);
+            if (doPath.pathType != DG.Tweening.PathType.CubicBezier)
+                DrawProperty(closePathProp);
+
             DrawProperty(speedBasedProp);
             DrawProperty(relativeProp);
         }
