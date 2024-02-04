@@ -165,6 +165,15 @@ namespace DOTweenModular
             Tween.Play();
         }
 
+        /// <summary>
+        /// Invoked by OnTweenCreated/OnTweenPlayed events of tweenObject
+        /// </summary>
+        private void TweenObjectTween()
+        {
+            CreateTween();
+            PlayTween();
+        }
+
         #region Tween Callbacks
 
         /// <summary>
@@ -235,13 +244,5 @@ namespace DOTweenModular
 
         #endregion
 
-        /// <summary>
-        /// Invoked by OnTweenCreated/OnTweenPlayed events of tweenObject
-        /// </summary>
-        private void TweenObjectTween()
-        {
-            CreateTween();
-            PlayTween();
-        }
     }
 }
