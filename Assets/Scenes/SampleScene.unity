@@ -223,7 +223,7 @@ Transform:
   m_GameObject: {fileID: 180327339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.48, y: 0.17, z: 0}
+  m_LocalPosition: {x: -3.94, y: -0.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   begin: 0
   tweenObject: {fileID: 0}
-  tweenType: 0
+  tweenType: 1
   loopType: 1
   easeType: 1
   curve:
@@ -254,7 +254,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   loops: -1
-  duration: 2
+  duration: 5
   delay: 0
   onTweenCreated:
     m_PersistentCalls:
@@ -271,19 +271,19 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  pathType: 1
+  pathType: 2
   pathMode: 3
   resolution: 5
   closePath: 0
   speedBased: 0
   relative: 0
   pathPoints:
-  - {x: -3.7010236, y: 4.206286, z: 0}
-  - {x: 0.9734597, y: 3.9758983, z: 0}
-  - {x: 2.550992, y: 0.9504472, z: 0}
-  - {x: 4.0292554, y: -4.254312, z: 0}
-  - {x: -3.8427038, y: -4.0121055, z: 0}
-  - {x: -3.00001, y: -2.1558356, z: 0}
+  - {x: -4.902026, y: 3.8152587, z: 0}
+  - {x: 1.280693, y: 3.44522, z: 0}
+  - {x: 2.6068525, y: -0.501929, z: 0}
+  - {x: 4.057186, y: -4.9804993, z: 0}
+  - {x: -1.2172552, y: -5.2969, z: 0}
+  - {x: -1.6146357, y: -3.9958239, z: 0}
   lookAt: 3
   lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}

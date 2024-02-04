@@ -1,6 +1,5 @@
 #if UNITY_EDITOR
 
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using DOTweenModular.Miscellaneous;
@@ -34,6 +33,8 @@ namespace DOTweenModular.Editor
         private string tweenPreviewKey;
         private string rotationkey;
         private string positionKey;
+
+        private Vector3 startPosition;
 
         #region Unity Functions
 
@@ -227,27 +228,32 @@ namespace DOTweenModular.Editor
             if (doPath.pathPoints == null)
                 return;
 
+            if (!SessionState.GetBool(tweenPreviewKey, false))
+            {
+                startPosition = doPath.transform.position;
+            }
+
             if (doPath.relative)
             {
-                ConvertPointsToRelative(doPath.transform.position);
+                ConvertPointsToRelative(startPosition);
 
                 switch (doPath.pathType)
                 {
                     case DG.Tweening.PathType.Linear:
 
-                        DrawRelativeLinearPath(doPath.transform.position, doPath.closePath);
+                        DrawRelativeLinearPath(startPosition, doPath.closePath);
                         DrawRelativeSimpleHandles();
                         break;
 
                     case DG.Tweening.PathType.CatmullRom:
-                        DrawRelativeCatmullRomPath(doPath.transform.position, doPath.pathPoints, doPath.closePath);
+                        DrawRelativeCatmullRomPath(startPosition, doPath.pathPoints, doPath.closePath);
                         DrawRelativeSimpleHandles();
                         break;
 
                     case DG.Tweening.PathType.CubicBezier:
                         if (doPath.pathPoints.Length % 3 == 0)
                         {
-                            DrawRelativeCubicBezierPath(doPath.transform.position);
+                            DrawRelativeCubicBezierPath(startPosition);
                             DrawRelativeCubicBezierHandles();
                         }
                         break;
@@ -256,24 +262,24 @@ namespace DOTweenModular.Editor
             }
             else
             {
-                ConvertPointsToAbsolute(doPath.transform.position);
+                ConvertPointsToAbsolute(startPosition);
 
                 switch (doPath.pathType)
                 {
                     case DG.Tweening.PathType.Linear:
-                        DrawAbsoluteLinearPath(doPath.transform.position, doPath.closePath);
+                        DrawAbsoluteLinearPath(startPosition, doPath.closePath);
                         DrawAbsoluteSimpleHandles();
                         break;
 
                     case DG.Tweening.PathType.CatmullRom:
-                        DrawAbsoluteCatmullRomPath(doPath.transform.position, doPath.pathPoints, doPath.closePath);
+                        DrawAbsoluteCatmullRomPath(startPosition, doPath.pathPoints, doPath.closePath);
                         DrawAbsoluteSimpleHandles();
                         break;
 
                     case DG.Tweening.PathType.CubicBezier:
                         if (doPath.pathPoints.Length % 3 == 0)
                         {
-                            DrawAbsoluteCubicBezierPath(doPath.transform.position);
+                            DrawAbsoluteCubicBezierPath(startPosition);
                             DrawAbsoluteCubicBezierHandles();
                         }
                         break;
@@ -579,6 +585,8 @@ namespace DOTweenModular.Editor
         protected override void OnPreviewStarted()
         {
             base.OnPreviewStarted();
+
+            startPosition = doPath.transform.position;
 
             SessionState.SetBool(tweenPreviewKey, true);
             SessionState.SetVector3(rotationkey, doPath.transform.localEulerAngles);
