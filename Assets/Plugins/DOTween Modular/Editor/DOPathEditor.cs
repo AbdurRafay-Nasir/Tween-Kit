@@ -235,7 +235,7 @@ namespace DOTweenModular.Editor
                 {
                     case DG.Tweening.PathType.Linear:
 
-                        DrawRelativeLinearPath(doPath.transform.position, doPath.closePath, Color.green);
+                        DrawRelativeLinearPath(doPath.transform.position, doPath.closePath);
                         DrawRelativeSimpleHandles();
                         break;
 
@@ -369,19 +369,18 @@ namespace DOTweenModular.Editor
                 DrawLine(lineStart, startPosition, lineColor, lineThickness);
         }
 
-        private void DrawRelativeLinearPath(Vector3 startPosition, bool closed, 
-                                            Color lineColor, float lineThickness = 2f)
+        private void DrawRelativeLinearPath(Vector3 startPosition, bool closed)
         {
             Vector3 lineStart = startPosition;
 
             for (int i = 0; i < doPath.pathPoints.Length; i++)
             {
-                DrawLine(lineStart, startPosition + doPath.pathPoints[i], lineColor, lineThickness);
+                DrawLine(lineStart, startPosition + doPath.pathPoints[i], Color.green);
                 lineStart = startPosition + doPath.pathPoints[i];
             }
 
             if (closed)
-                DrawLine(lineStart, startPosition, lineColor, lineThickness);
+                DrawLine(lineStart, startPosition, Color.green);
         }
 
         private void DrawAbsoluteCubicBezierPath(Vector3 startPosition)
