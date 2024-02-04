@@ -36,7 +36,7 @@ namespace DOTweenModular.Editor
         protected int instanceId;
 
         private string previewKey;
-        private bool tweenPreviewing;
+        protected bool tweenPreviewing;
 
         public virtual void OnEnable()
         {
