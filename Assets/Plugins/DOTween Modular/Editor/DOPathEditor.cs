@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using DOTweenModular.Miscellaneous;
 using System;
+using System.Collections.Generic;
 
 namespace DOTweenModular.Editor
 {
@@ -244,11 +245,11 @@ namespace DOTweenModular.Editor
                         DrawRelativeSimpleHandles();
                         break;
 
-                    case DG.Tweening.PathType.CubicBezier:
+                    //case DG.Tweening.PathType.CubicBezier:
 
-                        DrawRelativeCubicBezierPath(doPath.transform.position);
-                        DrawRelativeCubicBezierHandles();
-                        break;  
+                    //    DrawRelativeCubicBezierPath(doPath.transform.position);
+                    //    DrawRelativeCubicBezierHandles();
+                    //    break;  
                 }
                     
             }
@@ -265,14 +266,14 @@ namespace DOTweenModular.Editor
                         break;
 
                     case DG.Tweening.PathType.CatmullRom:
-
+                        DrawAbsoluteCatmullRomPath(doPath.transform.position, doPath.closePath);
                         DrawAbsoluteSimpleHandles();
                         break;
 
-                    case DG.Tweening.PathType.CubicBezier:
-                        DrawAbsoluteCubicBezierPath(doPath.transform.position);
-                        DrawAbsoluteCubicBezierHandles();
-                        break;
+                    //case DG.Tweening.PathType.CubicBezier:
+                    //    DrawAbsoluteCubicBezierPath(doPath.transform.position);
+                    //    DrawAbsoluteCubicBezierHandles();
+                    //    break;
                 }
 
             }
@@ -380,6 +381,20 @@ namespace DOTweenModular.Editor
 
             if (closed)
                 DrawLine(lineStart, startPosition, Color.green);
+        }
+
+        private void DrawAbsoluteCatmullRomPath(Vector3 startPosition, bool closed)
+        {
+            List<Vector3> catmullRomPoints = Curve.CatmullRom.GetSpline(startPosition, doPath.pathPoints, 
+                                                                            doPath.resolution, closed);
+
+            Vector3 currentLineStart = catmullRomPoints[0];
+
+            for (int i = 0; i < catmullRomPoints.Count; i++)
+            {
+                DrawLine(currentLineStart, catmullRomPoints[i], Color.green);
+                currentLineStart = catmullRomPoints[i];
+            }
         }
 
         private void DrawAbsoluteCubicBezierPath(Vector3 startPosition)

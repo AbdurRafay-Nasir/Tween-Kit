@@ -1,32 +1,44 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using DOTweenModular.Miscellaneous;
 
 //Interpolation between points with a Catmull-Rom spline
 public class CatmullRomSpline : MonoBehaviour
 {
     //Has to be at least 4 points
     public Transform[] controlPointsList;
+    public int resolution = 10;
     //Are we making a line or a loop?
     public bool isLooping = true;
 
     //Display without having to press play
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.white;
+        //Vector3[] closed = Curve.CatmullRom.GetClosedSpline(transform.position, GetPositions(controlPointsList), resolution);
 
-        //Draw the Catmull-Rom spline between the points
-        for (int i = 0; i < controlPointsList.Length; i++)
-        {
-            //Cant draw between the endpoints
-            //Neither do we need to draw from the second to the last endpoint
-            //...if we are not making a looping line
-            if ((i == 0 || i == controlPointsList.Length - 2 || i == controlPointsList.Length - 1) && !isLooping)
-            {
-                continue;
-            }
+        //Debug.Log(closed.Length);
 
-            DisplayCatmullRomSpline(i);
-        }
+        //closed.Print();
+
+        //for (int i = 0; i < closed.Length - 1; i++)
+        //{
+        //    Gizmos.DrawLine(closed[i], closed[i + 1]);
+        //}
+
+        //Gizmos.color = Color.white;
+        ////Draw the Catmull-Rom spline between the points
+        //for (int i = 0; i < controlPointsList.Length; i++)
+        //{
+        //    //Cant draw between the endpoints
+        //    //Neither do we need to draw from the second to the last endpoint
+        //    //...if we are not making a looping line
+        //    if ((i == 0 || i == controlPointsList.Length - 2 || i == controlPointsList.Length - 1) && !isLooping)
+        //    {
+        //        continue;
+        //    }
+        //    DisplayCatmullRomSpline(i);
+        //}
     }
 
     //Display a spline between 2 points derived with the Catmull-Rom spline algorithm
@@ -95,8 +107,48 @@ public class CatmullRomSpline : MonoBehaviour
         Vector3 d = -p0 + 3f * p1 - 3f * p2 + p3;
 
         //The cubic polynomial: a + b * t + c * t^2 + d * t^3
-        Vector3 pos = 0.5f * (a + (b * t) + (c * t * t) + (d * t * t * t));
+        Vector3 pos = 0.5f * (a + (b * t) + (t * t * c) + (t * t * t * d));
 
         return pos;
+    }
+
+    public Vector3[] GetClosedSpline(Vector3[] points, int resolution)
+    {
+        List<Vector3> catmullRomPoints = new List<Vector3>();
+
+        Vector3[] extendedPoints = new Vector3[points.Length + 2];
+        System.Array.Copy(points, 0, extendedPoints, 0, points.Length);
+        extendedPoints[points.Length] = points[0];
+        extendedPoints[points.Length + 1] = points[1];
+
+        for (int i = 0; i < extendedPoints.Length - 3; i++)
+        {
+            Vector3 p0 = extendedPoints[i];
+            Vector3 p1 = extendedPoints[i + 1];
+            Vector3 p2 = extendedPoints[i + 2];
+            Vector3 p3 = extendedPoints[i + 3];
+
+            for (int j = 0; j < resolution; j++)
+            {
+                float t = j / (float)resolution;
+
+                Vector3 newPos = GetCatmullRomPosition(t, p0, p1, p2, p3);
+                catmullRomPoints.Add(newPos);
+            }
+        }
+
+        return catmullRomPoints.ToArray();
+    }
+
+    private Vector3[] GetPositions(Transform[] transforms)
+    {
+        Vector3[] positions = new Vector3[transforms.Length];
+
+        for (int i = 0; i < positions.Length; i++)
+        {
+            positions[i] = transforms[i].position;
+        }
+
+        return positions;
     }
 }
