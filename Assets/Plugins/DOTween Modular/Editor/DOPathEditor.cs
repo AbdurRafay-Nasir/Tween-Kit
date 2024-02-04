@@ -245,11 +245,13 @@ namespace DOTweenModular.Editor
                         DrawRelativeSimpleHandles();
                         break;
 
-                    //case DG.Tweening.PathType.CubicBezier:
-
-                    //    DrawRelativeCubicBezierPath(doPath.transform.position);
-                    //    DrawRelativeCubicBezierHandles();
-                    //    break;  
+                    case DG.Tweening.PathType.CubicBezier:
+                        if (doPath.pathPoints.Length % 3 == 0)
+                        {
+                            // DrawRelativeCubicBezierPath(doPath.transform.position);
+                            DrawRelativeCubicBezierHandles();
+                        }
+                        break;
                 }
                     
             }
@@ -260,7 +262,6 @@ namespace DOTweenModular.Editor
                 switch (doPath.pathType)
                 {
                     case DG.Tweening.PathType.Linear:
-
                         DrawAbsoluteLinearPath(doPath.transform.position, doPath.closePath);
                         DrawAbsoluteSimpleHandles();
                         break;
@@ -270,10 +271,13 @@ namespace DOTweenModular.Editor
                         DrawAbsoluteSimpleHandles();
                         break;
 
-                    //case DG.Tweening.PathType.CubicBezier:
-                    //    DrawAbsoluteCubicBezierPath(doPath.transform.position);
-                    //    DrawAbsoluteCubicBezierHandles();
-                    //    break;
+                    case DG.Tweening.PathType.CubicBezier:
+                        if (doPath.pathPoints.Length % 3 == 0)
+                        {
+                            // DrawAbsoluteCubicBezierPath(doPath.transform.position);
+                            DrawAbsoluteCubicBezierHandles();
+                        }
+                        break;
                 }
 
             }
