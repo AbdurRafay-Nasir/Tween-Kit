@@ -182,6 +182,15 @@ namespace DOTweenModular.Miscellaneous
 
         #region LookAt2D Smooth Functions
 
+
+        public static void LookAtSmooth(this Transform transform, Vector3 target, float interpolate)
+        {
+            Vector3 lookDirection = target - transform.position;
+            lookDirection.Normalize();
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDirection), interpolate);
+        }
+
         /// <summary>
         /// Rotate on Z-Axis to Look At target
         /// </summary>
@@ -202,27 +211,6 @@ namespace DOTweenModular.Miscellaneous
         /// <param name="target">The target to look at</param>
         /// <param name="offset">Offset to add in Z Rotation, -90 makes the game Object Look At the target</param>
         /// <param name="interpolate">How smoothly the Game Object will rotate to Look At target, 1 means no smoothness</param>
-        /// <param name="min">Minimum Rotation</param>
-        /// <param name="max">Maximum Rotation</param>
-        /// <remarks>If target is moved above and right of this transform then rotation will snap to 'max'</remarks>
-        public static void LookAt2DSmooth(this Transform transform, Vector2 target, float offset, float interpolate, float min, float max)
-        {
-            Vector2 direction = (target - (Vector2)transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(0f, 0f, angle + offset);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, interpolate);
-
-            Vector3 localEulerAngle = transform.localEulerAngles;
-            localEulerAngle.z = Mathf.Clamp(localEulerAngle.z, min, max);
-            transform.localEulerAngles = localEulerAngle;
-        }
-
-        /// <summary>
-        /// Rotate on Z-Axis to Look At target
-        /// </summary>
-        /// <param name="target">The target to look at</param>
-        /// <param name="offset">Offset to add in Z Rotation, -90 makes the game Object Look At the target</param>
-        /// <param name="interpolate">How smoothly the Game Object will rotate to Look At target, 1 means no smoothness</param>
         public static void LookAt2DSmooth(this Transform transform, Transform target, float offset, float interpolate)
         {
             Vector2 direction = (target.position - transform.position).normalized;
@@ -231,36 +219,8 @@ namespace DOTweenModular.Miscellaneous
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, interpolate);
         }
 
-        /// <summary>
-        /// Rotate on Z-Axis to Look At target
-        /// </summary>
-        /// <param name="target">The target to look at</param>
-        /// <param name="offset">Offset to add in Z Rotation, -90 makes the game Object Look At the target</param>
-        /// <param name="interpolate">How smoothly the Game Object will rotate to Look At target, 1 means no smoothness</param>
-        /// <param name="min">Minimum Rotation</param>
-        /// <param name="max">Maximum Rotation</param>
-        /// <remarks>If target is moved above and right of this transform then rotation will snap to 'max'</remarks>
-        public static void LookAt2DSmooth(this Transform transform, Transform target, float offset, float interpolate, float min, float max)
-        {
-            Vector2 direction = (target.position - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(0f, 0f, angle + offset);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, interpolate);
-
-            Vector3 localEulerAngle = transform.localEulerAngles;
-            localEulerAngle.z = Mathf.Clamp(localEulerAngle.z, min, max);
-            transform.localEulerAngles = localEulerAngle;
-        }
-
         #endregion
 
-        public static void LookAtSmooth(this Transform transform, Vector3 target, float interpolate)
-        {
-            Vector3 lookDirection = target - transform.position;
-            lookDirection.Normalize();
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDirection), interpolate);
-        }
 
     }
 }
