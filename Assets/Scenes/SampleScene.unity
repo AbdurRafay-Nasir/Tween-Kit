@@ -356,7 +356,7 @@ Transform:
   m_GameObject: {fileID: 180327339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.65, y: -0, z: 0}
+  m_LocalPosition: {x: -4.48, y: 0.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -411,9 +411,12 @@ MonoBehaviour:
   speedBased: 0
   relative: 0
   pathPoints:
-  - {x: -4.8910236, y: 3.0562859, z: 0}
-  - {x: -0.21654034, y: 2.8258982, z: 0}
-  - {x: 0.39281988, y: -0.888288, z: 0}
+  - {x: -3.7010236, y: 4.206286, z: 0}
+  - {x: 0.9734597, y: 3.9758983, z: 0}
+  - {x: 1.0782876, y: 0.61908865, z: 0}
+  - {x: 4.0292554, y: -4.254312, z: 0}
+  - {x: -3.8427038, y: -4.0121055, z: 0}
+  - {x: -3.00001, y: -2.1558356, z: 0}
   lookAt: 0
   lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}

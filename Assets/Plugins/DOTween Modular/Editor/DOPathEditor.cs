@@ -248,7 +248,7 @@ namespace DOTweenModular.Editor
                     case DG.Tweening.PathType.CubicBezier:
                         if (doPath.pathPoints.Length % 3 == 0)
                         {
-                            // DrawRelativeCubicBezierPath(doPath.transform.position);
+                            DrawRelativeCubicBezierPath(doPath.transform.position);
                             DrawRelativeCubicBezierHandles();
                         }
                         break;
@@ -274,7 +274,7 @@ namespace DOTweenModular.Editor
                     case DG.Tweening.PathType.CubicBezier:
                         if (doPath.pathPoints.Length % 3 == 0)
                         {
-                            // DrawAbsoluteCubicBezierPath(doPath.transform.position);
+                            DrawAbsoluteCubicBezierPath(doPath.transform.position);
                             DrawAbsoluteCubicBezierHandles();
                         }
                         break;
@@ -435,7 +435,7 @@ namespace DOTweenModular.Editor
             DrawLine(startPosition, doPath.pathPoints[0], Color.green);
             DrawLine(doPath.pathPoints[1], doPath.pathPoints[2], Color.green);
 
-            for (int i = 2; i < doPath.pathPoints.Length; i += 2)
+            for (int i = 2; i < doPath.pathPoints.Length - 1; i += 2)
             {
                 DrawLine(doPath.pathPoints[i], doPath.pathPoints[i + 1], Color.green, 0.5f);
             }
@@ -467,7 +467,7 @@ namespace DOTweenModular.Editor
             DrawLine(startPosition, absoultePoints[0], Color.green);
             DrawLine(absoultePoints[1], absoultePoints[2], Color.green);
 
-            for (int i = 2; i < doPath.pathPoints.Length; i += 2)
+            for (int i = 2; i < doPath.pathPoints.Length - 1; i += 2)
             {
                 DrawLine(absoultePoints[i], absoultePoints[i + 1], Color.green, 0.5f);
             }
