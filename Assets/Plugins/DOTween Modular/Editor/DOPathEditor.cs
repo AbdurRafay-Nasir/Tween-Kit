@@ -231,10 +231,7 @@ namespace DOTweenModular.Editor
             {
                 ConvertPointsToRelative(doPath.transform.position);
 
-                for (int i = 0; i < doPath.pathPoints.Length; i++)
-                {
-                    doPath.pathPoints[i] += DrawHandle(doPath.transform.position + doPath.pathPoints[i]);
-                }
+
 
                 if (doPath.pathType == DG.Tweening.PathType.Linear)
                     DrawRelativeLinearPath(doPath.transform.position, doPath.closePath, Color.green);
@@ -245,14 +242,23 @@ namespace DOTweenModular.Editor
             {
                 ConvertPointsToAbsolute(doPath.transform.position);
 
-                if (doPath.pathType == DG.Tweening.PathType.Linear)
-                    DrawAbsoluteLinearPath(doPath.transform.position, doPath.closePath, Color.green);
-                else if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
-                    DrawAbsoluteCubicBezierPath(doPath.transform.position);
-
-                for (int i = 0; i < doPath.pathPoints.Length; i++)
+                switch (doPath.pathType)
                 {
-                    doPath.pathPoints[i] += DrawHandle(doPath.pathPoints[i]);
+                    case DG.Tweening.PathType.Linear:
+
+                        DrawAbsoluteLinearPath(doPath.transform.position, doPath.closePath, Color.green);
+                        DrawAbsoluteSimpleHandles();
+                        break;
+
+                    case DG.Tweening.PathType.CatmullRom:
+
+                        DrawAbsoluteSimpleHandles();
+                        break;
+
+                    case DG.Tweening.PathType.CubicBezier:
+                        DrawAbsoluteCubicBezierPath(doPath.transform.position);
+                        DrawAbsoluteCubicBezierHandles();
+                        break;
                 }
 
             }
@@ -380,7 +386,13 @@ namespace DOTweenModular.Editor
                 currentLineStart = cubicBezierPoints[i];
             }
 
-            DrawAbsoluteLinearPath(startPosition, false, Color.white, 0.5f);
+            DrawLine(startPosition, doPath.pathPoints[0], Color.green);
+            DrawLine(doPath.pathPoints[1], doPath.pathPoints[2], Color.green);
+
+            for (int i = 2; i < doPath.pathPoints.Length; i += 2)
+            {
+                DrawLine(doPath.pathPoints[i], doPath.pathPoints[i + 1], Color.green, 0.5f);
+            }
         }
 
         private void DrawRelativeCubicBezierPath(Vector3 startPosition)
@@ -404,6 +416,33 @@ namespace DOTweenModular.Editor
             {
                 DrawLine(currentLineStart, cubicBezierPoints[i], Color.green);
                 currentLineStart = cubicBezierPoints[i];
+            }
+        }
+
+        private void DrawAbsoluteSimpleHandles()
+        {
+            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            {
+                doPath.pathPoints[i] += DrawHandle(doPath.pathPoints[i]);
+            }
+        }
+
+        private void DrawRelativeSimpleHandles()
+        {
+            for (int i = 0; i < doPath.pathPoints.Length; i++)
+            {
+                doPath.pathPoints[i] += DrawHandle(doPath.transform.position + doPath.pathPoints[i]);
+            }
+        }
+
+        private void DrawAbsoluteCubicBezierHandles()
+        {
+            for (int i = 0; i < doPath.pathPoints.Length; i += 3)
+            {
+                doPath.pathPoints[i] += DrawSphereHandle(doPath.pathPoints[i], 1f);
+                doPath.pathPoints[i + 1] += DrawSphereHandle(doPath.pathPoints[i + 1], 1f);
+
+                doPath.pathPoints[i + 2] += DrawHandle(doPath.pathPoints[i + 2]);
             }
         }
 
