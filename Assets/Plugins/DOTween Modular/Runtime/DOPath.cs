@@ -8,6 +8,10 @@ namespace DOTweenModular
     [AddComponentMenu("DOTween Modular/DO Path")]
     public sealed class DOPath : DOBase
     {
+        // The 'resolution' had no effect on creating the Catmull-Rom and Cubic Bezier
+        // Paths, the path always had same resolution regardless of 'resolution' variable
+        // Therefore, Paths are created with help of Curve.cs
+
         #region Path Properties
 
         [Tooltip("Type of Path")]
