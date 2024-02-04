@@ -334,6 +334,27 @@ namespace DOTweenModular.Editor
             return delta;
         }
 
+        protected Vector3 DrawSphereHandle(Vector3 handlePosition, float size)
+        {
+            Vector3 newHandlePosition = Handles.FreeMoveHandle(handlePosition, size, Vector3.zero, Handles.SphereHandleCap);
+
+            Vector3 delta;
+
+            if (newHandlePosition != handlePosition)
+            {
+                Undo.RecordObject(doBase, "Move Handle");
+
+                // Perform the handle move and update the serialized data
+                delta = newHandlePosition - handlePosition;
+            }
+            else
+            {
+                delta = Vector3.zero;
+            }
+
+            return delta;
+        }
+
         protected void DrawLine(Vector3 from, Vector3 to, Color color, float thickness = 2f)
         {
             Color previousColor = Handles.color;
