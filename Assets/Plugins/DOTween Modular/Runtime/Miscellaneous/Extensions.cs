@@ -1,7 +1,7 @@
+using UnityEngine;
+using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins;
-using DG.Tweening;
-using UnityEngine;
 using DG.Tweening.Plugins.Options;
 
 namespace DOTweenModular.Miscellaneous
@@ -186,7 +186,7 @@ namespace DOTweenModular.Miscellaneous
         /// Smoothly rotate to LookAt target
         /// </summary>
         /// <param name="target">The Point to look at</param>
-        /// <param name="interpolate">Controls smoothness of look at, 0 to 1, 1 eliminates all smoothness</param>
+        /// <param name="interpolate">How smoothly the Game Object will rotate to Look At target,0 to 1, 1 means no smoothness</param>
         public static void LookAtSmooth(this Transform transform, Vector3 target, float interpolate)
         {
             Vector3 lookDirection = target - transform.position;
@@ -200,7 +200,7 @@ namespace DOTweenModular.Miscellaneous
         /// </summary>
         /// <param name="target">The target to look at</param>
         /// <param name="offset">Offset to add in Z Rotation, -90 makes the game Object Look directly At the target</param>
-        /// <param name="interpolate">How smoothly the Game Object will rotate to Look At target, 1 means no smoothness</param>
+        /// <param name="interpolate">How smoothly the Game Object will rotate to Look At target, 0 to 1, 1 means no smoothness</param>
         public static void LookAt2DSmooth(this Transform transform, Vector2 target, float offset, float interpolate)
         {
             Vector2 direction = (target - (Vector2)transform.position).normalized;
