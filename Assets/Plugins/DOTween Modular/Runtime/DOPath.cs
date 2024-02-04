@@ -67,7 +67,6 @@ namespace DOTweenModular
             if (tweenType == Enums.TweenType.Looped)
                 Tween.SetLoops(loops, loopType);
 
-            Tween.SetRelative(relative);
             Tween.SetSpeedBased(speedBased);
             Tween.SetDelay(delay);
 
@@ -95,12 +94,24 @@ namespace DOTweenModular
                 _ => transform.DOPath(pathPoints, duration, PathType.Linear, pathMode, 1)
                               .SetOptions(closePath),
             };
+
+            Tween.SetRelative(relative);
         }
 
         private void SetupCatmullRomTweenWithLookAt()
         {
-            Vector3[] catmullRomPoints = Curve.CatmullRom.GetSpline(transform.position, pathPoints,
-                                                                        resolution, closePath);
+            Vector3[] absolutePoints = (Vector3[])pathPoints.Clone();
+
+            if (relative)
+            {
+                for (int i = 0; i < absolutePoints.Length; i++)
+                {
+                    absolutePoints[i] += transform.position;
+                }
+            }
+
+            Vector3[] catmullRomPoints = Curve.CatmullRom.GetSpline(transform.position, absolutePoints,
+                                                                    resolution, closePath);
 
             Tween = lookAt switch
             {
@@ -119,8 +130,18 @@ namespace DOTweenModular
 
         private void SetupCubicBezierTweenWithLookAt()
         {
-            Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(transform.position, pathPoints,
-                                                                          resolution);
+            Vector3[] absolutePoints = (Vector3[])pathPoints.Clone();
+
+            if (relative)
+            {
+                for (int i = 0; i < absolutePoints.Length; i++)
+                {
+                    absolutePoints[i] += transform.position;
+                }
+            }
+
+            Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(transform.position, absolutePoints,
+                                                                      resolution);
 
             Tween = lookAt switch
             {

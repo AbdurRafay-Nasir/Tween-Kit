@@ -305,7 +305,7 @@ namespace DOTweenModular.Miscellaneous
         {
             for (int i = 0; i < arr.Length; i++)
             {
-                Debug.Log("Index: " + i + " = " + arr[i]);
+                Debug.LogWarning("Index: " + i + " = " + arr[i]);
             }
         }
 
