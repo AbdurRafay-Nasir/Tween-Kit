@@ -10,14 +10,15 @@ namespace DOTweenModular.Miscellaneous
     {
         #region Tween Functions
 
-        /// <summary>Tweens a RectTransform's anchoredPosition so that it draws a circle around the given center.
-        /// Also stores the RectTransform as the tween's target so it can be used for filtered operations.<para/>
+        /// <summary>Tweens a Transform so that it moves in a circle around the given center.
+        /// Also stores the Transform as the tween's target so it can be used for filtered operations.<para/>
         /// IMPORTANT: SetFrom(value) requires a <see cref="Vector2"/> instead of a float, where the X property represents the "from degrees value"</summary>
-        /// <param name="center">Circle-center/pivot around which to rotate (in UI anchoredPosition coordinates)</param>
+        /// <param name="center">Circle-center/pivot around which to rotate</param>
         /// <param name="endValueDegrees">The end value degrees to reach (to rotate counter-clockwise pass a negative value)</param>
         /// <param name="duration">The duration of the tween</param>
-        /// <param name="relativeCenter">If TRUE the <see cref="center"/> coordinates will be considered as relative to the target's current anchoredPosition</param>
+        /// <param name="relativeCenter">If TRUE the <see cref="center"/> coordinates will be considered as relative to the target's current Position</param>
         /// <param name="snapping">If TRUE the tween will smoothly snap all values to integers</param>
+        /// <remarks>Only works in 2D (XY-Plane)</remarks>
         public static TweenerCore<Vector2, Vector2, CircleOptions> DOShapeCircle(
             this Transform target, Vector2 center, float endValueDegrees, float duration,
             bool relativeCenter = false, bool snapping = false
@@ -31,14 +32,14 @@ namespace DOTweenModular.Miscellaneous
             return t;
         }
 
-        /// <summary>Tweens a RectTransform's anchoredPosition so that it draws a circle around the given center.
-        /// Also stores the RectTransform as the tween's target so it can be used for filtered operations.<para/>
+        /// <summary>Tweens a Transform's local Position so that it moves in a circle around the given center.
+        /// Also stores the Transform as the tween's target so it can be used for filtered operations.<para/>
         /// IMPORTANT: SetFrom(value) requires a <see cref="Vector2"/> instead of a float, where the X property represents the "from degrees value"</summary>
-        /// <param name="center">Circle-center/pivot around which to rotate (in UI anchoredPosition coordinates)</param>
+        /// <param name="center">Circle-center/pivot around which to rotate</param>
         /// <param name="endValueDegrees">The end value degrees to reach (to rotate counter-clockwise pass a negative value)</param>
         /// <param name="duration">The duration of the tween</param>
-        /// <param name="relativeCenter">If TRUE the <see cref="center"/> coordinates will be considered as relative to the target's current anchoredPosition</param>
         /// <param name="snapping">If TRUE the tween will smoothly snap all values to integers</param>
+        /// <remarks>Only works in 2D (XY-Plane)</remarks>
         public static TweenerCore<Vector2, Vector2, CircleOptions> DOLocalShapeCircle(
             this Transform target, Vector2 center, float endValueDegrees,
             float duration, bool snapping = false
