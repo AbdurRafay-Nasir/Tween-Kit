@@ -241,7 +241,7 @@ namespace DOTweenModular.Editor
                         break;
 
                     case DG.Tweening.PathType.CatmullRom:
-
+                        DrawRelativeCatmullRomPath(doPath.transform.position, doPath.pathPoints, doPath.closePath);
                         DrawRelativeSimpleHandles();
                         break;
 
@@ -266,7 +266,7 @@ namespace DOTweenModular.Editor
                         break;
 
                     case DG.Tweening.PathType.CatmullRom:
-                        DrawAbsoluteCatmullRomPath(doPath.transform.position, doPath.closePath);
+                        DrawAbsoluteCatmullRomPath(doPath.transform.position, doPath.pathPoints, doPath.closePath);
                         DrawAbsoluteSimpleHandles();
                         break;
 
@@ -383,10 +383,10 @@ namespace DOTweenModular.Editor
                 DrawLine(lineStart, startPosition, Color.green);
         }
 
-        private void DrawAbsoluteCatmullRomPath(Vector3 startPosition, bool closed)
+        private void DrawAbsoluteCatmullRomPath(Vector3 startPosition, Vector3[] points, bool closed)
         {
-            List<Vector3> catmullRomPoints = Curve.CatmullRom.GetSpline(startPosition, doPath.pathPoints, 
-                                                                            doPath.resolution, closed);
+            List<Vector3> catmullRomPoints = Curve.CatmullRom.GetSpline(startPosition, points, 
+                                                                        doPath.resolution, closed);
 
             Vector3 currentLineStart = catmullRomPoints[0];
 
@@ -395,6 +395,18 @@ namespace DOTweenModular.Editor
                 DrawLine(currentLineStart, catmullRomPoints[i], Color.green);
                 currentLineStart = catmullRomPoints[i];
             }
+        }
+
+        private void DrawRelativeCatmullRomPath(Vector3 startPosition, Vector3[] points, bool closed)
+        {
+            Vector3[] absoultePoints = (Vector3[])points.Clone();
+
+            for (int i = 0; i < absoultePoints.Length; i++)
+            {
+                absoultePoints[i] += startPosition;
+            }
+
+            DrawAbsoluteCatmullRomPath(startPosition, absoultePoints, closed);
         }
 
         private void DrawAbsoluteCubicBezierPath(Vector3 startPosition)
