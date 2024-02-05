@@ -1,18 +1,18 @@
 #if UNITY_EDITOR
 
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOPunchAnchorPos)), CanEditMultipleObjects]
-    public class DOPunchAnchorPosEditor : DOPunchBaseEditor
+    public sealed class DOPunchAnchorPosEditor : DOPunchBaseEditor
     {
         private SerializedProperty snappingProp;
 
         private DOPunchAnchorPos doPunchAnchorPos;
         private RectTransform rectTransform;
-        private string key;
+        private string anchoredPositionKey;
 
         public override void OnEnable()
         {
@@ -22,7 +22,7 @@ namespace DOTweenModular.Editor
 
             doPunchAnchorPos = (DOPunchAnchorPos)target;
             rectTransform = (RectTransform)doPunchAnchorPos.transform;
-            key = "DOPunchAnchorPos_" + instanceId;
+            anchoredPositionKey = "DOPunchAnchorPos_" + instanceId;
         }
 
         protected override void DrawValues()
@@ -39,14 +39,14 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(key, rectTransform.anchoredPosition);
+            SessionState.SetVector3(anchoredPositionKey, rectTransform.anchoredPosition);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            rectTransform.anchoredPosition = SessionState.GetVector3(key, rectTransform.anchoredPosition);
+            rectTransform.anchoredPosition = SessionState.GetVector3(anchoredPositionKey, rectTransform.anchoredPosition);
         }
 
         #endregion
