@@ -8,7 +8,6 @@ namespace DOTweenModular.Editor
     [CustomEditor(typeof(DOMove)), CanEditMultipleObjects]
     public sealed class DOMoveEditor : DOLookAtBaseEditor
     {
-
         #region Serialized Properties
 
         private SerializedProperty speedBasedProp;
@@ -22,8 +21,6 @@ namespace DOTweenModular.Editor
         private DOMove doMove;
         private RelativeFlags relativeFlags;
 
-        private string positionKey;
-
         private Vector3 startPosition;
 
         #region Unity Functions
@@ -34,8 +31,6 @@ namespace DOTweenModular.Editor
 
             doMove = (DOMove)target;
             relativeFlags = CreateInstance<RelativeFlags>();
-
-            positionKey = "DOMove_" + instanceId;
 
             speedBasedProp = serializedObject.FindProperty("speedBased");
             useLocalProp = serializedObject.FindProperty("useLocal");
@@ -281,25 +276,12 @@ namespace DOTweenModular.Editor
             return handlePosition;
         }
 
-        #region Tween Preview Functions
-
         protected override void OnPreviewStarted()
         {
             base.OnPreviewStarted();
 
             startPosition = doMove.transform.position;
-            SessionState.SetVector3(positionKey, doMove.transform.position);
         }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doMove.transform.position = SessionState.GetVector3(positionKey, doMove.transform.position);
-        }
-
-        #endregion
-
     }
 }
 
