@@ -8,6 +8,8 @@ namespace DOTweenModular.Editor
     [CustomEditor(typeof(DOPunchAnchorPos)), CanEditMultipleObjects]
     public class DOPunchAnchorPosEditor : DOPunchBaseEditor
     {
+        private SerializedProperty snappingProp;
+
         private DOPunchAnchorPos doPunchAnchorPos;
         private RectTransform rectTransform;
         private string key;
@@ -15,6 +17,8 @@ namespace DOTweenModular.Editor
         public override void OnEnable()
         {
             base.OnEnable();
+
+            snappingProp = serializedObject.FindProperty("snapping");
 
             doPunchAnchorPos = (DOPunchAnchorPos)target;
             rectTransform = (RectTransform)doPunchAnchorPos.transform;
@@ -24,6 +28,7 @@ namespace DOTweenModular.Editor
         protected override void DrawValues()
         {
             DrawProperty(punchProp);
+            DrawProperty(snappingProp);
 
             base.DrawValues();
         }
