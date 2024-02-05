@@ -169,6 +169,7 @@ namespace DOTweenModular.Editor
                 DrawProperty(wayPointsProp);
             }
 
+            DrawWaypointCubicBezierHelpbox();
 
             if (toggleStates[5])
             {
@@ -372,6 +373,22 @@ namespace DOTweenModular.Editor
 
                 EditorGUILayout.EndHorizontal();
             }
+        }
+
+        /// <summary>
+        /// Draws Helpbox if path is cubic bezier and waypoints are not multiple of 3 
+        /// </summary>
+        private void DrawWaypointCubicBezierHelpbox()
+        {
+            if (doPath.pathType != DG.Tweening.PathType.CubicBezier)
+                return;
+
+            if (doPath.wayPoints == null)
+                return;
+
+            if (doPath.wayPoints.Length % 3 != 0)
+                DrawHelpbox("Cubic Bezier Path requires waypoints multiple of 3" + "\n" + 
+                            "can't show Handles/Lines", MessageType.Warning);
         }
 
         #endregion
