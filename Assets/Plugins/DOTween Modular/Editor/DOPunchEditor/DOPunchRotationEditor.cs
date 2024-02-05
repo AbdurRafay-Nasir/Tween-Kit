@@ -5,17 +5,17 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOPunchRotation)), CanEditMultipleObjects]
-    public class DOPunchRotationEditor : DOPunchBaseEditor
+    public sealed class DOPunchRotationEditor : DOPunchBaseEditor
     {
         private DOPunchRotation doPunchRotation;
-        private string key;
+        private string rotationKey;
 
         public override void OnEnable()
         {
             base.OnEnable();
 
             doPunchRotation = (DOPunchRotation)target;
-            key = "DOPunchRotation_" + instanceId;
+            rotationKey = "DOPunchRotation_" + instanceId;
         }
 
         protected override void DrawValues()
@@ -31,14 +31,14 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(key, doPunchRotation.transform.eulerAngles);
+            SessionState.SetVector3(rotationKey, doPunchRotation.transform.eulerAngles);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            doPunchRotation.transform.eulerAngles = SessionState.GetVector3(key, doPunchRotation.transform.eulerAngles);
+            doPunchRotation.transform.eulerAngles = SessionState.GetVector3(rotationKey, doPunchRotation.transform.eulerAngles);
         }
 
         #endregion
