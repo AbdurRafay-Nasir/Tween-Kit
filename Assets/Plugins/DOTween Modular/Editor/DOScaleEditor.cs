@@ -5,7 +5,7 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOScale)), CanEditMultipleObjects]
-    public class DOScaleEditor : DOLookAtBaseEditor
+    public sealed class DOScaleEditor : DOLookAtBaseEditor
     {
         #region Serialized Properties
 
@@ -17,7 +17,7 @@ namespace DOTweenModular.Editor
 
         private DOScale doScale;
         private RelativeFlags relativeFlags;
-        private string key;
+        private string scaleKey;
 
         #region Unity Functions
 
@@ -28,7 +28,7 @@ namespace DOTweenModular.Editor
             doScale = (DOScale)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
-            key = "DOScale_" + instanceId;
+            scaleKey = "DOScale_" + instanceId;
 
             relativeProp = serializedObject.FindProperty("relative");
             speedBasedProp = serializedObject.FindProperty("speedBased");
@@ -39,7 +39,7 @@ namespace DOTweenModular.Editor
         {
             Space();
 
-            bool[] toggleStates = DrawToggles("Life", "Type", "Scale", "Look At", "Values", "Events");
+            bool[] toggleStates = DrawToggles("Life", "Type", "Look At", "Scale", "Values", "Events");
 
             Space();
 
@@ -93,15 +93,14 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Scale Settings"))
+                if (BeginFoldout("Look At Settings"))
                 {
                     EditorGUI.indentLevel++;
 
                     BeginBackgroundBox();
                     Space();
 
-                    DrawScaleSettings();
-                    SetTargetScale();
+                    DrawLookAtSettings();
 
                     Space();
                     EndBackgroundBox();
@@ -116,14 +115,15 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Look At Settings"))
+                if (BeginFoldout("Scale Settings"))
                 {
                     EditorGUI.indentLevel++;
 
                     BeginBackgroundBox();
                     Space();
 
-                    DrawLookAtSettings();
+                    DrawScaleSettings();
+                    SetTargetScale();
 
                     Space();
                     EndBackgroundBox();
@@ -147,6 +147,7 @@ namespace DOTweenModular.Editor
                     BeginBackgroundBox();
                     Space();
 
+                    DrawProperty(targetScaleProp);
                     DrawValues();
 
                     Space();
@@ -162,7 +163,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Events"))
+                if (BeginFoldout("Events", false))
                 {
                     EditorGUI.indentLevel++;
 
@@ -185,41 +186,18 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Inspector Draw Functions
-
+        /// <summary>
+        /// Draws Speed Based and relative Prop
+        /// </summary>
         private void DrawScaleSettings()
         {
             DrawProperty(speedBasedProp);
             DrawProperty(relativeProp);            
         }
 
-        protected override void DrawValues()
-        {
-            DrawProperty(targetScaleProp);
-
-            base.DrawValues();
-        }
-
-        #endregion
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(key, doScale.transform.localScale);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doScale.transform.localScale = SessionState.GetVector3(key, doScale.transform.localScale);
-        }
-
-        #endregion
-
+        /// <summary>
+        /// Update Target Scale when switching from relative/absolute modes
+        /// </summary>
         private void SetTargetScale()
         {
             if (doScale.relative)
@@ -247,6 +225,26 @@ namespace DOTweenModular.Editor
                 relativeFlags.firstTimeRelative = true;
             }
         }
+
+        #region Tween Preview Functions
+
+        protected override void OnPreviewStarted()
+        {
+            base.OnPreviewStarted();
+
+            SessionState.SetVector3(scaleKey, doScale.transform.localScale);
+        }
+
+        protected override void OnPreviewStopped()
+        {
+            base.OnPreviewStopped();
+
+            doScale.transform.localScale = SessionState.GetVector3(scaleKey, doScale.transform.localScale);
+        }
+
+        #endregion
+
+
     }
 }
 
