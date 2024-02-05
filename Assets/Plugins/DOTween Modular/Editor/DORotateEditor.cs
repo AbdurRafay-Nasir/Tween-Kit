@@ -18,8 +18,6 @@ namespace DOTweenModular.Editor
 
         private DORotate doRotate;
 
-        private string rotationKey;
-
         #region Unity Functions
 
         public override void OnEnable()
@@ -27,8 +25,6 @@ namespace DOTweenModular.Editor
             base.OnEnable();
 
             doRotate = (DORotate)target;
-
-            rotationKey = "DORotate_" + instanceId;
 
             rotateModeProp = serializedObject.FindProperty("rotateMode");
             speedBasedProp = serializedObject.FindProperty("speedBased");
@@ -171,25 +167,6 @@ namespace DOTweenModular.Editor
             DrawProperty(speedBasedProp);
             DrawProperty(useLocalProp);
         }
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(rotationKey, doRotate.transform.localEulerAngles);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doRotate.transform.localEulerAngles = SessionState.GetVector3(rotationKey, doRotate.transform.localEulerAngles);
-        }
-
-        #endregion
-
     }
 }
 
