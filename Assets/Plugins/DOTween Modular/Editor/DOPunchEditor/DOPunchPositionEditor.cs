@@ -5,19 +5,19 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOPunchPosition)), CanEditMultipleObjects]
-    public class DOPunchPositionEditor : DOPunchBaseEditor
+    public sealed class DOPunchPositionEditor : DOPunchBaseEditor
     {
         private SerializedProperty snappingProp;
 
         private DOPunchPosition doPunchPosition;
-        private string key;
+        private string positionKey;
 
         public override void OnEnable()
         {
             base.OnEnable();
 
             doPunchPosition = (DOPunchPosition)target;
-            key = "DOPunchPosition_" + instanceId;
+            positionKey = "DOPunchPosition_" + instanceId;
 
             snappingProp = serializedObject.FindProperty("snapping");
         }
@@ -36,14 +36,14 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(key, doPunchPosition.transform.position);
+            SessionState.SetVector3(positionKey, doPunchPosition.transform.position);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            doPunchPosition.transform.position = SessionState.GetVector3(key, doPunchPosition.transform.position);
+            doPunchPosition.transform.position = SessionState.GetVector3(positionKey, doPunchPosition.transform.position);
         }
 
         #endregion
