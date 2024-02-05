@@ -6,7 +6,7 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOMove)), CanEditMultipleObjects]
-    public class DOMoveEditor : DOLookAtBaseEditor
+    public sealed class DOMoveEditor : DOLookAtBaseEditor
     {
 
         #region Serialized Properties
@@ -22,8 +22,7 @@ namespace DOTweenModular.Editor
         private DOMove doMove;
         private RelativeFlags relativeFlags;
 
-        private string previewKey;
-        private string saveKey;
+        private string positionKey;
 
         private Vector3 startPosition;
 
@@ -36,8 +35,7 @@ namespace DOTweenModular.Editor
             doMove = (DOMove)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
-            previewKey = "DOMove_preview" + instanceId;
-            saveKey = "DOMove_" + instanceId;
+            positionKey = "DOMove_" + instanceId;
 
             speedBasedProp = serializedObject.FindProperty("speedBased");
             useLocalProp = serializedObject.FindProperty("useLocal");
@@ -157,6 +155,7 @@ namespace DOTweenModular.Editor
                     BeginBackgroundBox();
                     Space();
 
+                    DrawProperty(targetPositionProp);
                     DrawValues();
 
                     Space();
@@ -172,7 +171,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Events"))
+                if (BeginFoldout("Events", false))
                 {
                     EditorGUI.indentLevel++;
 
@@ -197,12 +196,11 @@ namespace DOTweenModular.Editor
         {
             base.OnSceneGUI();
 
-            if (!SessionState.GetBool(previewKey, false))
+            if (!tweenPreviewing)
             {
                 startPosition = doMove.transform.position;
             }
 
-            // TargetPosition
             Vector3 handlePosition = CalculateTargetPosition(startPosition);
 
             doMove.targetPosition += DrawHandle(handlePosition);
@@ -211,8 +209,9 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Inspector Draw Functions
-
+        /// <summary>
+        /// Draws Speed Based, Use Local(If relative = false), Relative(If useLocal = false) and Snapping Properties
+        /// </summary>
         private void DrawMoveSettings()
         {
             DrawProperty(speedBasedProp);
@@ -226,14 +225,9 @@ namespace DOTweenModular.Editor
             DrawProperty(snappingProp);
         }
 
-        protected override void DrawValues()
-        {
-            DrawProperty(targetPositionProp);
-            base.DrawValues();
-        }
-
-        #endregion
-
+        /// <summary>
+        /// Update Target Position when switching from relative/absolute modes
+        /// </summary>
         private Vector3 CalculateTargetPosition(Vector3 currentPosition)
         {
             Vector3 handlePosition;
@@ -294,17 +288,14 @@ namespace DOTweenModular.Editor
             base.OnPreviewStarted();
 
             startPosition = doMove.transform.position;
-
-            SessionState.SetBool(previewKey, true);
-            SessionState.SetVector3(saveKey, doMove.transform.position);
+            SessionState.SetVector3(positionKey, doMove.transform.position);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            SessionState.SetBool(previewKey, false);
-            doMove.transform.position = SessionState.GetVector3(saveKey, doMove.transform.position);
+            doMove.transform.position = SessionState.GetVector3(positionKey, doMove.transform.position);
         }
 
         #endregion
