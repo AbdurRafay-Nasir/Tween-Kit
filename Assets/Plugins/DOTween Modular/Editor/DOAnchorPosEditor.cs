@@ -22,7 +22,7 @@ namespace DOTweenModular.Editor
 
         private RelativeFlags relativeFlags;
 
-        private string saveKey;
+        private string anchoredPositionKey;
 
         #region Unity Functions
 
@@ -35,7 +35,7 @@ namespace DOTweenModular.Editor
 
             relativeFlags = CreateInstance<RelativeFlags>();
 
-            saveKey = "DOAnchorPos_" + instanceId;
+            anchoredPositionKey = "DOAnchorPos_" + instanceId;
 
             speedBasedProp = serializedObject.FindProperty("speedBased");            
             relativeProp = serializedObject.FindProperty("relative");
@@ -217,14 +217,14 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(saveKey, doAnchorPos.transform.position);
+            SessionState.SetVector3(anchoredPositionKey, rectTransform.anchoredPosition);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            doAnchorPos.transform.position = SessionState.GetVector3(saveKey, doAnchorPos.transform.position);
+            rectTransform.anchoredPosition = SessionState.GetVector3(anchoredPositionKey, rectTransform.anchoredPosition);
         }
 
         #endregion
