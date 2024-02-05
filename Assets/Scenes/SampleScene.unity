@@ -223,7 +223,7 @@ Transform:
   m_GameObject: {fileID: 180327339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.65, y: 0.54699993, z: 0}
+  m_LocalPosition: {x: -3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 180327339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef21ca72a76bebc46ba4c2092f408546, type: 3}
+  m_Script: {fileID: 11500000, guid: b4f7185519ca07745a7b8e52f29f7d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   begin: 0
@@ -271,11 +271,12 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  useLocal: 0
-  relative: 0
+  fadeout: 1
+  vibrato: 10
+  randomness: 90
+  randomnessMode: 0
+  strength: {x: 10, y: 10, z: 10}
   snapping: 0
-  center: {x: 0, y: 0}
-  endDegree: 0
 --- !u!1 &182718322
 GameObject:
   m_ObjectHideFlags: 0
