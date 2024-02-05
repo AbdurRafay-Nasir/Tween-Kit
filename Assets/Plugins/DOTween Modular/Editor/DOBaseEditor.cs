@@ -8,6 +8,9 @@ namespace DOTweenModular.Editor
     using DG.DOTweenEditor;
     using DOTweenModular.Enums;
 
+    /// <summary>
+    /// Base class for creating DOComponents Editor
+    /// </summary>
     public class DOBaseEditor : Editor
     {
 
@@ -33,10 +36,21 @@ namespace DOTweenModular.Editor
         #endregion
 
         private DOBase doBase;
+
+        /// <summary>
+        /// The ID of this component
+        /// </summary>
         protected int instanceId;
 
+        // Used as a key to store state if tween (previewing or stoped)
         private string previewKey;
+
+        /// <summary>
+        /// True when tween is previewing in editor
+        /// </summary>
         protected bool tweenPreviewing;
+
+        #region Unity Functions
 
         public virtual void OnEnable()
         {
@@ -74,18 +88,34 @@ namespace DOTweenModular.Editor
             }
         }
 
+        #endregion
+
+        // Helpful functions for drawing customized items on Inspector
         #region GUI Handling
 
+        /// <summary>
+        /// Adds a space
+        /// </summary>
         protected void Space()
         {
             EditorGUILayout.Space();
         }
 
+        /// <summary>
+        /// Creates a box with a message
+        /// </summary>
+        /// <param name="message">The text to show in helpbox</param>
+        /// <param name="messageType">type of message (None, Info, Warning, Error)</param>
         protected void DrawHelpbox(string message, MessageType messageType)
         {
             EditorGUILayout.HelpBox(message, messageType);
         }
 
+        /// <summary>
+        /// Draw box Toggles
+        /// </summary>
+        /// <param name="toggleNames">Names of toggles</param>
+        /// <returns>State of each toggle, true or false</returns>
         protected bool[] DrawToggles(params string[] toggleNames)
         {
             GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
@@ -126,16 +156,37 @@ namespace DOTweenModular.Editor
             return toggleStates;
         }
 
+        /// <summary>
+        /// Draws a simple line, useful for visually separating properties in inspector
+        /// </summary>
         protected void DrawSeparatorLine()
         {
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }
 
+        /// <summary>
+        /// Starts Drawing a backgroud
+        /// </summary>
+        /// <remarks>Use EndBackgroundBox() to Stop the background</remarks>
         protected void BeginBackgroundBox()
         {
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         }
 
+        /// <summary>
+        /// Ends the Background Box, started by BeginBackgroundBox()
+        /// </summary>
+        protected void EndBackgroundBox()
+        {
+            EditorGUILayout.EndVertical();
+        }
+
+        /// <summary>
+        /// Starts a foldable Header group
+        /// </summary>
+        /// <param name="foldoutName">Name of Foldout</param>
+        /// <param name="openByDefault">If true, Toggle will be expaned by default</param>
+        /// <returns>True if foldout is open, False otherwise</returns>
         protected bool BeginFoldout(string foldoutName, bool openByDefault = true)
         {
             string foldoutKey = instanceId + "_" + "Foldout_" + foldoutName;
@@ -147,16 +198,19 @@ namespace DOTweenModular.Editor
 
         }
 
-        protected void EndBackgroundBox()
-        {
-            EditorGUILayout.EndVertical();
-        }
-
+        /// <summary>
+        /// Stops a foldout header group started by BeginFoldout()
+        /// </summary>
         protected void EndFoldout()
         {
             EditorGUILayout.EndFoldoutHeaderGroup();
         }
 
+        /// <summary>
+        /// Draws a Play button in inspector to Preview tween withing editor
+        /// </summary>
+        /// <remarks>Will not draw Play button if in Play Mode <br/>
+        /// OnPreviewStarted() is called when this button is pressed</remarks>
         protected void DrawPlayButton()
         {
             if (EditorApplication.isPlaying)
@@ -186,6 +240,11 @@ namespace DOTweenModular.Editor
             GUI.enabled = true;
         }
 
+        /// <summary>
+        /// Draws a Stop button in inspector to stop tween Previewing withing editor
+        /// </summary>
+        /// <remarks>Will not draw Stop button if in Play Mode <br/>
+        /// OnPreviewForceStopped() is called when this button is pressed</remarks>
         protected void DrawStopButton()
         {
             if (EditorApplication.isPlaying)
@@ -208,16 +267,20 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        // Functions for drawing Common properties for DOComponents
         #region Inspector Draw Functions
 
+        /// <summary>
+        /// Creates a field for a property
+        /// </summary>
+        /// <param name="property">Reference to property</param>
         protected void DrawProperty(SerializedProperty property)
         {
             EditorGUILayout.PropertyField(property);
         }
 
         /// <summary>
-        /// Draws begin, tweenObjectProp(if Begin = After or With), kill <br/>
-        /// destroy component, destroy gameObject
+        /// Draws begin, tweenObjectProp(if Begin = After or With)
         /// </summary>
         protected void DrawLifeTimeSettings()
         {
@@ -263,10 +326,10 @@ namespace DOTweenModular.Editor
         }
 
         /// <summary>
-        /// Draws tweenType loopType (if tweenType = Looped), <br/> 
-        /// easeType, curve(if easeType = INTERNAL_Custom)
+        /// Draws tweenType, loopType (if tweenType = Looped), <br/> 
+        /// easeType, curve(if easeType = INTERNAL_Custom) properties
         /// </summary>
-        protected virtual void DrawTypeSettings()
+        protected void DrawTypeSettings()
         {
             DrawProperty(tweenTypeProp);
 
@@ -284,7 +347,7 @@ namespace DOTweenModular.Editor
         }
 
         /// <summary>
-        /// Draws loops(if loopType = Looped), delay, duration Property
+        /// Draws loops(if loopType = Looped), delay, duration Properties
         /// </summary>    
         protected virtual void DrawValues()
         {
@@ -298,7 +361,7 @@ namespace DOTweenModular.Editor
         }
 
         /// <summary>
-        /// Draws onTweenCreated, onTweenStartedProp, onTweenCompleted, onTweenKilledProp events
+        /// Draws onTweenCreated, onTweenPlayed, onTweenUpdated, onTweenCompleted, onTweenKilled events
         /// </summary>
         protected void DrawEvents()
         {
@@ -311,8 +374,14 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        // Helpful functions for drawing stuff in scene view
         #region Scene Draw Functions
 
+        /// <summary>
+        /// Draws a position handle at given handlePosition
+        /// </summary>
+        /// <param name="handlePosition">The position to draw handle at</param>
+        /// <returns>Change in Position of handle</returns>
         protected Vector3 DrawHandle(Vector3 handlePosition)
         {
             Vector3 newHandlePosition = Handles.PositionHandle(handlePosition, Quaternion.identity);
@@ -334,6 +403,12 @@ namespace DOTweenModular.Editor
             return delta;
         }
 
+        /// <summary>
+        /// Draws a Free position handle at given handlePosition
+        /// </summary>
+        /// <param name="handlePosition"></param>
+        /// <param name="size">Size of spehere handle</param>
+        /// <returns>Change in Position of handle</returns>
         protected Vector3 DrawSphereHandle(Vector3 handlePosition, float size)
         {
             Vector3 newHandlePosition = Handles.FreeMoveHandle(handlePosition, size, Vector3.zero, Handles.SphereHandleCap);
@@ -354,7 +429,14 @@ namespace DOTweenModular.Editor
 
             return delta;
         }
-
+        
+        /// <summary>
+        /// Draws a Line in scene
+        /// </summary>
+        /// <param name="from">Start of Line</param>
+        /// <param name="to">End of Line</param>
+        /// <param name="color">Color of line</param>
+        /// <param name="thickness">Thickness of line, default is 2</param>
         protected void DrawLine(Vector3 from, Vector3 to, Color color, float thickness = 2f)
         {
             Color previousColor = Handles.color;
@@ -365,6 +447,13 @@ namespace DOTweenModular.Editor
             Handles.color = previousColor;
         }
 
+        /// <summary>
+        /// Draws a Dotted Line in scene
+        /// </summary>
+        /// <param name="from">Start of Line</param>
+        /// <param name="to">End of Line</param>
+        /// <param name="color">Color of line</param>
+        /// <param name="size">The size in pixels for the lengths of the line segments and the gaps between them.</param>
         protected void DrawDottedLine(Vector3 from, Vector3 to, Color color, float size = 2f)
         {
             Color previousColor = Handles.color;
@@ -375,17 +464,24 @@ namespace DOTweenModular.Editor
             Handles.color = previousColor;
         }
 
-        protected void DrawPoint(Vector3 pointPosition, Color color, float size = 1f)
+        /// <summary>
+        /// Draws a Point (sphere) on given Position
+        /// </summary>
+        /// <param name="pointPosition">Position of Point</param>
+        /// <param name="color">Color of Point</param>
+        /// <param name="radius">Radius of Point</param>
+        protected void DrawPoint(Vector3 pointPosition, Color color, float radius = 1f)
         {
             Color previousColor = Handles.color;
             Handles.color = color;
 
-            Handles.SphereHandleCap(0, pointPosition, Quaternion.identity, size, EventType.Repaint);
+            Handles.SphereHandleCap(0, pointPosition, Quaternion.identity, radius, EventType.Repaint);
             Handles.color = previousColor;
         }
 
         /// <summary>
-        /// Draws complete lines to backward Tween Objects, also displays arrow head and Begin Property
+        /// Draws a line to Tween Object, and draws a line to Tween Object of that Tween Object and so on <br/>
+        /// Also displays arrow head to each Tween Object and Begin Property of those Tween Objects
         /// </summary>
         private void DrawTweenObjectInfo()
         {
@@ -433,17 +529,26 @@ namespace DOTweenModular.Editor
 
         #region Tween Preview Callbacks
 
+        /// <summary>
+        /// Called when Tween Preview is started, (when Play button in inspector is pressed)
+        /// </summary>
         protected virtual void OnPreviewStarted()
         {
 
         }
 
+        /// <summary>
+        /// Called when Tween Completes preview, never called in case of infinite loop
+        /// </summary>
         protected virtual void OnPreviewStopped()
         {
             tweenPreviewing = false;
             SessionState.SetBool(previewKey, tweenPreviewing);
         }
 
+        /// <summary>
+        /// Called when Tween preview is stopped using Stop Button in inspector
+        /// </summary>
         protected virtual void OnPreviewForceStopped()
         {
             tweenPreviewing = false;
@@ -454,6 +559,9 @@ namespace DOTweenModular.Editor
 
     }
 
+    /// <summary>
+    /// Utility Class used for correct undo/redo from relative to absolute modes
+    /// </summary>
     public class RelativeFlags : ScriptableObject
     {
         public bool firstTimeRelative;
