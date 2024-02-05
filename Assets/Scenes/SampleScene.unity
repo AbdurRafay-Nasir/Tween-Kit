@@ -271,10 +271,10 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  rotateMode: 2
+  rotateMode: 0
   useLocal: 0
   speedBased: 0
-  targetRotation: {x: 55, y: 55, z: 55}
+  targetRotation: {x: 90, y: 90, z: 90}
 --- !u!1 &261944995
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,15 +16,11 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        private DORotate doRotate;
-
         #region Unity Functions
 
         public override void OnEnable()
         {
             base.OnEnable();
-
-            doRotate = (DORotate)target;
 
             rotateModeProp = serializedObject.FindProperty("rotateMode");
             speedBasedProp = serializedObject.FindProperty("speedBased");
