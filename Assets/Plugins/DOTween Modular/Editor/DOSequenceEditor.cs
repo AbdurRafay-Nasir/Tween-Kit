@@ -1,13 +1,13 @@
 #if UNITY_EDITOR
 
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOSequence)), CanEditMultipleObjects]
-    public class DOSequenceEditor : DOBaseEditor
+    public sealed class DOSequenceEditor : DOBaseEditor
     {
         private SerializedProperty sequenceTweensProp;
 
@@ -91,7 +91,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Events"))
+                if (BeginFoldout("Events", false))
                 {
                     EditorGUI.indentLevel++;
 
@@ -131,17 +131,23 @@ namespace DOTweenModular.Editor
 
         #region Inspector Draw Functions
 
+        /// <summary>
+        /// Draws Tween Type and Loop Type & Loops(If tweenType = Looped)
+        /// </summary>
         private void DrawSequenceSettings()
         {
-            EditorGUILayout.PropertyField(tweenTypeProp);
+            DrawProperty(tweenTypeProp);
 
-            if ((Enums.TweenType)tweenTypeProp.enumValueIndex == Enums.TweenType.Looped)
+            if (doSequence.tweenType == Enums.TweenType.Looped)
             {
-                EditorGUILayout.PropertyField(loopTypeProp);
-                EditorGUILayout.PropertyField(loopsProp);
+                DrawProperty(loopTypeProp);
+                DrawProperty(loopsProp);
             }
         }
 
+        /// <summary>
+        /// Draws Helpbox regarding sequenceTweens Tween Object
+        /// </summary>
         private void DrawSequenceTweensHelpbox()
         {
             if (doSequence.sequenceTweens != null)
@@ -167,6 +173,9 @@ namespace DOTweenModular.Editor
 
         #region Scene Draw Functions
 
+        /// <summary>
+        /// Draws Lines to each Tween Object of sequenceTweens
+        /// </summary>
         private void DrawLinesToSequenceTweens()
         {
             Vector3 startPosition = doSequence.transform.position;
@@ -183,6 +192,9 @@ namespace DOTweenModular.Editor
             }
         }
 
+        /// <summary>
+        /// Draws start number at mid of sequenceTweens Tween Objects Scene view Lines
+        /// </summary>
         private void DrawLabelsToSequenceTweens()
         {
             int num = 1;
