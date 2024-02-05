@@ -16,7 +16,8 @@ namespace DOTweenModular
         [Range(0f, 1f)]
         public float elasticity = 1;
 
-        public Vector3 punch = new Vector3(3f, 3f, 3f);
+        [Tooltip("The direction and strength of the punch (added to the Transform's current position)")]
+        public Vector3 punch = new(3f, 3f, 3f);
 
         #endregion
 
@@ -39,6 +40,9 @@ namespace DOTweenModular
             return Tween;
         }
 
+        /// <summary>
+        /// Implement this method to Initialize custom DOPunch Tween
+        /// </summary>
         protected abstract void InitializeTween();
     }
 }
