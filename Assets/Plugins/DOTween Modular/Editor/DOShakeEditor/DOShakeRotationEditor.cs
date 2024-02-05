@@ -5,17 +5,17 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOShakeRotation)), CanEditMultipleObjects]
-    public class DOShakeRotationEditor : DOShakeBaseEditor
+    public sealed class DOShakeRotationEditor : DOShakeBaseEditor
     {
         private DOShakeRotation doShakeRotation;
-        private string key;
+        private string rotationKey;
 
         public override void OnEnable()
         {
             base.OnEnable();
 
             doShakeRotation = (DOShakeRotation)target;
-            key = "DOShakeRotation_" + instanceId;
+            rotationKey = "DOShakeRotation_" + instanceId;
         }
 
         protected override void DrawValues()
@@ -31,14 +31,14 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(key, doShakeRotation.transform.eulerAngles);
+            SessionState.SetVector3(rotationKey, doShakeRotation.transform.eulerAngles);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            doShakeRotation.transform.eulerAngles = SessionState.GetVector3(key, doShakeRotation.transform.eulerAngles);
+            doShakeRotation.transform.eulerAngles = SessionState.GetVector3(rotationKey, doShakeRotation.transform.eulerAngles);
         }
 
         #endregion
