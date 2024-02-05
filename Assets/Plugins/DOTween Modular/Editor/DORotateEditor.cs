@@ -5,7 +5,7 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DORotate)), CanEditMultipleObjects]
-    public class DORotateEditor : DOBaseEditor
+    public sealed class DORotateEditor : DOBaseEditor
     {
         #region Serialized Properties
 
@@ -18,7 +18,7 @@ namespace DOTweenModular.Editor
 
         private DORotate doRotate;
 
-        private string key;
+        private string rotationKey;
 
         #region Unity Functions
 
@@ -28,7 +28,7 @@ namespace DOTweenModular.Editor
 
             doRotate = (DORotate)target;
 
-            key = "DORotate_" + instanceId;
+            rotationKey = "DORotate_" + instanceId;
 
             rotateModeProp = serializedObject.FindProperty("rotateMode");
             speedBasedProp = serializedObject.FindProperty("speedBased");
@@ -123,6 +123,7 @@ namespace DOTweenModular.Editor
                     BeginBackgroundBox();
                     Space();
 
+                    DrawProperty(targetRotationProp);
                     DrawValues();
 
                     Space();
@@ -138,7 +139,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Events"))
+                if (BeginFoldout("Events", false))
                 {
                     EditorGUI.indentLevel++;
 
@@ -161,8 +162,9 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Inspector Draw Functions
-
+        /// <summary>
+        /// Draws Rotate Mode, Speed Based and use Local properties
+        /// </summary>
         private void DrawRotateSettings()
         {
             DrawProperty(rotateModeProp);
@@ -170,29 +172,20 @@ namespace DOTweenModular.Editor
             DrawProperty(useLocalProp);
         }
 
-        protected override void DrawValues()
-        {
-            DrawProperty(targetRotationProp);
-
-            base.DrawValues();
-        }
-
-        #endregion
-
         #region Tween Preview Functions
 
         protected override void OnPreviewStarted()
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(key, doRotate.transform.localEulerAngles);
+            SessionState.SetVector3(rotationKey, doRotate.transform.localEulerAngles);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            doRotate.transform.localEulerAngles = SessionState.GetVector3(key, doRotate.transform.localEulerAngles);
+            doRotate.transform.localEulerAngles = SessionState.GetVector3(rotationKey, doRotate.transform.localEulerAngles);
         }
 
         #endregion
