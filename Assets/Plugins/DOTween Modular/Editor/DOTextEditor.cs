@@ -19,8 +19,6 @@ namespace DOTweenModular.Editor
         private DOText doText;
         private UnityEngine.UI.Text textComponent;
 
-        private string textKey;
-
         #region Unity Functions
 
         public override void OnEnable()
@@ -28,7 +26,6 @@ namespace DOTweenModular.Editor
             base.OnEnable();
 
             doText = (DOText)target;
-            textKey = "DOText_" + instanceId;
 
             textComponent = doText.GetComponent<UnityEngine.UI.Text>();
 
@@ -176,32 +173,6 @@ namespace DOTweenModular.Editor
 
             DrawProperty(useRichTextProp);
         }
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetString(textKey, textComponent.text);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            textComponent.text = SessionState.GetString(textKey, textComponent.text);
-        }
-
-        protected override void OnPreviewForceStopped()
-        {
-            base.OnPreviewForceStopped();
-
-            textComponent.text = SessionState.GetString(textKey, textComponent.text);
-        }
-
-        #endregion
-
     }
 }
 
