@@ -239,7 +239,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 180327339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27b962d012a51fc4f98295813a078298, type: 3}
+  m_Script: {fileID: 11500000, guid: de554ecb75d40ac4793e82423274d70b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   begin: 0
@@ -273,7 +273,7 @@ MonoBehaviour:
       m_Calls: []
   vibrato: 10
   elasticity: 1
-  punch: {x: 50, y: 50, z: 3}
+  punch: {x: 3, y: 3, z: 3}
 --- !u!1 &182718322
 GameObject:
   m_ObjectHideFlags: 0
