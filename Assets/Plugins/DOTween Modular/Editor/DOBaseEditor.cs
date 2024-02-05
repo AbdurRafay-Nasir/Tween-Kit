@@ -13,7 +13,6 @@ namespace DOTweenModular.Editor
     /// </summary>
     public class DOBaseEditor : Editor
     {
-
         #region Serialized Properties
 
         protected SerializedProperty beginProp;
@@ -42,7 +41,7 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected int instanceId;
 
-        // Used as a key to store state if tween (previewing or stoped)
+        // Used as a key to store state of tween (previewing or stoped)
         private string previewKey;
 
         /// <summary>
@@ -85,6 +84,14 @@ namespace DOTweenModular.Editor
             {
                 if (doBase.tweenObject != null)
                     DrawTweenObjectInfo();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (tweenPreviewing)
+            {
+                OnPreviewForceStopped();
             }
         }
 
@@ -252,13 +259,12 @@ namespace DOTweenModular.Editor
 
             GUI.enabled = SessionState.GetBool(previewKey, false);
 
-            GUIStyle style = new GUIStyle(EditorStyles.miniButton);
+            GUIStyle style = new(EditorStyles.miniButton);
             style.fixedHeight = 30f;
             style.fontSize = 20;
 
             if (GUILayout.Button("Stop", style))
             {
-                DOTweenEditorPreview.Stop(true);
                 OnPreviewForceStopped();
             }
 
@@ -542,6 +548,8 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected virtual void OnPreviewStopped()
         {
+            DOTweenEditorPreview.Stop(true);
+
             tweenPreviewing = false;
             SessionState.SetBool(previewKey, tweenPreviewing);
         }
@@ -551,12 +559,13 @@ namespace DOTweenModular.Editor
         /// </summary>
         protected virtual void OnPreviewForceStopped()
         {
+            DOTweenEditorPreview.Stop(true);
+
             tweenPreviewing = false;
             SessionState.SetBool(previewKey, tweenPreviewing);
         }
 
         #endregion
-
     }
 
     /// <summary>
@@ -567,7 +576,6 @@ namespace DOTweenModular.Editor
         public bool firstTimeRelative;
         public bool firstTimeNonRelative;
     }
-
 }
 
 #endif
