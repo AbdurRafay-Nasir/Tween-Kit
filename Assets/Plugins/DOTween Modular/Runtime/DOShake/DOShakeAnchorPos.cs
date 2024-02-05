@@ -3,8 +3,10 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
+    [AddComponentMenu("DOTween Modular/DO Shake Anchor Pos")]
     public sealed class DOShakeAnchorPos : DOShakeBase
     {
+        [Tooltip("If TRUE the tween will smoothly snap all values to integers")]
         public bool snapping;
 
         protected override void InitializeTween()
