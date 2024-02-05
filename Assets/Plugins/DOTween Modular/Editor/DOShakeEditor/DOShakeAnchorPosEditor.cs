@@ -1,6 +1,5 @@
 #if UNITY_EDITOR
 
-using UnityEngine;
 using UnityEditor;
 
 namespace DOTweenModular.Editor
@@ -10,19 +9,9 @@ namespace DOTweenModular.Editor
     {
         private SerializedProperty snappingProp;
 
-        private DOShakeAnchorPos doShakeAnchorPos;
-        private RectTransform rectTransform;
-
-        private string anchoredPositionKey;
-
         public override void OnEnable()
         {
             base.OnEnable();
-
-            doShakeAnchorPos = (DOShakeAnchorPos)target;
-            rectTransform = (RectTransform)doShakeAnchorPos.transform;
-
-            anchoredPositionKey = "DOShakeAnchorPos_" + instanceId;
 
             snappingProp = serializedObject.FindProperty("snapping");
         }
@@ -34,24 +23,6 @@ namespace DOTweenModular.Editor
 
             base.DrawValues();
         }
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(anchoredPositionKey, rectTransform.anchoredPosition);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            rectTransform.anchoredPosition = SessionState.GetVector3(anchoredPositionKey, rectTransform.anchoredPosition);
-        }
-
-        #endregion
     }
 }
 
