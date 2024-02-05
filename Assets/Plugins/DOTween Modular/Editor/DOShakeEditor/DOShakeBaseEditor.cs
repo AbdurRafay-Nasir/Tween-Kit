@@ -131,7 +131,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Events"))
+                if (BeginFoldout("Events", false))
                 {
                     EditorGUI.indentLevel++;
 
@@ -154,6 +154,9 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        /// <summary>
+        /// Draws Randomness Mode, Randomness, Vibrato and Fadeout Properties
+        /// </summary>
         private void DrawShakeSettings()
         {
             DrawProperty(randomnessModeProp);
