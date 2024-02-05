@@ -5,17 +5,17 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOPunchScale)), CanEditMultipleObjects]
-    public class DOPunchScaleEditor : DOPunchBaseEditor
+    public sealed class DOPunchScaleEditor : DOPunchBaseEditor
     {
         private DOPunchScale doPunchScale;
-        private string key;
+        private string scaleKey;
 
         public override void OnEnable()
         {
             base.OnEnable();
 
             doPunchScale = (DOPunchScale)target;
-            key = "DOPunchScale_" + instanceId;
+            scaleKey = "DOPunchScale_" + instanceId;
         }
 
         protected override void DrawValues()
@@ -31,19 +31,17 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(key, doPunchScale.transform.localScale);
+            SessionState.SetVector3(scaleKey, doPunchScale.transform.localScale);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            doPunchScale.transform.localScale = SessionState.GetVector3(key, doPunchScale.transform.localScale);
+            doPunchScale.transform.localScale = SessionState.GetVector3(scaleKey, doPunchScale.transform.localScale);
         }
 
         #endregion
-
-
     }
 }
 

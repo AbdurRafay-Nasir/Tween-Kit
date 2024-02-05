@@ -42,7 +42,6 @@ namespace DOTweenModular.Editor
         }
 
         #endregion
-
     }
 }
 
