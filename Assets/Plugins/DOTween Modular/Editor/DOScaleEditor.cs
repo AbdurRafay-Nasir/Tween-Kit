@@ -17,7 +17,6 @@ namespace DOTweenModular.Editor
 
         private DOScale doScale;
         private RelativeFlags relativeFlags;
-        private string scaleKey;
 
         #region Unity Functions
 
@@ -27,8 +26,6 @@ namespace DOTweenModular.Editor
 
             doScale = (DOScale)target;
             relativeFlags = CreateInstance<RelativeFlags>();
-
-            scaleKey = "DOScale_" + instanceId;
 
             relativeProp = serializedObject.FindProperty("relative");
             speedBasedProp = serializedObject.FindProperty("speedBased");
@@ -225,24 +222,6 @@ namespace DOTweenModular.Editor
                 relativeFlags.firstTimeRelative = true;
             }
         }
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(scaleKey, doScale.transform.localScale);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doScale.transform.localScale = SessionState.GetVector3(scaleKey, doScale.transform.localScale);
-        }
-
-        #endregion
     }
 }
 

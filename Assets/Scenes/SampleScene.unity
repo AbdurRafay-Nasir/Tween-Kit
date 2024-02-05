@@ -239,7 +239,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 180327339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd13044fa577f5444b00b14878be8f4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a54c6cffdf0ba54eb8e9d3902c00919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   begin: 0
@@ -271,10 +271,13 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  rotateMode: 0
-  useLocal: 0
+  lookAt: 1
+  lookAtPosition: {x: 0, y: 0, z: 0}
+  lookAtTarget: {fileID: 0}
+  interpolate: 0.01
   speedBased: 0
-  targetRotation: {x: 90, y: 90, z: 90}
+  relative: 0
+  targetScale: {x: 3, y: 3, z: 3}
 --- !u!1 &261944995
 GameObject:
   m_ObjectHideFlags: 0
