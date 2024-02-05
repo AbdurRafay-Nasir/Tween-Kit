@@ -6,7 +6,7 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOShapeCircle)), CanEditMultipleObjects]
-    public class DOShapeCircleEditor : DOBaseEditor
+    public sealed class DOShapeCircleEditor : DOBaseEditor
     {
         #region Serialized Properties
 
@@ -21,7 +21,7 @@ namespace DOTweenModular.Editor
         private DOShapeCircle doShapeCircle;
         private RelativeFlags relativeFlags;
 
-        private string key;
+        private string positionKey;
 
         #region Unity Functions
 
@@ -32,7 +32,7 @@ namespace DOTweenModular.Editor
             doShapeCircle = (DOShapeCircle)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
-            key = "DOShapeCircle_" + instanceId;
+            positionKey = "DOShapeCircle_" + instanceId;
 
             useLocalProp = serializedObject.FindProperty("useLocal");
             relativeProp = serializedObject.FindProperty("relative");
@@ -128,6 +128,8 @@ namespace DOTweenModular.Editor
                     BeginBackgroundBox();
                     Space();
 
+                    DrawProperty(centerProp);
+                    DrawProperty(endDegreeProp);
                     DrawValues();
 
                     Space();
@@ -143,7 +145,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Events"))
+                if (BeginFoldout("Events", false))
                 {
                     EditorGUI.indentLevel++;
 
@@ -168,7 +170,7 @@ namespace DOTweenModular.Editor
         {
             base.OnSceneGUI();
 
-            Vector3 handlePosition = CalculateTargetPosition(doShapeCircle.transform.position);
+            Vector3 handlePosition = CalculateCenterPosition(doShapeCircle.transform.position);
 
             doShapeCircle.center += (Vector2)DrawHandle(handlePosition);
             DrawLine(doShapeCircle.transform.position, handlePosition, Color.green);
@@ -176,8 +178,9 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Inspector Draw Functions
-
+        /// <summary>
+        /// Draws Snapping, Use Local(If relative = false) and Relative(If useLocal = false) properties
+        /// </summary>
         private void DrawCircleSettings()
         {
             DrawProperty(snappingProp);
@@ -189,35 +192,10 @@ namespace DOTweenModular.Editor
                 DrawProperty(relativeProp);
         }
 
-        protected override void DrawValues()
-        {
-            DrawProperty(centerProp);
-            DrawProperty(endDegreeProp);
-
-            base.DrawValues();
-        }
-
-        #endregion
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(key, doShapeCircle.transform.position);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doShapeCircle.transform.position = SessionState.GetVector3(key, doShapeCircle.transform.position);
-        }
-
-        #endregion
-
-        private Vector3 CalculateTargetPosition(Vector3 currentPosition)
+        /// <summary>
+        /// Update Center when switching from relative/absolute modes
+        /// </summary>
+        private Vector3 CalculateCenterPosition(Vector3 currentPosition)
         {
             Vector2 handlePosition;
 
@@ -269,6 +247,24 @@ namespace DOTweenModular.Editor
 
             return handlePosition;
         }
+
+        #region Tween Preview Functions
+
+        protected override void OnPreviewStarted()
+        {
+            base.OnPreviewStarted();
+
+            SessionState.SetVector3(positionKey, doShapeCircle.transform.position);
+        }
+
+        protected override void OnPreviewStopped()
+        {
+            base.OnPreviewStopped();
+
+            doShapeCircle.transform.position = SessionState.GetVector3(positionKey, doShapeCircle.transform.position);
+        }
+
+        #endregion
 
     }
 }
