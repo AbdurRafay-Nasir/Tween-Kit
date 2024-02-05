@@ -7,42 +7,12 @@ namespace DOTweenModular.Editor
     [CustomEditor(typeof(DOShakeRotation)), CanEditMultipleObjects]
     public sealed class DOShakeRotationEditor : DOShakeBaseEditor
     {
-        private DOShakeRotation doShakeRotation;
-        private string rotationKey;
-
-        public override void OnEnable()
-        {
-            base.OnEnable();
-
-            doShakeRotation = (DOShakeRotation)target;
-            rotationKey = "DOShakeRotation_" + instanceId;
-        }
-
         protected override void DrawValues()
         {
             DrawProperty(strengthProp);
 
             base.DrawValues();
         }
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(rotationKey, doShakeRotation.transform.eulerAngles);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doShakeRotation.transform.eulerAngles = SessionState.GetVector3(rotationKey, doShakeRotation.transform.eulerAngles);
-        }
-
-        #endregion
-
     }
 }
 
