@@ -7,7 +7,7 @@ namespace DOTweenModular
     {
         #region Properties
 
-        [Tooltip("If TRUE, tween will smoothly reach back to start Position/Rotation/Scale")]
+        [Tooltip("If TRUE, tween will smoothly reach back to initial state")]
         public bool fadeout = true;
 
         [Tooltip("Indicates how much will the shake vibrate")]
@@ -22,7 +22,8 @@ namespace DOTweenModular
                  "Harmonic - Creates a more balanced randomness that looks more harmonic")]
         public ShakeRandomnessMode randomnessMode;
 
-        public Vector3 strength = new Vector3(10f, 10f, 10f);
+        [Tooltip("Strength of shake on each axis")]
+        public Vector3 strength = new(10f, 10f, 10f);
 
         #endregion
 
@@ -45,6 +46,9 @@ namespace DOTweenModular
             return Tween;
         }
 
+        /// <summary>
+        /// Implement this method to Initialize custom DOShake Tween
+        /// </summary>
         protected abstract void InitializeTween();
     }
 }
