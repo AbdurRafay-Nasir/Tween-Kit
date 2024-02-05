@@ -21,8 +21,6 @@ namespace DOTweenModular.Editor
         private DOShapeCircle doShapeCircle;
         private RelativeFlags relativeFlags;
 
-        private string positionKey;
-
         #region Unity Functions
 
         public override void OnEnable()
@@ -31,8 +29,6 @@ namespace DOTweenModular.Editor
 
             doShapeCircle = (DOShapeCircle)target;
             relativeFlags = CreateInstance<RelativeFlags>();
-
-            positionKey = "DOShapeCircle_" + instanceId;
 
             useLocalProp = serializedObject.FindProperty("useLocal");
             relativeProp = serializedObject.FindProperty("relative");
@@ -247,25 +243,6 @@ namespace DOTweenModular.Editor
 
             return handlePosition;
         }
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(positionKey, doShapeCircle.transform.position);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doShapeCircle.transform.position = SessionState.GetVector3(positionKey, doShapeCircle.transform.position);
-        }
-
-        #endregion
-
     }
 }
 
