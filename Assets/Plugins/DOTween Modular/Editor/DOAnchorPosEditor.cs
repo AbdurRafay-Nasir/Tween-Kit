@@ -6,7 +6,7 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOAnchorPos)), CanEditMultipleObjects]
-    public class DOAnchorPosEditor : DOBaseEditor
+    public sealed class DOAnchorPosEditor : DOBaseEditor
     {
         #region Serialized Properties
 
@@ -131,6 +131,7 @@ namespace DOTweenModular.Editor
                     BeginBackgroundBox();
                     Space();
 
+                    DrawProperty(targetPositionProp);
                     DrawValues();
 
                     Space();
@@ -169,8 +170,9 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Inspector Draw Functions
-
+        /// <summary>
+        /// Draws speedBased, relative, snapping properties
+        /// </summary>
         private void DrawMoveSettings()
         {
             DrawProperty(speedBasedProp);
@@ -178,32 +180,9 @@ namespace DOTweenModular.Editor
             DrawProperty(snappingProp);
         }
 
-        protected override void DrawValues()
-        {
-            DrawProperty(targetPositionProp);
-            base.DrawValues();
-        }
-
-        #endregion
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(saveKey, doAnchorPos.transform.position);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doAnchorPos.transform.position = SessionState.GetVector3(saveKey, doAnchorPos.transform.position);
-        }
-
-        #endregion
-
+        /// <summary>
+        /// Update Target Position when switching from relative/absolute modes
+        /// </summary>
         private void SetTargetPosition()
         {
             if (doAnchorPos.relative)
@@ -231,6 +210,25 @@ namespace DOTweenModular.Editor
                 relativeFlags.firstTimeRelative = true;
             }
         }
+
+        #region Tween Preview Functions
+
+        protected override void OnPreviewStarted()
+        {
+            base.OnPreviewStarted();
+
+            SessionState.SetVector3(saveKey, doAnchorPos.transform.position);
+        }
+
+        protected override void OnPreviewStopped()
+        {
+            base.OnPreviewStopped();
+
+            doAnchorPos.transform.position = SessionState.GetVector3(saveKey, doAnchorPos.transform.position);
+        }
+
+        #endregion
+
 
     }
 }
