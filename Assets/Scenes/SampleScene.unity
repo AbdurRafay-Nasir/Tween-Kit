@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 180327343}
   - component: {fileID: 180327342}
   - component: {fileID: 180327341}
+  - component: {fileID: 180327345}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -229,6 +230,62 @@ Transform:
   - {fileID: 261944996}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &180327345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180327339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abaeec2099e0b0a4094f599701ae1b0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  begin: 0
+  tweenObject: {fileID: 0}
+  tweenType: 0
+  loopType: 0
+  easeType: 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  loops: -1
+  duration: 1
+  delay: 0
+  onTweenCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenPlayed:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  pathType: 2
+  pathMode: 3
+  resolution: 7
+  closePath: 0
+  speedBased: 0
+  relative: 0
+  wayPoints:
+  - {x: -4.4409075, y: 6.811618, z: 0}
+  - {x: 6.11042, y: 6.6780562, z: 0}
+  - {x: 7.279081, y: 2.43749, z: 0}
+  lookAt: 1
+  lookAtPosition: {x: 7.5795937, y: -2.5710516, z: 0}
+  lookAtTarget: {fileID: 0}
+  lookAhead: 0
+  stableZRotation: 0
 --- !u!1 &261944995
 GameObject:
   m_ObjectHideFlags: 0

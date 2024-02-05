@@ -30,7 +30,6 @@ namespace DOTweenModular.Editor
         private DOPath doPath;
         private RelativeFlags relativeFlags;
 
-        private string positionKey;
         private string rotationkey;
 
         private Vector3 startPosition;
@@ -44,7 +43,6 @@ namespace DOTweenModular.Editor
             doPath = (DOPath)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
-            positionKey = "DOPath_" + instanceId;
             rotationkey = "DOPath_LookAt_" + doPath.gameObject.GetInstanceID();
 
             startPosition = doPath.transform.position;
@@ -604,7 +602,6 @@ namespace DOTweenModular.Editor
             startPosition = doPath.transform.position;
 
             SessionState.SetVector3(rotationkey, doPath.transform.localEulerAngles);
-            SessionState.SetVector3(positionKey, doPath.transform.position);
         }
 
         protected override void OnPreviewStopped()
@@ -612,7 +609,6 @@ namespace DOTweenModular.Editor
             base.OnPreviewStopped();
 
             doPath.transform.localEulerAngles = SessionState.GetVector3(rotationkey, doPath.transform.localEulerAngles);
-            doPath.transform.position = SessionState.GetVector3(positionKey, doPath.transform.position);
         }
 
         protected override void OnPreviewForceStopped()
