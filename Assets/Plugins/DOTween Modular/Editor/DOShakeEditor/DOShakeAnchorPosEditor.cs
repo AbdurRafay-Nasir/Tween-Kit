@@ -6,14 +6,14 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOShakeAnchorPos)), CanEditMultipleObjects]
-    public class DOShakeAnchorPosEditor : DOShakeBaseEditor
+    public sealed class DOShakeAnchorPosEditor : DOShakeBaseEditor
     {
         private SerializedProperty snappingProp;
 
         private DOShakeAnchorPos doShakeAnchorPos;
         private RectTransform rectTransform;
 
-        private string key;
+        private string anchoredPositionKey;
 
         public override void OnEnable()
         {
@@ -22,7 +22,7 @@ namespace DOTweenModular.Editor
             doShakeAnchorPos = (DOShakeAnchorPos)target;
             rectTransform = (RectTransform)doShakeAnchorPos.transform;
 
-            key = "DOShakeAnchorPos_" + instanceId;
+            anchoredPositionKey = "DOShakeAnchorPos_" + instanceId;
 
             snappingProp = serializedObject.FindProperty("snapping");
         }
@@ -41,19 +41,17 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(key, rectTransform.anchoredPosition);
+            SessionState.SetVector3(anchoredPositionKey, rectTransform.anchoredPosition);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            rectTransform.anchoredPosition = SessionState.GetVector3(key, rectTransform.anchoredPosition);
+            rectTransform.anchoredPosition = SessionState.GetVector3(anchoredPositionKey, rectTransform.anchoredPosition);
         }
 
         #endregion
-
-
     }
 }
 
