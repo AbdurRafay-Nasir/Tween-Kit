@@ -1,12 +1,12 @@
 #if UNITY_EDITOR
 
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOJump)), CanEditMultipleObjects]
-    public class DOJumpEditor : DOBaseEditor
+    public sealed class DOJumpEditor : DOBaseEditor
     {
         #region Serialized Properties
 
@@ -22,7 +22,7 @@ namespace DOTweenModular.Editor
         private DOJump doJump;
         private RelativeFlags relativeFlags;
 
-        private string key;
+        private string positionKey;
 
         #region Unity Functions
 
@@ -33,7 +33,7 @@ namespace DOTweenModular.Editor
             doJump = (DOJump)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
-            key = "DOJump_" + instanceId;
+            positionKey = "DOJump_" + instanceId;
 
             powerProp = serializedObject.FindProperty("power");
             jumpCountProp = serializedObject.FindProperty("jumpCount");
@@ -130,6 +130,7 @@ namespace DOTweenModular.Editor
                     BeginBackgroundBox();
                     Space();
 
+                    DrawProperty(targetPositionProp);
                     DrawValues();
 
                     Space();
@@ -145,7 +146,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Events"))
+                if (BeginFoldout("Events", false))
                 {
                     EditorGUI.indentLevel++;
 
@@ -178,8 +179,9 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Inspector Draw Functions
-
+        /// <summary>
+        /// Draws Power, Jump Count, Use Local(If relative = false), relative(If useLocal = false) and snapping Properties
+        /// </summary>
         private void DrawJumpSettings()
         {
             DrawProperty(powerProp);
@@ -194,33 +196,9 @@ namespace DOTweenModular.Editor
             DrawProperty(snappingProp);
         }
 
-        protected override void DrawValues()
-        {
-            DrawProperty(targetPositionProp);
-
-            base.DrawValues();
-        }
-
-        #endregion
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(key, doJump.transform.position);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doJump.transform.position = SessionState.GetVector3(key, doJump.transform.position);
-        }
-
-        #endregion
-
+        /// <summary>
+        /// Update Target Position when switching from relative/absolute modes
+        /// </summary>
         private Vector3 CalculateTargetPosition(Vector3 currentPosition)
         {
             Vector3 handlePosition;
@@ -274,6 +252,23 @@ namespace DOTweenModular.Editor
             return handlePosition;
         }
 
+        #region Tween Preview Functions
+
+        protected override void OnPreviewStarted()
+        {
+            base.OnPreviewStarted();
+
+            SessionState.SetVector3(positionKey, doJump.transform.position);
+        }
+
+        protected override void OnPreviewStopped()
+        {
+            base.OnPreviewStopped();
+
+            doJump.transform.position = SessionState.GetVector3(positionKey, doJump.transform.position);
+        }
+
+        #endregion
     }
 }
 
