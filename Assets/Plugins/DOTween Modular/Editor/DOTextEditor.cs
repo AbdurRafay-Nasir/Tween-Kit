@@ -5,7 +5,7 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOText)), CanEditMultipleObjects]
-    public class DOTextEditor : DOBaseEditor
+    public sealed class DOTextEditor : DOBaseEditor
     {
         #region Serialized Properties
 
@@ -19,7 +19,7 @@ namespace DOTweenModular.Editor
         private DOText doText;
         private UnityEngine.UI.Text textComponent;
 
-        private string key;
+        private string textKey;
 
         #region Unity Functions
 
@@ -28,7 +28,7 @@ namespace DOTweenModular.Editor
             base.OnEnable();
 
             doText = (DOText)target;
-            key = "DOText_" + instanceId;
+            textKey = "DOText_" + instanceId;
 
             textComponent = doText.GetComponent<UnityEngine.UI.Text>();
 
@@ -125,6 +125,7 @@ namespace DOTweenModular.Editor
                     BeginBackgroundBox();
                     Space();
 
+                    DrawProperty(targetTextProp);
                     DrawValues();
 
                     Space();
@@ -140,7 +141,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Events"))
+                if (BeginFoldout("Events", false))
                 {
                     EditorGUI.indentLevel++;
 
@@ -163,8 +164,9 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        #region Inspector Draw Functions
-
+        /// <summary>
+        /// Draws Scramble Mode, Scramble Chars(If scrambleMode = Custom) and Use Rich Text Properties
+        /// </summary>
         private void DrawTextSettings()
         {
             DrawProperty(scrambleModeProp);
@@ -175,36 +177,27 @@ namespace DOTweenModular.Editor
             DrawProperty(useRichTextProp);
         }
 
-        protected override void DrawValues()
-        {
-            DrawProperty(targetTextProp);
-
-            base.DrawValues();
-        }
-
-        #endregion
-
         #region Tween Preview Functions
 
         protected override void OnPreviewStarted()
         {
             base.OnPreviewStarted();
 
-            SessionState.SetString(key, textComponent.text);
+            SessionState.SetString(textKey, textComponent.text);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            textComponent.text = SessionState.GetString(key, textComponent.text);
+            textComponent.text = SessionState.GetString(textKey, textComponent.text);
         }
 
         protected override void OnPreviewForceStopped()
         {
             base.OnPreviewForceStopped();
 
-            textComponent.text = SessionState.GetString(key, textComponent.text);
+            textComponent.text = SessionState.GetString(textKey, textComponent.text);
         }
 
         #endregion
