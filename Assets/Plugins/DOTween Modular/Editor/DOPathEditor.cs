@@ -7,7 +7,7 @@ using DOTweenModular.Miscellaneous;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOPath)), CanEditMultipleObjects]
-    public class DOPathEditor : DOBaseEditor
+    public sealed class DOPathEditor : DOBaseEditor
     {
         #region Serialized Properties
 
@@ -223,7 +223,7 @@ namespace DOTweenModular.Editor
         {
             base.OnSceneGUI();
 
-            DrawLookAtLine();
+            DrawLookAtHandleAndLine();
 
             if (doPath.wayPoints == null)
                 return;
@@ -290,6 +290,10 @@ namespace DOTweenModular.Editor
 
         #region Inspector Draw Functions
 
+        /// <summary>
+        /// Draws Path Type, Path Mode, Resolution(If pathType is not Linear), <br/>
+        /// Close Path(If pathType is not Cubic Bezier), Speed Based and Relative Properties
+        /// </summary>
         private void DrawPathSettings()
         {
             DrawProperty(pathTypeProp);
@@ -307,6 +311,10 @@ namespace DOTweenModular.Editor
             DrawProperty(relativeProp);
         }
 
+        /// <summary>
+        /// Draws Look At, Look At Position(If Look At = Position), Look At Target(If Look At = Transform), <br/>
+        /// Look Ahead(If Look At = Percentage and Stable Z Rotation properties
+        /// </summary>
         private void DrawLookAtSettings()
         {
             DrawProperty(lookAtProp);
@@ -332,6 +340,9 @@ namespace DOTweenModular.Editor
             DrawProperty(stableZRotationProp);
         }
 
+        /// <summary>
+        /// Draws Helpbox for Inspector messages regarding Look At
+        /// </summary>
         private void DrawLookAtHelpbox()
         {
             if (doPath.lookAt != Enums.LookAtAdvanced.None &&
@@ -518,7 +529,11 @@ namespace DOTweenModular.Editor
             }
         }
 
-        private void DrawLookAtLine()
+        /// <summary>
+        /// Draws a Position Hand for Look At Position and <br/>
+        /// Line to Look At Position or Look At Target
+        /// </summary>
+        private void DrawLookAtHandleAndLine()
         {
             if (doPath.lookAt == Enums.LookAtAdvanced.None || 
                 doPath.lookAt == Enums.LookAtAdvanced.Percentage) 
