@@ -17,7 +17,7 @@ namespace DOTweenModular.Editor
         #endregion
 
         private DOLookAtBase doLookAt;
-        private string lookAtkey;
+        private string rotationKey;
 
         #region Unity Functions
 
@@ -26,7 +26,7 @@ namespace DOTweenModular.Editor
             base.OnEnable();
 
             doLookAt = (DOLookAtBase)target;
-            lookAtkey = "DOLookAtBase_" + doLookAt.gameObject.GetInstanceID();
+            rotationKey = "DOLookAtBase_" + doLookAt.gameObject.GetInstanceID();
 
             lookAtProp = serializedObject.FindProperty("lookAt");
             lookAtPositionProp = serializedObject.FindProperty("lookAtPosition");
@@ -58,6 +58,10 @@ namespace DOTweenModular.Editor
 
         #region Inspector Draw Functions
 
+        /// <summary>
+        /// Draws Look At, Look At Position(If Look At = Position), Look At Target(If Look At = Transform) <br/>
+        /// and Interpolate properties
+        /// </summary>
         protected void DrawLookAtSettings()
         {
             DrawProperty(lookAtProp);
@@ -74,6 +78,9 @@ namespace DOTweenModular.Editor
             DrawProperty(interpolateProp);
         }
 
+        /// <summary>
+        /// Draws Helpbox for Inspector messages regarding Look At
+        /// </summary>
         protected void DrawLookAtTransformHelpbox()
         {
             if (doLookAt.lookAt == Enums.LookAtSimple.Transform &&
@@ -109,21 +116,21 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            SessionState.SetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
+            SessionState.SetVector3(rotationKey, doLookAt.transform.localEulerAngles);
         }
 
         protected override void OnPreviewStopped()
         {
             base.OnPreviewStopped();
 
-            doLookAt.transform.localEulerAngles = SessionState.GetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
+            doLookAt.transform.localEulerAngles = SessionState.GetVector3(rotationKey, doLookAt.transform.localEulerAngles);
         }
 
         protected override void OnPreviewForceStopped()
         {
             base.OnPreviewForceStopped();
 
-            doLookAt.transform.localEulerAngles = SessionState.GetVector3(lookAtkey, doLookAt.transform.localEulerAngles);
+            doLookAt.transform.localEulerAngles = SessionState.GetVector3(rotationKey, doLookAt.transform.localEulerAngles);
         }
 
         #endregion
