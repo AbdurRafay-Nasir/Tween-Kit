@@ -231,15 +231,11 @@ namespace DOTweenModular.Editor
 
             for (int i = 0; i < doSequence.sequenceTweens.Length; i++)
             {
-                string positionKey = "DOSequence_" + instanceId + "_sequenceTween_" + i + "_Position";
                 string rotationKey = "DOSequence_" + instanceId + "_sequenceTween_" + i + "_Rotation";
-                string scaleKey = "DOSequence_" + instanceId + "_sequenceTween_" + i + "_Scale";
 
                 DOBase currentTween = doSequence.sequenceTweens[i].tweenObject;
 
-                SessionState.SetVector3(positionKey, currentTween.transform.localPosition);
                 SessionState.SetVector3(rotationKey, currentTween.transform.localEulerAngles);
-                SessionState.SetVector3(scaleKey, currentTween.transform.localScale);
             }
         }
 
@@ -249,15 +245,11 @@ namespace DOTweenModular.Editor
 
             for (int i = 0; i < doSequence.sequenceTweens.Length; i++)
             {
-                string positionKey = "DOSequence_" + instanceId + "_sequenceTween_" + i + "_Position";
                 string rotationKey = "DOSequence_" + instanceId + "_sequenceTween_" + i + "_Rotation";
-                string scaleKey = "DOSequence_" + instanceId + "_sequenceTween_" + i + "_Scale";
 
                 DOBase currentTween = doSequence.sequenceTweens[i].tweenObject;
 
-                currentTween.transform.localPosition = SessionState.GetVector3(positionKey, currentTween.transform.localPosition);
                 currentTween.transform.localEulerAngles = SessionState.GetVector3(rotationKey, currentTween.transform.localEulerAngles);
-                currentTween.transform.localScale = SessionState.GetVector3(scaleKey, currentTween.transform.localScale);
             }
         }
 
