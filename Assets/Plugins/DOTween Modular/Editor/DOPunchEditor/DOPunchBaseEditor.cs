@@ -127,7 +127,7 @@ namespace DOTweenModular.Editor
             {
                 DrawSeparatorLine();
 
-                if (BeginFoldout("Events"))
+                if (BeginFoldout("Events", false))
                 {
                     EditorGUI.indentLevel++;
 
@@ -150,6 +150,9 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        /// <summary>
+        /// Draws Vibrato and Elasticity Properties
+        /// </summary>
         private void DrawPunchSettings()
         {
             DrawProperty(vibratoProp);
