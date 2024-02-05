@@ -9,15 +9,9 @@ namespace DOTweenModular.Editor
     {
         private SerializedProperty snappingProp;
 
-        private DOPunchPosition doPunchPosition;
-        private string positionKey;
-
         public override void OnEnable()
         {
             base.OnEnable();
-
-            doPunchPosition = (DOPunchPosition)target;
-            positionKey = "DOPunchPosition_" + instanceId;
 
             snappingProp = serializedObject.FindProperty("snapping");
         }
@@ -29,24 +23,6 @@ namespace DOTweenModular.Editor
 
             base.DrawValues();
         }
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(positionKey, doPunchPosition.transform.position);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            doPunchPosition.transform.position = SessionState.GetVector3(positionKey, doPunchPosition.transform.position);
-        }
-
-        #endregion
     }
 }
 
