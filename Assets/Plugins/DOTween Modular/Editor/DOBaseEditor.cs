@@ -17,6 +17,7 @@ namespace DOTweenModular.Editor
 
         protected SerializedProperty beginProp;
         protected SerializedProperty tweenObjectProp;
+        protected SerializedProperty layerMaskProp;
 
         protected SerializedProperty delayProp;
         protected SerializedProperty tweenTypeProp;
@@ -61,6 +62,7 @@ namespace DOTweenModular.Editor
 
             beginProp = serializedObject.FindProperty("begin");
             tweenObjectProp = serializedObject.FindProperty("tweenObject");
+            layerMaskProp = serializedObject.FindProperty("layerMask");
 
             delayProp = serializedObject.FindProperty("delay");
             tweenTypeProp = serializedObject.FindProperty("tweenType");
@@ -286,7 +288,7 @@ namespace DOTweenModular.Editor
         }
 
         /// <summary>
-        /// Draws begin, tweenObjectProp(if Begin = After or With)
+        /// Draws begin, tweenObjectProp(if Begin = After or With) and LayerMask(If Begin = OnTrigger) properties
         /// </summary>
         protected void DrawLifeTimeSettings()
         {
@@ -296,6 +298,11 @@ namespace DOTweenModular.Editor
                 doBase.begin == Begin.After)
             {
                 DrawProperty(tweenObjectProp);
+            }
+
+            if (doBase.begin == Begin.OnTrigger)
+            {
+                DrawProperty(layerMaskProp);
             }
         }
 
