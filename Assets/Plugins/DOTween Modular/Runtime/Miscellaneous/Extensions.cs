@@ -112,40 +112,6 @@ namespace DOTweenModular.Miscellaneous
 
         #endregion
 
-        #region LookAt2D Functions
-
-        /// <summary>
-        /// Rotate on Z-Axis to Look At target
-        /// </summary>
-        /// <param name="target">The target to look at</param>
-        /// <param name="offset">Offset to add in Z Rotation, -90 makes the game Object Look directly At the target</param>
-        public static void LookAt2D(this Transform transform, Transform target, float offset)
-        {
-            Vector2 direction = (target.position - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle + offset, Vector3.forward);
-        }
-
-        /// <summary>
-        /// Rotate on Z-Axis to Look At target, also Clamps the rotation 
-        /// </summary>
-        /// <param name="target">The target to look at</param>
-        /// <param name="offset">Offset to add in Z Rotation, -90 makes the game Object Look directly At the target</param>
-        /// <param name="min">Minimum Rotation</param>
-        /// <param name="max">Maximum Rotation</param>
-        /// <remarks>If target is moved above and right of this transform then rotation will snap to 'max'</remarks>
-        public static void LookAt2D(this Transform transform, Transform target, float offset, float min, float max)
-        {
-            Vector2 direction = (target.position - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-            transform.rotation = Quaternion.AngleAxis(angle + offset, Vector3.forward);
-
-            Vector3 localEulerAngle = transform.localEulerAngles;
-            localEulerAngle.z = Mathf.Clamp(localEulerAngle.z, min, max);
-            transform.localEulerAngles = localEulerAngle;
-        }
-
         /// <summary>
         /// Rotate on Z-Axis to Look At target
         /// </summary>
@@ -156,43 +122,6 @@ namespace DOTweenModular.Miscellaneous
             Vector2 direction = (target - (Vector2)transform.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle + offset, Vector3.forward);
-        }
-
-        /// <summary>
-        /// Rotate on Z-Axis to Look At target, also Clamps the rotation 
-        /// </summary>
-        /// <param name="target">The target to look at</param>
-        /// <param name="offset">Offset to add in Z Rotation, -90 makes the game Object Look directly At the target</param>
-        /// <param name="min">Minimum Rotation</param>
-        /// <param name="max">Maximum Rotation</param>
-        /// <remarks>If target is moved above and right of this transform then rotation will snap to 'max'</remarks>
-        public static void LookAt2D(this Transform transform, Vector2 target, float offset, float min, float max)
-        {
-            Vector2 direction = (target - (Vector2)transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-            transform.rotation = Quaternion.AngleAxis(angle + offset, Vector3.forward);
-
-            Vector3 localEulerAngle = transform.localEulerAngles;
-            localEulerAngle.z = Mathf.Clamp(localEulerAngle.z, min, max);
-            transform.localEulerAngles = localEulerAngle;
-        }
-
-        #endregion
-
-        #region LookAt2D Smooth Functions
-
-        /// <summary>
-        /// Smoothly rotate to LookAt target
-        /// </summary>
-        /// <param name="target">The Point to look at</param>
-        /// <param name="interpolate">How smoothly the Game Object will rotate to Look At target,0 to 1, 1 means no smoothness</param>
-        public static void LookAtSmooth(this Transform transform, Vector3 target, float interpolate)
-        {
-            Vector3 lookDirection = target - transform.position;
-            lookDirection.Normalize();
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDirection), interpolate);
         }
 
         /// <summary>
@@ -209,6 +138,27 @@ namespace DOTweenModular.Miscellaneous
             transform.rotation = Quaternion.Slerp(transform.rotation, rotGoal, interpolate);
         }
 
-        #endregion
+        /// <summary>
+        /// Smoothly rotate to LookAt target
+        /// </summary>
+        /// <param name="target">The Point to look at</param>
+        /// <param name="interpolate">How smoothly the Game Object will rotate to Look At target,0 to 1, 1 means no smoothness</param>
+        public static void LookAtSmooth(this Transform transform, Vector3 target, float interpolate)
+        {
+            Vector3 lookDirection = target - transform.position;
+            lookDirection.Normalize();
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDirection), interpolate);
+        }
+
+        /// <summary>
+        /// Check if given layer is present in Layer mask
+        /// </summary>
+        /// <param name="layer">The layer to check</param>
+        /// <returns>True if 'layer' is found in Layer Mask</returns>
+        public static bool HasLayer(this LayerMask layerMask, int layer)
+        {
+            return (layerMask.value & (1 << layer)) != 0;
+        }
     }
 }
