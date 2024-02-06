@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
 using DOTweenModular.Enums;
+using DOTweenModular.Miscellaneous;
 
 namespace DOTweenModular
 {
@@ -20,6 +21,9 @@ namespace DOTweenModular
 
         [Tooltip("The DO component After/With which this tween will start")]
         public DOBase tweenObject;
+
+        [Tooltip("Layers that will start this tween")]
+        public LayerMask layerMask;
 
         public Enums.TweenType tweenType;
 
@@ -85,8 +89,6 @@ namespace DOTweenModular
 
         private void Awake()
         {
-            if (begin == Begin.Manual) return;
-
             if (begin == Begin.With)
                 tweenObject.onTweenPlayed.AddListener(TweenObjectTween);
 
@@ -96,8 +98,6 @@ namespace DOTweenModular
 
         private void Start()
         {
-            if (begin == Begin.Manual) return;
-
             if (begin == Begin.OnSceneStart)
             {
                 CreateTween();
@@ -107,9 +107,18 @@ namespace DOTweenModular
 
         private void OnBecameVisible()
         {
-            if (begin == Begin.Manual) return;
-
             if (begin == Begin.OnVisible)
+            {
+                CreateTween();
+                PlayTween();
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (begin != Begin.OnTrigger) return;
+            
+            if (layerMask.HasLayer(other.gameObject.layer))
             {
                 CreateTween();
                 PlayTween();
