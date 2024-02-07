@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DOTweenModular.Miscellaneous
 {
@@ -69,6 +70,8 @@ namespace DOTweenModular.Miscellaneous
                         catmullRomPoints.Add(newPos);
                     }
                 }
+
+                catmullRomPoints = catmullRomPoints.Distinct().ToList();
 
                 return catmullRomPoints.ToArray();
             }
