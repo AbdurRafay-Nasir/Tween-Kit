@@ -111,6 +111,16 @@ namespace DOTweenModular.Miscellaneous
                     }
                 }
 
+                // Save last point as it is needed to form closed loop
+                Vector3 lastPoint = catmullRomPoints[^1];
+
+                // Remove Duplicates
+                catmullRomPoints.RemoveAt(catmullRomPoints.Count - 1);
+                catmullRomPoints = catmullRomPoints.Distinct().ToList();
+
+                // Add last point back
+                catmullRomPoints.Add(lastPoint);
+
                 return catmullRomPoints.ToArray();
             }
 
