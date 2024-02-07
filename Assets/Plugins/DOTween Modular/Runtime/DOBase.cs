@@ -83,7 +83,7 @@ namespace DOTweenModular
         /// </summary>
         protected Tween Tween;
 
-        private bool tweenKilled;
+        private bool tweenPlaying;
 
         #region Unity Functions
 
@@ -127,11 +127,11 @@ namespace DOTweenModular
 
         private void OnDestroy()
         {            
-            if (!tweenKilled)
+            if (tweenPlaying)
             {
                 Tween.Kill();
 
-                tweenKilled = true;
+                tweenPlaying = false;
             }
 
             curve = null;
@@ -194,6 +194,8 @@ namespace DOTweenModular
         /// </summary>
         protected virtual void OnTweenPlayed()
         {
+            tweenPlaying = true;
+
             onTweenPlayed?.Invoke();
             print("PLAYED");
         }
@@ -222,8 +224,6 @@ namespace DOTweenModular
         /// </summary>
         protected virtual void OnTweenKilled()
         {
-            tweenKilled = true;
-
             onTweenKilled?.Invoke();
 
             Tween.OnPlay(null);
