@@ -1,9 +1,9 @@
 {
-  "name": "com.linkedgames.dotweenmodular2d",
-  "version": "2.1.0",
-  "displayName": "DOTween Modular 2D",
+  "name": "com.abdurrafaynasir.dotweenmodular2d",
+  "version": "1.0.0",
+  "displayName": "DOTween Modular",
   "description": "Collection of Modular components for DOTween",
-  "unity": "2021.1",
+  "unity": "2022.3",
   "keywords": [
     "Tools",
     "Modular",

@@ -1,16 +1,16 @@
-**Copyright (c) 2023 Linked Games**
+**Copyright (c) 2024 Abdur Rafay Nasir**
 
 ## Non-legalese summary
 
--   You can freely use DOTween Modular 2D in both commercial and non-commercial projects.
+-   You can freely use DOTween Modular in both commercial and non-commercial projects.
 -   You can modify the code only for your own use and you cannot redistribute modified versions (but you can send pull requests to me)
--   DOTween Modular 2D was/is hard work: please respect the copyright.
+-   DOTween Modular was/is hard work: please respect the copyright.
 
 ## Definitions
 
 ### Copyright Holder
 
-LinkedGames
+Abdur Rafay Nasir
 
 ### You/Your
 
