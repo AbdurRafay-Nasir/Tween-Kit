@@ -242,7 +242,6 @@ GameObject:
   - component: {fileID: 673343282}
   - component: {fileID: 673343281}
   - component: {fileID: 673343280}
-  - component: {fileID: 673343284}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -337,59 +336,6 @@ Transform:
   - {fileID: 105316811}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &673343284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 673343278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718d1b7a79bcb6b4d94839fc21923a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  begin: 0
-  tweenObject: {fileID: 0}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  tweenType: 0
-  loopType: 0
-  easeType: 0
-  curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  loops: -1
-  duration: 5
-  delay: 0
-  onTweenCreated:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenPlayed:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenCompleted:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenKilled:
-    m_PersistentCalls:
-      m_Calls: []
-  lookAt: 0
-  lookAtPosition: {x: 0, y: 0, z: 0}
-  lookAtTarget: {fileID: 0}
-  interpolate: 0.01
-  speedBased: 0
-  snapping: 0
-  useLocal: 0
-  relative: 0
-  targetPosition: {x: 3, y: 4, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

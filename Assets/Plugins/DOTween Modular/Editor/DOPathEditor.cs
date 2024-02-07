@@ -224,7 +224,8 @@ namespace DOTweenModular.Editor
 
             DrawLookAtHandleAndLine();
 
-            if (doPath.wayPoints == null)
+            if (doPath.wayPoints == null ||
+                doPath.wayPoints.Length < 1)
                 return;
 
             if (!tweenPreviewing)
