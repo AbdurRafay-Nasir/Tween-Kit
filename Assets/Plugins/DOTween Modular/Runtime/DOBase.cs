@@ -27,8 +27,11 @@ namespace DOTweenModular
 
         public Enums.TweenType tweenType;
 
-        [Tooltip("Restart - Start again from start Position/Rotation/Scale " + "\n" +
-                 "Yoyo - Start from Target Position/Rotation/Scale")]
+        [Tooltip("Restart - Start again from start Position/Rotation/Scale" + "\n" + "\n" +
+                 "Yoyo - Start from Target Position/Rotation/Scale" + "\n" + "\n" +
+                 "Incremental - Continuously increments the tween at the end of each loop cycle" + "\n"+
+                 "(A to B, B to B+(A-B), and so on), thus always moving 'onward'" + "\n" +
+                 "In case of String tweens works only if the tween is set as relative")]
         public LoopType loopType;
 
         [Tooltip("Ease to apply, for custom ease select INTERNAL_Custom. Do not assign INTERNAL_Zero")]
