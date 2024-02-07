@@ -127,20 +127,9 @@ namespace DOTweenModular
 
         private void OnDestroy()
         {            
-            onTweenCreated.RemoveAllListeners();
-            onTweenPlayed.RemoveAllListeners();
-            onTweenUpdated.RemoveAllListeners();
-            onTweenCompleted.RemoveAllListeners();
-            onTweenKilled.RemoveAllListeners();
-
             if (!tweenKilled)
             {
                 Tween.Kill();
-
-                Tween.OnPlay(null);
-                Tween.OnUpdate(null);
-                Tween.OnComplete(null);
-                Tween.OnKill(null);
 
                 tweenKilled = true;
             }
@@ -237,16 +226,16 @@ namespace DOTweenModular
 
             onTweenKilled?.Invoke();
 
-            Tween.onPlay -= OnTweenPlayed;
-            Tween.onUpdate -= OnTweenUpdate;
-            Tween.onComplete -= OnTweenCompleted;
-            Tween.onKill -= OnTweenKilled;
-
-            // Just to be extra sure
             Tween.OnPlay(null);
             Tween.OnUpdate(null);
             Tween.OnComplete(null);
             Tween.OnKill(null);
+
+            onTweenCreated.RemoveAllListeners();
+            onTweenPlayed.RemoveAllListeners();
+            onTweenUpdated.RemoveAllListeners();
+            onTweenCompleted.RemoveAllListeners();
+            onTweenKilled.RemoveAllListeners();
 
             print("KILLED");
         }
