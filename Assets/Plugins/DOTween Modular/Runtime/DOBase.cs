@@ -194,8 +194,6 @@ namespace DOTweenModular
             Tween.onUpdate += OnTweenUpdate;
             Tween.onComplete += OnTweenCompleted;
             Tween.onKill += OnTweenKilled;
-
-            print("CREATED");
         }
 
         /// <summary>
@@ -206,8 +204,7 @@ namespace DOTweenModular
             tweenPlaying = true;
 
             onTweenPlayed?.Invoke();
-            print("PLAYED");
-        }
+         }
 
         /// <summary>
         /// Called every frame while Tween plays
@@ -215,7 +212,6 @@ namespace DOTweenModular
         protected virtual void OnTweenUpdate() 
         {
             onTweenUpdated?.Invoke();
-            print("UPDATE");
         }
 
         /// <summary>
@@ -225,7 +221,6 @@ namespace DOTweenModular
         {
             onTweenCompleted?.Invoke();
             Tween.Kill();
-            print("COMPLETE");
         }
 
         /// <summary>
@@ -245,8 +240,6 @@ namespace DOTweenModular
             onTweenUpdated.RemoveAllListeners();
             onTweenCompleted.RemoveAllListeners();
             onTweenKilled.RemoveAllListeners();
-
-            print("KILLED");
         }
 
         #endregion
