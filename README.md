@@ -11,6 +11,10 @@ Collection of Modular Components for DOTween
 - [DOTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
 - DOTween asmdef (Tools -> Demigiant -> DOTween Utility Panel -> Create ASMDEF)
 
+## Installation
+- Add [DOTween Modular Package](https://github.com/AbdurRafay-Nasir/DOTween-Modular/blob/main/dotweenmodular.unitypackage) in your project
+- There will be some errors, ignore them. Add DOTween asmdef reference in Assets/Plugins/DOTween Modular/Runtime/dotweenmodular.asmdef (Remove any previous references) 
+
 ## Author
 - Abdur Rafay Nasir
 - AbdurRafayNasir1@gmail.com
