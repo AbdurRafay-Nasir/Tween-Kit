@@ -6,8 +6,8 @@ namespace DOTweenModular
     public abstract class DOLookAtBase : DOBase
     {
         [Tooltip("The type of Look At: " + "\n" + "\n" +
-                 "None - Nothing to Look At, what did you expect?" + "\n" + 
-                 "Position - The Position to Look At, useful when lookAt target won't move" + "\n" +
+                 "None - Nothing to Look At, what did you expect?" + "\n" + "\n" +
+                 "Position - The Position to Look At, useful when lookAt target won't move" + "\n" + "\n" +
                  "Transform - The gameObject to Look At, useful when lookAt target can/will move")]
         public Enums.LookAtSimple lookAt;
 

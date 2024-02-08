@@ -34,7 +34,9 @@ namespace DOTweenModular
                  "In case of String tweens works only if the tween is set as relative")]
         public LoopType loopType;
 
-        [Tooltip("Ease to apply, for custom ease select INTERNAL_Custom. Do not assign INTERNAL_Zero")]
+        [Tooltip("Ease to apply" + "\n" + "\n" +
+                 "For custom ease select INTERNAL_Custom" + "\n" + "\n" +
+                 "For snapping right to target assign INTERNAL_Zero")]
         public Ease easeType;
 
         [Tooltip("Curve that defines Custom ease")]
@@ -110,6 +112,8 @@ namespace DOTweenModular
 
         private void OnBecameVisible()
         {
+            if (tweenPlaying) return;
+
             if (begin == Begin.OnVisible)
             {
                 CreateTween();
@@ -120,7 +124,9 @@ namespace DOTweenModular
         private void OnTriggerEnter(Collider other)
         {
             if (begin != Begin.OnTrigger) return;
-            
+
+            if (tweenPlaying) return;
+
             if (layerMask.HasLayer(other.gameObject.layer))
             {
                 CreateTween();

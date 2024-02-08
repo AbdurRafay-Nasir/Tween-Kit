@@ -346,7 +346,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 673343278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abaeec2099e0b0a4094f599701ae1b0f, type: 3}
+  m_Script: {fileID: 11500000, guid: 718d1b7a79bcb6b4d94839fc21923a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   begin: 0
@@ -381,21 +381,15 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  pathType: 1
-  pathMode: 2
-  resolution: 5
-  closePath: 1
-  speedBased: 0
-  relative: 0
-  wayPoints:
-  - {x: -3.7206397, y: 3.0305207, z: 0}
-  - {x: -7.441279, y: -0.12002087, z: 0}
-  - {x: -6.7721086, y: -3.0799282, z: 0}
-  lookAt: 3
+  lookAt: 0
   lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}
-  lookAhead: 0
-  stableZRotation: 0
+  interpolate: 0.01
+  speedBased: 0
+  snapping: 0
+  useLocal: 0
+  relative: 0
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

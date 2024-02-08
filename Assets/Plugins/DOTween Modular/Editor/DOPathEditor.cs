@@ -429,11 +429,6 @@ namespace DOTweenModular.Editor
             Vector3[] catmullRomPoints = Curve.CatmullRom.GetSpline(startPosition, points, 
                                                                     doPath.resolution, closed);
 
-            for (int i = 0; i < catmullRomPoints.Length; i++)
-            {
-                Debug.Log(i + " " + catmullRomPoints[i]);
-            }
-
             Vector3 currentLineStart = catmullRomPoints[0];
 
             for (int i = 0; i < catmullRomPoints.Length; i++)
