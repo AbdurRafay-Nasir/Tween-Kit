@@ -6,7 +6,7 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOMoveChilds)), CanEditMultipleObjects]
-    public class DOMoveChildsEditor : DOBaseEditor
+    public sealed class DOMoveChildsEditor : DOBaseEditor
     {
         #region Serialized Properties
 
