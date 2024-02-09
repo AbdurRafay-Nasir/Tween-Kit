@@ -12,6 +12,11 @@ namespace DOTweenModular.Enums
         Simple, Looped    
     }
 
+    public enum Direction
+    {
+        LocalUp, LocalRight, LocalForward
+    }
+
     public enum LookAtSimple
     {
         None, Position, Transform
@@ -21,5 +26,4 @@ namespace DOTweenModular.Enums
     {
         None, Position, Transform, Percentage
     }
-
 }
