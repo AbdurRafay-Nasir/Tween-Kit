@@ -209,11 +209,14 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        /// <summary>
+        /// Draws Relative, Snapping & Join Properties
+        /// </summary>
         private void DrawChildMoveSettings()
         {
-            DrawProperty(joinProp);
             DrawProperty(relativeProp);
             DrawProperty(snappingProp);
+            DrawProperty(joinProp);
         }
 
         /// <summary>
@@ -264,7 +267,6 @@ namespace DOTweenModular.Editor
                 startPositions[i] = childs[i].position;
             }
         }
-
     }
 }
 

@@ -9,11 +9,11 @@ namespace DOTweenModular
         #region Properties
 
         [Tooltip("If TRUE, All childs will move simultaneously")]
-        public bool join;
+        public bool join = true;
 
         [Tooltip("If TRUE the childs will move relative to their current Position in world space" + "\n" +
                  "Target Position for each child will be calculated as: " + "\n" +
-                 "Target Position = Target Position + child current position")]
+                 "Target Position = Target Position + child (world space) current position")]
         public bool relative;
 
         [Tooltip("If TRUE, the tween will smoothly snap all values to integers")]

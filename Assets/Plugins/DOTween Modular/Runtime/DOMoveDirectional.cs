@@ -58,6 +58,5 @@ namespace DOTweenModular
 
             return Tween;
         }
-
     }
 }

@@ -155,13 +155,13 @@ namespace DOTweenModular.Editor
         #endregion
 
         /// <summary>
-        /// Draws Rotate Mode, Speed Based and use Local properties
+        /// Draws Rotate Mode, Use Local & Join properties
         /// </summary>
         private void DrawChildsRotateSettings()
         {
-            DrawProperty(joinProp);
             DrawProperty(rotateModeProp);
             DrawProperty(useLocalProp);
+            DrawProperty(joinProp);
         }
     }
 }

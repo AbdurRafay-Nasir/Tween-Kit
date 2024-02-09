@@ -10,7 +10,7 @@ namespace DOTweenModular
         #region Properties
 
         [Tooltip("If TRUE, All childs will move simultaneously")]
-        public bool join;
+        public bool join = true;
 
         [Tooltip("The direction to move in")]
         public Direction direction;

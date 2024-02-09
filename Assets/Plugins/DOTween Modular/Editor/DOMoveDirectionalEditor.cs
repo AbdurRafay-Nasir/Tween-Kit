@@ -190,6 +190,9 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        /// <summary>
+        /// Draws Direction, Speed Based & Snapping Properties
+        /// </summary>
         private void DrawMoveSettings()
         {
             DrawProperty(directionProp);

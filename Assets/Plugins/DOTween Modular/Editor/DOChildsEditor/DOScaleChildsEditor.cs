@@ -159,10 +159,13 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        /// <summary>
+        /// Draws Relative & Join Properties
+        /// </summary>
         private void DrawChildScaleSettings()
         {
-            DrawProperty(joinProp);
             DrawProperty(relativeProp);
+            DrawProperty(joinProp);
         }
 
         /// <summary>

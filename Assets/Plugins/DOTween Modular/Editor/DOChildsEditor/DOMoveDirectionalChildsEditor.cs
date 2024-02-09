@@ -204,6 +204,9 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        /// <summary>
+        /// Draws Direction, Snapping & Join Properties
+        /// </summary>
         private void DrawChildMoveSettings()
         {
             DrawProperty(directionProp);
