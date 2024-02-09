@@ -16,7 +16,14 @@ namespace DOTweenModular
 
         #region Properties
 
-        [Tooltip("When this tween should start")]
+        [Tooltip("When this tween should Begin to play" + "\n" + "\n" +
+                 "OnSceneStart - Begins when this gameObject is first enabled" + "\n" + "\n" +
+                 "OnVisible - Begins when visible for first time" + "\n" + "\n" +
+                 "OnTrigger - Begins when gameObject defined by the Layer Mask enters trigger first time" + "\n" + "\n" +
+                 "Manual - Will not Begin on its own, you have to either manually call CreateTween() & PlayTween()" + "\n" +
+                           "or use this component in a DOSequence component" + "\n" + "\n" +
+                 "After - Begins AFTER Tween Object's tween is completed" + "\n" + "\n" +
+                 "With - Begins WITH Tween Object's tween")]
         public Begin begin;
 
         [Tooltip("The DO component After/With which this tween will start")]
