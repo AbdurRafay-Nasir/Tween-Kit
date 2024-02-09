@@ -30,9 +30,7 @@ namespace DOTweenModular
 
             for (int i = 0; i < transform.childCount; i++)
             {
-                Tween childMoveTween;
-
-                childMoveTween = transform.GetChild(i).DOMove(targetPosition, duration, snapping);
+                Tween childMoveTween = transform.GetChild(i).DOMove(targetPosition, duration, snapping);
 
                 if (easeType == Ease.INTERNAL_Custom)
                     childMoveTween.SetEase(curve);
