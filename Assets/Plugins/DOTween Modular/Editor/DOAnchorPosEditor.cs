@@ -22,8 +22,6 @@ namespace DOTweenModular.Editor
 
         private RelativeFlags relativeFlags;
 
-        private string anchoredPositionKey;
-
         #region Unity Functions
 
         public override void OnEnable()
@@ -34,8 +32,6 @@ namespace DOTweenModular.Editor
             rectTransform = (RectTransform)doAnchorPos.transform;
 
             relativeFlags = CreateInstance<RelativeFlags>();
-
-            anchoredPositionKey = "DOAnchorPos_" + instanceId;
 
             speedBasedProp = serializedObject.FindProperty("speedBased");            
             relativeProp = serializedObject.FindProperty("relative");
@@ -210,26 +206,6 @@ namespace DOTweenModular.Editor
                 relativeFlags.firstTimeRelative = true;
             }
         }
-
-        #region Tween Preview Functions
-
-        protected override void OnPreviewStarted()
-        {
-            base.OnPreviewStarted();
-
-            SessionState.SetVector3(anchoredPositionKey, rectTransform.anchoredPosition);
-        }
-
-        protected override void OnPreviewStopped()
-        {
-            base.OnPreviewStopped();
-
-            rectTransform.anchoredPosition = SessionState.GetVector3(anchoredPositionKey, rectTransform.anchoredPosition);
-        }
-
-        #endregion
-
-
     }
 }
 
