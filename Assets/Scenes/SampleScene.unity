@@ -1766,7 +1766,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   direction: 1
-  speedBased: 0
+  speedBased: 1
   snapping: 0
   moveAmount: 5
 --- !u!1 &1455031290
