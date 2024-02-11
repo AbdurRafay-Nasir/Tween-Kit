@@ -13,6 +13,7 @@ namespace DOTweenModular.Editor
 
         private SerializedProperty joinProp;
         private SerializedProperty directionProp;
+        private SerializedProperty moveLocallyProp;
         private SerializedProperty snappingProp;
         private SerializedProperty moveAmountProp;
 
@@ -44,6 +45,7 @@ namespace DOTweenModular.Editor
 
             joinProp = serializedObject.FindProperty("join");
             directionProp = serializedObject.FindProperty("direction");
+            moveLocallyProp = serializedObject.FindProperty("moveLocally");
             snappingProp = serializedObject.FindProperty("snapping");
             moveAmountProp = serializedObject.FindProperty("moveAmount");
         }
@@ -205,11 +207,12 @@ namespace DOTweenModular.Editor
         #endregion
 
         /// <summary>
-        /// Draws Direction, Snapping & Join Properties
+        /// Draws Direction, Move Locally, Snapping & Join Properties
         /// </summary>
         private void DrawChildMoveSettings()
         {
             DrawProperty(directionProp);
+            DrawProperty(moveLocallyProp);
             DrawProperty(snappingProp);
             DrawProperty(joinProp);
         }
