@@ -12,6 +12,9 @@ namespace DOTweenModular
         [Tooltip("The direction to move in")]
         public Direction direction;
 
+        [Tooltip("If TRUE, childs will move in local space")]
+        public bool moveLocally;
+
         [Tooltip("If TRUE, the tween will Move 'duration' amount in each second")]
         public bool speedBased;
 
@@ -41,7 +44,11 @@ namespace DOTweenModular
                     break;
             }
 
-            Tween = transform.DOMove(transform.position + moveDirection * moveAmount, duration, snapping);
+            if (moveLocally)
+                Tween = transform.DOLocalMove(transform.position + moveDirection * moveAmount, duration, snapping);
+
+            else
+                Tween = transform.DOMove(transform.position + moveDirection * moveAmount, duration, snapping);
 
             if (easeType == Ease.INTERNAL_Custom)
                 Tween.SetEase(curve);

@@ -603,6 +603,7 @@ GameObject:
   m_Component:
   - component: {fileID: 562160094}
   - component: {fileID: 562160095}
+  - component: {fileID: 562160096}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Untagged
@@ -619,7 +620,7 @@ Transform:
   m_GameObject: {fileID: 562160093}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.70710754, w: 0.7071061}
-  m_LocalPosition: {x: 3, y: -0.000000014901161, z: 0}
+  m_LocalPosition: {x: 3, y: 0.000000029802322, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -677,6 +678,55 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &562160096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562160093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4599a4698c8bdc447938e3b0a7e8dcce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  begin: 0
+  tweenObject: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  tweenType: 1
+  loopType: 1
+  easeType: 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  loops: -1
+  duration: 1
+  delay: 0
+  onTweenCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenPlayed:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  direction: 0
+  moveLocally: 0
+  speedBased: 0
+  snapping: 0
+  moveAmount: 5
 --- !u!1 &627677087
 GameObject:
   m_ObjectHideFlags: 0
@@ -1016,7 +1066,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 952089985}
-  - component: {fileID: 952089986}
   m_Layer: 0
   m_Name: GameObject (2)
   m_TagString: Untagged
@@ -1047,55 +1096,6 @@ Transform:
   - {fileID: 1653868228}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &952089986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952089983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d524b62d8b1fab440aa053df9b1f0257, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  begin: 0
-  tweenObject: {fileID: 0}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  tweenType: 1
-  loopType: 1
-  easeType: 0
-  curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  loops: -1
-  duration: 1
-  delay: 0
-  onTweenCreated:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenPlayed:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenCompleted:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenKilled:
-    m_PersistentCalls:
-      m_Calls: []
-  join: 1
-  direction: 0
-  moveLocally: 1
-  snapping: 0
-  moveAmount: 5
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
