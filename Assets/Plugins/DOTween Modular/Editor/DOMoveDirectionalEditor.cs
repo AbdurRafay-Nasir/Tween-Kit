@@ -12,6 +12,7 @@ namespace DOTweenModular.Editor
         #region Serialized Properties
 
         public SerializedProperty directionProp;
+        public SerializedProperty moveLocallyProp;
         public SerializedProperty speedBasedProp;
         public SerializedProperty snappingProp;
         public SerializedProperty moveAmountProp;
@@ -32,6 +33,7 @@ namespace DOTweenModular.Editor
             startPosition = doMoveDirectional.transform.position;
 
             directionProp = serializedObject.FindProperty("direction");
+            moveLocallyProp = serializedObject.FindProperty("moveLocally");
             speedBasedProp = serializedObject.FindProperty("speedBased");
             snappingProp = serializedObject.FindProperty("snapping");
             moveAmountProp = serializedObject.FindProperty("moveAmount");
@@ -191,11 +193,12 @@ namespace DOTweenModular.Editor
         #endregion
 
         /// <summary>
-        /// Draws Direction, Speed Based & Snapping Properties
+        /// Draws Direction, Move Locally, Speed Based & Snapping Properties
         /// </summary>
         private void DrawMoveSettings()
         {
             DrawProperty(directionProp);
+            DrawProperty(moveLocallyProp);
             DrawProperty(speedBasedProp);
             DrawProperty(snappingProp);
         }
