@@ -190,13 +190,13 @@ namespace DOTweenModular.Editor
                 switch (doMoveDirectionalChilds.direction)
                 {
                     case Direction.LocalUp:
-                        childMoveDirection = childs[i].TransformDirection(Vector3.up);
+                        childMoveDirection = childs[i].up;
                         break;
                     case Direction.LocalRight:
-                        childMoveDirection = childs[i].TransformDirection(Vector3.right);
+                        childMoveDirection = childs[i].right;
                         break;
                     case Direction.LocalForward:
-                        childMoveDirection = childs[i].TransformDirection(Vector3.forward);
+                        childMoveDirection = childs[i].forward;
                         break;
                 }
 
