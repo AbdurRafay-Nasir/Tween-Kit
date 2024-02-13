@@ -29,26 +29,54 @@ namespace DOTweenModular
         public override Tween CreateTween()
         {
             Vector3 moveDirection = Vector3.zero;
-
-            // Calculate the movement direction based on the specified direction
-            switch (direction)
-            {
-                case Direction.LocalUp:
-                    moveDirection = transform.TransformDirection(Vector3.up);
-                    break;
-                case Direction.LocalRight:
-                    moveDirection = transform.TransformDirection(Vector3.right);
-                    break;
-                case Direction.LocalForward:
-                    moveDirection = transform.TransformDirection(Vector3.forward);
-                    break;
-            }
+            Vector3 targetPosition = Vector3.zero;
 
             if (moveLocally)
-                Tween = transform.DOLocalMove(transform.position + moveDirection * moveAmount, duration, snapping);
+            {
+                // Calculate the movement direction based on the specified direction
+                switch (direction)
+                {
+                    case Direction.LocalUp:
+                        moveDirection = Vector3.up;
+                        break;
+                    case Direction.LocalRight:
+                        moveDirection = Vector3.right;
+                        break;
+                    case Direction.LocalForward:
+                        moveDirection = Vector3.forward;
+                        break;
+                }
 
+                // Transform the movement direction from local space to world space using the child's rotation
+                moveDirection = transform.localRotation * moveDirection;
+
+                // Normalize the movement direction
+                moveDirection.Normalize();
+
+                // Calculate the target Position based on moveDirection and moveAmount
+                targetPosition = transform.localPosition + moveDirection * moveAmount;
+
+                Tween = transform.DOLocalMove(targetPosition, duration, snapping);
+            }
             else
-                Tween = transform.DOMove(transform.position + moveDirection * moveAmount, duration, snapping);
+            {
+                switch (direction)
+                {
+                    case Direction.LocalUp:
+                        moveDirection = transform.up;
+                        break;
+                    case Direction.LocalRight:
+                        moveDirection = transform.right;
+                        break;
+                    case Direction.LocalForward:
+                        moveDirection = transform.forward;
+                        break;
+                }
+
+                targetPosition = transform.position + moveDirection * moveAmount;
+
+                Tween = transform.DOMove(targetPosition, duration, snapping);
+            }                            
 
             if (easeType == Ease.INTERNAL_Custom)
                 Tween.SetEase(curve);
