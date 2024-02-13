@@ -6,11 +6,10 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOAnchorPosChilds)), CanEditMultipleObjects]
-    public sealed class DOAnchorPosChildsEditor : DOBaseEditor
+    public sealed class DOAnchorPosChildsEditor : DOChildsBaseEditor
     {
         #region Serialized Properties
 
-        private SerializedProperty joinProp;
         private SerializedProperty relativeProp;
         private SerializedProperty snappingProp;
         private SerializedProperty targetPositionProp;
@@ -31,7 +30,6 @@ namespace DOTweenModular.Editor
             rectTransform = (RectTransform)doAnchorPosChilds.transform;
             relativeFlags = CreateInstance<RelativeFlags>();
 
-            joinProp = serializedObject.FindProperty("join");
             relativeProp = serializedObject.FindProperty("relative");
             snappingProp = serializedObject.FindProperty("snapping");
             targetPositionProp = serializedObject.FindProperty("targetPosition");
