@@ -28,55 +28,10 @@ namespace DOTweenModular
 
         public override Tween CreateTween()
         {
-            Vector3 moveDirection = Vector3.zero;
-            Vector3 targetPosition = Vector3.zero;
-
             if (moveLocally)
-            {
-                // Calculate the movement direction based on the specified direction
-                switch (direction)
-                {
-                    case Direction.LocalUp:
-                        moveDirection = Vector3.up;
-                        break;
-                    case Direction.LocalRight:
-                        moveDirection = Vector3.right;
-                        break;
-                    case Direction.LocalForward:
-                        moveDirection = Vector3.forward;
-                        break;
-                }
-
-                // Transform the movement direction from local space to world space using the child's rotation
-                moveDirection = transform.localRotation * moveDirection;
-
-                // Normalize the movement direction
-                moveDirection.Normalize();
-
-                // Calculate the target Position based on moveDirection and moveAmount
-                targetPosition = transform.localPosition + moveDirection * moveAmount;
-
-                Tween = transform.DOLocalMove(targetPosition, duration, snapping);
-            }
+                Tween = transform.DOLocalMove(GetLocalTargetPosition(), duration, snapping);
             else
-            {
-                switch (direction)
-                {
-                    case Direction.LocalUp:
-                        moveDirection = transform.up;
-                        break;
-                    case Direction.LocalRight:
-                        moveDirection = transform.right;
-                        break;
-                    case Direction.LocalForward:
-                        moveDirection = transform.forward;
-                        break;
-                }
-
-                targetPosition = transform.position + moveDirection * moveAmount;
-
-                Tween = transform.DOMove(targetPosition, duration, snapping);
-            }                            
+                Tween = transform.DOMove(GetGlobalTargetPosition(), duration, snapping);
 
             if (easeType == Ease.INTERNAL_Custom)
                 Tween.SetEase(curve);
@@ -92,6 +47,60 @@ namespace DOTweenModular
             TweenCreated();
 
             return Tween;
+        }
+
+        /// <summary>
+        /// Returns Position defined by Direction and moveLocally in world space
+        /// </summary>
+        private Vector3 GetGlobalTargetPosition()
+        {
+            Vector3 moveDirection = Vector3.zero;
+
+            switch (direction)
+            {
+                case Direction.LocalUp:
+                    moveDirection = transform.up;
+                    break;
+                case Direction.LocalRight:
+                    moveDirection = transform.right;
+                    break;
+                case Direction.LocalForward:
+                    moveDirection = transform.forward;
+                    break;
+            }
+
+            return transform.position + moveDirection * moveAmount;
+        }
+
+        /// <summary>
+        /// Returns Position defined by Direction and moveLocally in local space
+        /// </summary>
+        private Vector3 GetLocalTargetPosition()
+        {
+            Vector3 moveDirection = Vector3.zero;
+
+            // Calculate the movement direction based on the specified direction
+            switch (direction)
+            {
+                case Direction.LocalUp:
+                    moveDirection = Vector3.up;
+                    break;
+                case Direction.LocalRight:
+                    moveDirection = Vector3.right;
+                    break;
+                case Direction.LocalForward:
+                    moveDirection = Vector3.forward;
+                    break;
+            }
+
+            // Transform the movement direction from local space to world space using the child's rotation
+            moveDirection = transform.localRotation * moveDirection;
+
+            // Normalize the movement direction
+            moveDirection.Normalize();
+
+            // Calculate the target Position based on moveDirection and moveAmount
+            return transform.localPosition + moveDirection * moveAmount;
         }
     }
 }
