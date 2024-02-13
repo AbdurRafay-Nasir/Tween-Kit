@@ -172,20 +172,28 @@ namespace DOTweenModular.Editor
 
             Vector3 moveDirection = Vector3.zero;
 
+            // Calculate the movement direction based on the specified direction
             switch (doMoveDirectional.direction)
             {
                 case Direction.LocalUp:
-                    moveDirection = doMoveDirectional.transform.TransformDirection(Vector3.up);
+                    moveDirection = Vector3.up;
                     break;
                 case Direction.LocalRight:
-                    moveDirection = doMoveDirectional.transform.TransformDirection(Vector3.right);
+                    moveDirection = Vector3.right;
                     break;
                 case Direction.LocalForward:
-                    moveDirection = doMoveDirectional.transform.TransformDirection(Vector3.forward);
+                    moveDirection = Vector3.forward;
                     break;
             }
 
-            Vector3 targetPosition = startPosition + moveDirection * doMoveDirectional.moveAmount;                      
+            // Transform the movement direction from local space to world space using the child's rotation
+            moveDirection = doMoveDirectional.transform.rotation * moveDirection;
+
+            // Normalize the movement direction
+            moveDirection.Normalize();
+
+            // Calculate the move position based on moveDirection and moveAmount
+            Vector3 targetPosition = startPosition + moveDirection * doMoveDirectional.moveAmount;
 
             DrawLine(startPosition, targetPosition, Color.green);
         }
