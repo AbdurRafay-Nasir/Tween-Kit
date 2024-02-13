@@ -16,8 +16,7 @@ namespace DOTweenModular
                   "targetSize = targetSize + spriteRenderer.size")]
         public bool relative;
 
-        [Tooltip("The size to reach, if relative is true Sprite Rendere size will tween as: " + "\n" +
-                 "targetSize = targetSize + spriteRenderer.size")]
+        [Tooltip("The size to reach")]
         public Vector2 targetSize = new(3f, 3f);
 
         #endregion
