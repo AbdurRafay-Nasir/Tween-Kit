@@ -6,11 +6,10 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOMoveChilds)), CanEditMultipleObjects]
-    public sealed class DOMoveChildsEditor : DOBaseEditor
+    public sealed class DOMoveChildsEditor : DOChildsBaseEditor
     {
         #region Serialized Properties
 
-        private SerializedProperty joinProp;
         private SerializedProperty relativeProp;
         private SerializedProperty snappingProp;
         private SerializedProperty targetPositionProp;
@@ -43,7 +42,6 @@ namespace DOTweenModular.Editor
                 startPositions[i] = child.position;
             }
 
-            joinProp = serializedObject.FindProperty("join");
             relativeProp = serializedObject.FindProperty("relative");
             snappingProp = serializedObject.FindProperty("snapping");
             targetPositionProp = serializedObject.FindProperty("targetPosition");
@@ -193,7 +191,7 @@ namespace DOTweenModular.Editor
                     DrawLine(startPositions[i], startPositions[i] + doMoveChilds.targetPosition, Color.green);
                 }
             }
-            else
+            else 
             {
                 for (int i = 0; i < doMoveChilds.transform.childCount; i++)
                 {
