@@ -7,11 +7,10 @@ using DOTweenModular.Enums;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOMoveDirectionalChilds)), CanEditMultipleObjects]
-    public sealed class DOMoveDirectionalChildsEditor : DOBaseEditor
+    public sealed class DOMoveDirectionalChildsEditor : DOChildsBaseEditor
     {
         #region Serialized Properties
 
-        private SerializedProperty joinProp;
         private SerializedProperty directionProp;
         private SerializedProperty moveLocallyProp;
         private SerializedProperty snappingProp;
@@ -43,7 +42,6 @@ namespace DOTweenModular.Editor
                 startPositions[i] = child.position;
             }
 
-            joinProp = serializedObject.FindProperty("join");
             directionProp = serializedObject.FindProperty("direction");
             moveLocallyProp = serializedObject.FindProperty("moveLocally");
             snappingProp = serializedObject.FindProperty("snapping");
@@ -200,7 +198,8 @@ namespace DOTweenModular.Editor
                         break;
                 }
 
-                DrawLine(startPositions[i], startPositions[i] + childMoveDirection * doMoveDirectionalChilds.moveAmount, Color.green);
+                DrawLine(startPositions[i], startPositions[i] + childMoveDirection * doMoveDirectionalChilds.moveAmount, 
+                         Color.green);
             }
         }
 
