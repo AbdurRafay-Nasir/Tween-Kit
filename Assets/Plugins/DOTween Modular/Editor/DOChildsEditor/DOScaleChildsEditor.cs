@@ -16,7 +16,6 @@ namespace DOTweenModular.Editor
         #endregion
 
         private DOScaleChilds doScaleChilds;
-        private RelativeFlags relativeFlags;
 
         #region Unity Functions
 
@@ -25,7 +24,6 @@ namespace DOTweenModular.Editor
             base.OnEnable();
 
             doScaleChilds = (DOScaleChilds)target;
-            relativeFlags = CreateInstance<RelativeFlags>();
 
             joinProp = serializedObject.FindProperty("join");
             relativeProp = serializedObject.FindProperty("relative");
@@ -98,7 +96,6 @@ namespace DOTweenModular.Editor
                     Space();
 
                     DrawChildScaleSettings();
-                    SetTargetScale();
 
                     Space();
                     EndBackgroundBox();
@@ -166,37 +163,6 @@ namespace DOTweenModular.Editor
         {
             DrawProperty(relativeProp);
             DrawProperty(joinProp);
-        }
-
-        /// <summary>
-        /// Update Target Scale when switching from relative/absolute modes
-        /// </summary>
-        private void SetTargetScale()
-        {
-            if (doScaleChilds.relative)
-            {
-                if (relativeFlags.firstTimeRelative)
-                {
-                    doScaleChilds.targetScale -= doScaleChilds.transform.localScale;
-
-                    Undo.RecordObject(relativeFlags, "DOScaleChildsEditor_firstTimeNonRelative");
-                    relativeFlags.firstTimeRelative = false;
-                }
-
-                relativeFlags.firstTimeNonRelative = true;
-            }
-            else
-            {
-                if (relativeFlags.firstTimeNonRelative)
-                {
-                    doScaleChilds.targetScale += doScaleChilds.transform.localScale;
-
-                    Undo.RecordObject(relativeFlags, "DOScaleChildsChildsEditor_firstTimeRelative");
-                    relativeFlags.firstTimeNonRelative = false;
-                }
-
-                relativeFlags.firstTimeRelative = true;
-            }
         }
     }
 }
