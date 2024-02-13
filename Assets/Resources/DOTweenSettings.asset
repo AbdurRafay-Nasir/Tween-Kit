@@ -51,4 +51,4 @@ MonoBehaviour:
     epoOutlineEnabled: 0
   createASMDEF: 1
   showPlayingTweens: 1
-  showPausedTweens: 0
+  showPausedTweens: 1

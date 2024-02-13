@@ -502,20 +502,21 @@ namespace DOTweenModular.Editor
 
             DOBase tweenObj = (DOBase)tweenObjectProp.objectReferenceValue;
 
-            Vector2 lineStart = doBase.transform.position;
-            Vector2 lineEnd = tweenObj.transform.position;
+            Vector3 lineStart = doBase.transform.position;
+            Vector3 lineEnd = tweenObj.transform.position;
 
             Handles.DrawLine(lineStart, lineEnd);
 
-            Vector2 midPoint = (lineStart + lineEnd) * 0.5f;
+            Vector3 midPoint = (lineStart + lineEnd) * 0.5f;
             string text = doBase.begin.ToString();
             Handles.Label(midPoint, text);
 
-            Vector2 arrowPosition = Vector2.Lerp(lineStart, lineEnd, 0.1f);
+            Vector3 arrowPosition = Vector3.Lerp(lineStart, lineEnd, 0.1f);
 
-            Vector2 arrowDirection = lineStart - midPoint;
+            Vector3 arrowDirection = lineStart - midPoint;
 
-            Handles.ConeHandleCap(10, arrowPosition, Quaternion.LookRotation(arrowDirection), 0.5f, EventType.Repaint);
+            if (arrowDirection != Vector3.zero)
+                Handles.ConeHandleCap(10, arrowPosition, Quaternion.LookRotation(arrowDirection), 0.5f, EventType.Repaint);
 
             while ((tweenObj.begin == Begin.After || tweenObj.begin == Begin.With)
                      && tweenObj.tweenObject != null)
