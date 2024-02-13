@@ -5,12 +5,9 @@ using DOTweenModular.Enums;
 namespace DOTweenModular
 {
     [AddComponentMenu("DOTween Modular/DO Move Directional Childs")]
-    public sealed class DOMoveDirectionalChilds : DOBase
+    public sealed class DOMoveDirectionalChilds : DOChildsBase
     {
         #region Properties
-
-        [Tooltip("If TRUE, All childs will move simultaneously")]
-        public bool join = true;
 
         [Tooltip("The direction to move in")]
         public Direction direction;
@@ -26,44 +23,18 @@ namespace DOTweenModular
 
         #endregion
 
-        public override Tween CreateTween()
+        protected override Tween InitializeChildTween(Transform currentChild)
         {
-            Sequence childsMoveSequence = DOTween.Sequence();
+            Tween childMoveTween;
 
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                Transform child = transform.GetChild(i);
+            if (moveLocally)
+                childMoveTween = currentChild.DOLocalMove(GetLocalTargetPosition(currentChild),
+                                                          duration, snapping);
+            else
+                childMoveTween = currentChild.DOMove(GetGlobalTargetPosition(currentChild),
+                                                     duration, snapping);
 
-                Tween childMoveTween;
-
-                if (moveLocally)
-                    childMoveTween = child.DOLocalMove(GetLocalTargetPosition(child), 
-                                                       duration, snapping);
-                else
-                    childMoveTween = child.DOMove(GetGlobalTargetPosition(child),
-                                                  duration, snapping);
-
-                if (easeType == Ease.INTERNAL_Custom)
-                    childMoveTween.SetEase(curve);
-                else
-                    childMoveTween.SetEase(easeType);
-
-                childMoveTween.SetDelay(delay);
-
-                if (join)
-                    childsMoveSequence.Join(childMoveTween);
-                else
-                    childsMoveSequence.Append(childMoveTween);
-            }
-
-            if (tweenType == Enums.TweenType.Looped)
-                childsMoveSequence.SetLoops(loops, loopType);
-
-            Tween = childsMoveSequence;
-
-            TweenCreated();
-
-            return Tween;
+            return childMoveTween;
         }
 
         /// <summary>
