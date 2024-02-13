@@ -1206,9 +1206,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   join: 1
-  relative: 0
+  relative: 1
   snapping: 0
-  targetPosition: {x: 0, y: 0}
+  targetPosition: {x: 0, y: 100}
 --- !u!1 &1333700388
 GameObject:
   m_ObjectHideFlags: 0

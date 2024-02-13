@@ -1,6 +1,5 @@
 #if UNITY_EDITOR
 
-using UnityEngine;
 using UnityEditor;
 
 namespace DOTweenModular.Editor
@@ -16,19 +15,11 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        private DOAnchorPosChilds doAnchorPosChilds;
-        private RectTransform rectTransform;
-        private RelativeFlags relativeFlags;
-
         #region Unity Functions
 
         public override void OnEnable()
         {
             base.OnEnable();
-
-            doAnchorPosChilds = (DOAnchorPosChilds)target;
-            rectTransform = (RectTransform)doAnchorPosChilds.transform;
-            relativeFlags = CreateInstance<RelativeFlags>();
 
             relativeProp = serializedObject.FindProperty("relative");
             snappingProp = serializedObject.FindProperty("snapping");
@@ -101,7 +92,6 @@ namespace DOTweenModular.Editor
                     Space();
 
                     DrawChildMoveSettings();
-                    SetTargetPosition();
 
                     Space();
                     EndBackgroundBox();
@@ -170,37 +160,6 @@ namespace DOTweenModular.Editor
             DrawProperty(relativeProp);
             DrawProperty(snappingProp);
             DrawProperty(joinProp);
-        }
-
-        /// <summary>
-        /// Update Target Position when switching from relative/absolute modes
-        /// </summary>
-        private void SetTargetPosition()
-        {
-            if (doAnchorPosChilds.relative)
-            {
-                if (relativeFlags.firstTimeRelative)
-                {
-                    doAnchorPosChilds.targetPosition -= rectTransform.anchoredPosition;
-
-                    Undo.RecordObject(relativeFlags, "DOAnchorPosChildsEditor_firstTimeNonRelative");
-                    relativeFlags.firstTimeRelative = false;
-                }
-
-                relativeFlags.firstTimeNonRelative = true;
-            }
-            else
-            {
-                if (relativeFlags.firstTimeNonRelative)
-                {
-                    doAnchorPosChilds.targetPosition += rectTransform.anchoredPosition;
-
-                    Undo.RecordObject(relativeFlags, "DOAnchorPosChildsEditor_firstTimeRelative");
-                    relativeFlags.firstTimeNonRelative = false;
-                }
-
-                relativeFlags.firstTimeRelative = true;
-            }
         }
     }
 }
