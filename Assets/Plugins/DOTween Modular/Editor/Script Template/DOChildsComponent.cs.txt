@@ -1,0 +1,19 @@
+using UnityEngine;
+using DG.Tweening;
+
+namespace DOTweenModular
+{
+    public sealed class #SCRIPTNAME# : DOChildsBase
+    {
+        #region Properties
+
+        #endregion
+
+        protected override Tween InitializeChildTween(Transform currentChild)
+        {
+            Tween childTween = null;
+
+            return childTween;
+        }
+    }
+}
