@@ -5,17 +5,14 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DOScaleChilds)), CanEditMultipleObjects]
-    public sealed class DOScaleChildsEditor : DOBaseEditor
+    public sealed class DOScaleChildsEditor : DOChildsBaseEditor
     {
         #region Serialized Properties
 
-        private SerializedProperty joinProp;
         private SerializedProperty relativeProp;
         private SerializedProperty targetScaleProp;
 
         #endregion
-
-        private DOScaleChilds doScaleChilds;
 
         #region Unity Functions
 
@@ -23,9 +20,6 @@ namespace DOTweenModular.Editor
         {
             base.OnEnable();
 
-            doScaleChilds = (DOScaleChilds)target;
-
-            joinProp = serializedObject.FindProperty("join");
             relativeProp = serializedObject.FindProperty("relative");
             targetScaleProp = serializedObject.FindProperty("targetScale");
         }
@@ -95,7 +89,7 @@ namespace DOTweenModular.Editor
                     BeginBackgroundBox();
                     Space();
 
-                    DrawChildScaleSettings();
+                    DrawChildsSettings();
 
                     Space();
                     EndBackgroundBox();
@@ -156,13 +150,10 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        /// <summary>
-        /// Draws Relative & Join Properties
-        /// </summary>
-        private void DrawChildScaleSettings()
+        private void DrawChildsSettings()
         {
-            DrawProperty(relativeProp);
             DrawProperty(joinProp);
+            DrawProperty(relativeProp);
         }
     }
 }
