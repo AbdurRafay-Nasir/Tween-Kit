@@ -4,12 +4,9 @@ using DG.Tweening;
 namespace DOTweenModular
 {
     [AddComponentMenu("DOTween Modular/DO Rotate Childs")]
-    public sealed class DORotateChilds : DOBase
+    public sealed class DORotateChilds : DOChildsBase
     {
         #region Properties
-
-        [Tooltip("If TRUE, All childs will move simultaneously")]
-        public bool join = true;
 
         [Tooltip("Fast - Fastest way that never rotates beyond 360° " + "\n" + "\n" +
                  "FastBeyond360 - Fastest way that rotates beyond 360°, use this for full 360° rotation " + "\n" + "\n" +
@@ -28,40 +25,16 @@ namespace DOTweenModular
 
         #endregion
 
-        public override Tween CreateTween()
+        protected override Tween InitializeChildTween(Transform currentChild)
         {
-            Sequence childsRotationSequence = DOTween.Sequence();
+            Tween childRotateTween;
 
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                Tween childRotateTween;
+            if (useLocal)
+                childRotateTween = currentChild.DORotate(targetRotation, duration, rotateMode);
+            else
+                childRotateTween = currentChild.DOLocalRotate(targetRotation, duration, rotateMode);
 
-                if (useLocal)
-                    childRotateTween = transform.GetChild(i).DORotate(targetRotation, duration, rotateMode);
-                else
-                    childRotateTween = transform.GetChild(i).DOLocalRotate(targetRotation, duration, rotateMode);
-
-                if (easeType == Ease.INTERNAL_Custom)
-                    childRotateTween.SetEase(curve);
-                else
-                    childRotateTween.SetEase(easeType);
-
-                childRotateTween.SetDelay(delay);
-
-                if (join)
-                    childsRotationSequence.Join(childRotateTween);
-                else
-                    childsRotationSequence.Append(childRotateTween);
-            }
-
-            if (tweenType == Enums.TweenType.Looped)
-                childsRotationSequence.SetLoops(loops, loopType);
-
-            Tween = childsRotationSequence;
-
-            TweenCreated();
-
-            return Tween;
+            return childRotateTween;
         }
     }
 }
