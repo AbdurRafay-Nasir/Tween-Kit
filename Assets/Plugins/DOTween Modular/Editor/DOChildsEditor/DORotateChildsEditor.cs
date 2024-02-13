@@ -5,11 +5,10 @@ using UnityEditor;
 namespace DOTweenModular.Editor
 {
     [CustomEditor(typeof(DORotateChilds)), CanEditMultipleObjects]
-    public sealed class DORotateChildsEditor : DOBaseEditor
+    public sealed class DORotateChildsEditor : DOChildsBaseEditor
     {
         #region Serialized Properties
 
-        private SerializedProperty joinProp;
         private SerializedProperty rotateModeProp;
         private SerializedProperty useLocalProp;
         private SerializedProperty targetRotationProp;
@@ -22,7 +21,6 @@ namespace DOTweenModular.Editor
         {
             base.OnEnable();
 
-            joinProp = serializedObject.FindProperty("join");
             rotateModeProp = serializedObject.FindProperty("rotateMode");
             useLocalProp = serializedObject.FindProperty("useLocal");
             targetRotationProp = serializedObject.FindProperty("targetRotation");
@@ -159,9 +157,9 @@ namespace DOTweenModular.Editor
         /// </summary>
         private void DrawChildsRotateSettings()
         {
+            DrawProperty(joinProp);
             DrawProperty(rotateModeProp);
             DrawProperty(useLocalProp);
-            DrawProperty(joinProp);
         }
     }
 }
