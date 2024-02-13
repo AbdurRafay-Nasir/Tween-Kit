@@ -50,7 +50,7 @@ namespace DOTweenModular
         }
 
         /// <summary>
-        /// Returns Position defined by Direction and moveLocally in world space
+        /// Returns Target Position in world space defined by Direction and moveLocally
         /// </summary>
         private Vector3 GetGlobalTargetPosition()
         {
@@ -73,7 +73,7 @@ namespace DOTweenModular
         }
 
         /// <summary>
-        /// Returns Position defined by Direction and moveLocally in local space
+        /// Returns Target Position in local space defined by Direction and moveLocally
         /// </summary>
         private Vector3 GetLocalTargetPosition()
         {

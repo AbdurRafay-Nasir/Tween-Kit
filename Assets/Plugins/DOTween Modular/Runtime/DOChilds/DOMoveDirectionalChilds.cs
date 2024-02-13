@@ -34,28 +34,13 @@ namespace DOTweenModular
             {
                 Transform child = transform.GetChild(i);
 
-                Vector3 childMoveDirection = Vector3.zero;
-
-                switch (direction)
-                {
-                    case Direction.LocalUp:
-                        childMoveDirection = child.TransformDirection(Vector3.up);
-                        break;
-                    case Direction.LocalRight:
-                        childMoveDirection = child.TransformDirection(Vector3.right);
-                        break;
-                    case Direction.LocalForward:
-                        childMoveDirection = child.TransformDirection(Vector3.forward);
-                        break;
-                }
-
                 Tween childMoveTween;
 
                 if (moveLocally)
-                    childMoveTween = child.DOLocalMove(child.position + childMoveDirection * moveAmount, 
+                    childMoveTween = child.DOLocalMove(GetLocalTargetPosition(child), 
                                                        duration, snapping);
                 else
-                    childMoveTween = child.DOMove(child.position + childMoveDirection * moveAmount,
+                    childMoveTween = child.DOMove(GetGlobalTargetPosition(child),
                                                   duration, snapping);
 
                 if (easeType == Ease.INTERNAL_Custom)
@@ -79,6 +64,60 @@ namespace DOTweenModular
             TweenCreated();
 
             return Tween;
+        }
+
+        /// <summary>
+        /// Returns Target Position in world space for give child defined by Direction and moveLocally
+        /// </summary>
+        private Vector3 GetGlobalTargetPosition(Transform child)
+        {
+            Vector3 moveDirection = Vector3.zero;
+
+            switch (direction)
+            {
+                case Direction.LocalUp:
+                    moveDirection = child.up;
+                    break;
+                case Direction.LocalRight:
+                    moveDirection = child.right;
+                    break;
+                case Direction.LocalForward:
+                    moveDirection = child.forward;
+                    break;
+            }
+
+            return child.position + moveDirection * moveAmount;
+        }
+
+        /// <summary>
+        /// Returns Target Position in local space for give child defined by Direction and moveLocally
+        /// </summary>
+        private Vector3 GetLocalTargetPosition(Transform child)
+        {
+            Vector3 moveDirection = Vector3.zero;
+
+            // Calculate the movement direction based on the specified direction
+            switch (direction)
+            {
+                case Direction.LocalUp:
+                    moveDirection = Vector3.up;
+                    break;
+                case Direction.LocalRight:
+                    moveDirection = Vector3.right;
+                    break;
+                case Direction.LocalForward:
+                    moveDirection = Vector3.forward;
+                    break;
+            }
+
+            // Transform the movement direction from local space to world space using the child's rotation
+            moveDirection = child.localRotation * moveDirection;
+
+            // Normalize the movement direction
+            moveDirection.Normalize();
+
+            // Calculate the target Position based on moveDirection and moveAmount
+            return child.localPosition + moveDirection * moveAmount;
         }
     }
 }
