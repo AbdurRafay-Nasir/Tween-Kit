@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 66400a45e1c535946910c0543d254974
+guid: 9e53fe4005b366a4786dce8f92f33724
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -39,16 +39,16 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 80
+  spritePixelsToUnits: 40
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -69,10 +69,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 3
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -123,85 +123,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Chain
+      name: Asset 1_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 158
-        width: 16
-        height: 343
-      alignment: 9
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2e462680f63a91c458f3ec7b3e887e94
-      internalID: -1705004569
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spike
-      rect:
-        serializedVersion: 2
-        x: 9
-        y: 10
-        width: 37
-        height: 61
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e587d17a3d4808a4f902698d950810b1
-      internalID: 209210095
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spiked Block
-      rect:
-        serializedVersion: 2
-        x: 429
-        y: 3
-        width: 79
-        height: 149
+        x: 0
+        y: 0
+        width: 139
+        height: 139
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f96f9557724cd384caf0f78099beefcd
-      internalID: -950611599
+      spriteID: cbaaceec9a11a4c49b070622ad64fe4c
+      internalID: 525250850
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Empty Block
+      name: Asset 1_1
       rect:
         serializedVersion: 2
-        x: 459
-        y: 156
-        width: 49
-        height: 149
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 10, y: 12, z: 11, w: 11}
+        x: 140
+        y: 58
+        width: 21
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 516df3df80faa4f41b637bc6c5b0fd08
-      internalID: 1281953080
+      spriteID: 0267dfe05bd58a344a7d4eb524c95b76
+      internalID: 217020275
       vertices: []
       indices: 
       edges: []
@@ -209,7 +167,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 835a23ffdb15e5b4ba761569740ec47f
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -217,10 +175,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Chain: -1705004569
-      Empty Block: 1281953080
-      Spike: 209210095
-      Spiked Block: -950611599
+      Asset 1_0: 525250850
+      Asset 1_1: 217020275
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
