@@ -1,0 +1,156 @@
+#if UNITY_EDITOR
+
+using UnityEngine;
+using UnityEditor;
+
+namespace DOTweenModular.Editor
+{
+    [CanEditMultipleObjects]
+    public class #SCRIPTNAME# : DOChildsBaseEditor
+    {
+        #region Serialized Properties
+
+        #endregion
+
+        #region Unity Functions
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+
+        }
+
+        public override void OnInspectorGUI()
+        {
+            Space();
+
+            bool[] toggleStates = DrawToggles("Life", "Type", "Childs", "Values", "Events");
+
+            Space();
+
+            if (toggleStates[0])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Life Time Settings"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawLifeTimeSettings();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            DrawTweenObjectHelpBox();
+
+            if (toggleStates[1])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Type Settings"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawTypeSettings();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            if (toggleStates[2])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Child Settings"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawChildsSettings();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            if (toggleStates[3])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Values"))
+                {
+                    EditorGUI.indentLevel++;
+
+                    BeginBackgroundBox();
+                    Space();
+
+                    DrawValues();
+
+                    Space();
+                    EndBackgroundBox();
+
+                    EditorGUI.indentLevel--;
+                }
+
+                EndFoldout();
+            }
+
+            if (toggleStates[4])
+            {
+                DrawSeparatorLine();
+
+                if (BeginFoldout("Events", false))
+                {
+                    EditorGUI.indentLevel++;
+
+                    Space();
+
+                    DrawEvents();
+
+                    EditorGUI.indentLevel--;
+                }
+                EndFoldout();
+            }
+
+            DrawSeparatorLine();
+
+            DrawPlayButton();
+            DrawStopButton();
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        #endregion
+
+        private void DrawChildsSettings()
+        {
+            #NOTRIM#
+        }
+
+    }
+}
+
+#endif
