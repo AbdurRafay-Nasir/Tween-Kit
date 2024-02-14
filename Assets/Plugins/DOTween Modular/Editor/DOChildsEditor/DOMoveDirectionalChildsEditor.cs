@@ -50,6 +50,13 @@ namespace DOTweenModular.Editor
 
         public override void OnInspectorGUI()
         {
+            if (doMoveDirectionalChilds.transform.childCount == 0)
+            {
+                DrawHelpbox("There are no Child Game Objects, What are you supposed to do with this Component?", MessageType.Error);
+
+                return;
+            }
+
             Space();
 
             bool[] toggleStates = DrawToggles("Life", "Type", "Child", "Values", "Events");
