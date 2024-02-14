@@ -15,12 +15,17 @@ namespace DOTweenModular.Editor
         private SerializedProperty targetSizeProp;
 
         #endregion
-        
+
+        private SpriteRenderer sr;
+
         #region Unity Functions
 
         public override void OnEnable()
         {
             base.OnEnable();
+
+            DOSize doSize = (DOSize)target;
+            sr = doSize.GetComponent<SpriteRenderer>();
 
             speedbasedProp = serializedObject.FindProperty("speedBased");
             relativeProp = serializedObject.FindProperty("relative");
@@ -29,6 +34,14 @@ namespace DOTweenModular.Editor
 
         public override void OnInspectorGUI()
         {
+            if (sr.drawMode == SpriteDrawMode.Simple)
+            {
+                DrawHelpbox("Sprite Renderer Draw Mode is set to Simple" + "\n" +
+                            "Draw Mode must either be Sliced or Tiled", MessageType.Error);
+
+                return;
+            }
+
             Space();
 
             bool[] toggleStates = DrawToggles("Life", "Type", "Size", "Values", "Events");
@@ -158,7 +171,6 @@ namespace DOTweenModular.Editor
             DrawProperty(speedbasedProp);
             DrawProperty(relativeProp);
         }
-
     }
 }
 
