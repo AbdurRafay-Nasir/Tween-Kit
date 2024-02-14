@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 
 using UnityEditor;
+using UnityEngine;
 
 namespace DOTweenModular.Editor
 {
@@ -14,11 +15,22 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        private Transform transform;
+        private SpriteRenderer[] childSRs;
+
         #region Unity Functions
 
         public override void OnEnable()
         {
             base.OnEnable();
+
+            transform = ((DOSizeChilds)target).transform;
+            childSRs = new SpriteRenderer[transform.childCount];
+
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                childSRs[i] = transform.GetChild(i).GetComponent<SpriteRenderer>();
+            }
 
             relativeProp = serializedObject.FindProperty("relative");
             targetSizeProp = serializedObject.FindProperty("targetSize");
@@ -26,6 +38,28 @@ namespace DOTweenModular.Editor
 
         public override void OnInspectorGUI()
         {
+            if (transform.childCount == 0)
+            {
+                DrawHelpbox("There are no Child Game Objects, What are you supposed to do with this Component?", MessageType.Error);
+
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    if (childSRs[i].drawMode != SpriteDrawMode.Simple)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        DrawHelpbox(childSRs[i].transform.name + "'s Sprite Renderer Draw Mode must be set to Sliced or Tiled",
+                                    MessageType.Warning);
+                    }
+                }
+            }
+
             Space();
 
             bool[] toggleStates = DrawToggles("Life", "Type", "Childs", "Values", "Events");
