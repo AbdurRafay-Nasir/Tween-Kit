@@ -15,11 +15,15 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        private UnityEngine.Transform transform;
+
         #region Unity Functions
 
         public override void OnEnable()
         {
             base.OnEnable();
+
+            transform = ((DORotateChilds)target).transform;
 
             rotateModeProp = serializedObject.FindProperty("rotateMode");
             useLocalProp = serializedObject.FindProperty("useLocal");
@@ -28,6 +32,13 @@ namespace DOTweenModular.Editor
 
         public override void OnInspectorGUI()
         {
+            if (transform.childCount == 0)
+            {
+                DrawHelpbox("There are no Child Game Objects, What are you supposed to do with this Component?", MessageType.Error);
+
+                return;
+            }
+
             Space();
 
             bool[] toggleStates = DrawToggles("Life", "Type", "Childs", "Values", "Events");
