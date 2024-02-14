@@ -15,17 +15,11 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        private DOScale doScale;
-        private RelativeFlags relativeFlags;
-
         #region Unity Functions
 
         public override void OnEnable()
         {
             base.OnEnable();
-
-            doScale = (DOScale)target;
-            relativeFlags = CreateInstance<RelativeFlags>();
 
             relativeProp = serializedObject.FindProperty("relative");
             speedBasedProp = serializedObject.FindProperty("speedBased");
@@ -120,7 +114,6 @@ namespace DOTweenModular.Editor
                     Space();
 
                     DrawScaleSettings();
-                    SetTargetScale();
 
                     Space();
                     EndBackgroundBox();
@@ -190,37 +183,6 @@ namespace DOTweenModular.Editor
         {
             DrawProperty(speedBasedProp);
             DrawProperty(relativeProp);            
-        }
-
-        /// <summary>
-        /// Update Target Scale when switching from relative/absolute modes
-        /// </summary>
-        private void SetTargetScale()
-        {
-            if (doScale.relative)
-            {
-                if (relativeFlags.firstTimeRelative)
-                {
-                    doScale.targetScale -= doScale.transform.localScale;
-
-                    Undo.RecordObject(relativeFlags, "DOScaleEditor_firstTimeNonRelative");
-                    relativeFlags.firstTimeRelative = false;
-                }
-
-                relativeFlags.firstTimeNonRelative = true;
-            }
-            else
-            {
-                if (relativeFlags.firstTimeNonRelative)
-                {
-                    doScale.targetScale += doScale.transform.localScale;
-
-                    Undo.RecordObject(relativeFlags, "DOScaleEditor_firstTimeRelative");
-                    relativeFlags.firstTimeNonRelative = false;
-                }
-
-                relativeFlags.firstTimeRelative = true;
-            }
         }
     }
 }
