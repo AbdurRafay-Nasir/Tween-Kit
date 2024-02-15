@@ -22,6 +22,11 @@ Collection of Modular Components for DOTween
 - Add [DOTween Modular Package](https://github.com/AbdurRafay-Nasir/DOTween-Modular/blob/main/dotweenmodular.unitypackage) in your project
 - There will be some errors, ignore them. Add DOTween asmdef reference in Assets/Plugins/DOTween Modular/Runtime/dotweenmodular.asmdef (Remove any previous references) 
 
+## Demos
+https://github.com/AbdurRafay-Nasir/DOTween-Modular/assets/145528502/2620ec8c-928d-4d7c-9d01-5acf02c5b774
+
+https://github.com/AbdurRafay-Nasir/DOTween-Modular/assets/145528502/bdc1e2aa-2b23-4165-ada6-b253874bef6b
+
 ## Creating New Components
 ![1-Create Extension](https://github.com/AbdurRafay-Nasir/DOTween-Modular/assets/145528502/6a129763-4a27-4ece-a385-bc021e6b4e1b)
 ![2-Create Component](https://github.com/AbdurRafay-Nasir/DOTween-Modular/assets/145528502/64b092ab-4ed5-4db3-8373-efa35be622e3)
