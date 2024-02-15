@@ -8,6 +8,14 @@ Collection of Modular Components for DOTween
 - Helpful messages within inspector
 - Utility classes for generating Catmull-Rom and Cubic Bezier Splines
 
+## Contents
+- [Highlights](#highlights)
+- [Prerequisite](#prerequisite)
+- [Installation](#installation)
+- [Demos](#demos)
+- [Creating New Components](#creating-new-components)
+- [Author](#author)
+
 ## Highlights
 ![Organized](https://github.com/AbdurRafay-Nasir/DOTween-Modular-Development/assets/145528502/0ff529a1-73a8-4755-bddc-a451ce33c5ba)
 ![Helpbox](https://github.com/AbdurRafay-Nasir/DOTween-Modular/assets/145528502/2f310579-143c-48ea-b323-c11eea00b4b6)
