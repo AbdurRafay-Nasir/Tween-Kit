@@ -5,8 +5,8 @@ using UnityEditor;
 
 namespace DOTweenModular.Editor
 {
-    [CustomEditor(typeof(DOShapeCircle)), CanEditMultipleObjects]
-    public sealed class DOShapeCircleEditor : DOBaseEditor
+    [CustomEditor(typeof(DOMoveCircle)), CanEditMultipleObjects]
+    public sealed class DOMoveCircleEditor : DOBaseEditor
     {
         #region Serialized Properties
 
@@ -18,7 +18,7 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        private DOShapeCircle doShapeCircle;
+        private DOMoveCircle doShapeCircle;
         private RelativeFlags relativeFlags;
 
         #region Unity Functions
@@ -27,7 +27,7 @@ namespace DOTweenModular.Editor
         {
             base.OnEnable();
 
-            doShapeCircle = (DOShapeCircle)target;
+            doShapeCircle = (DOMoveCircle)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
             useLocalProp = serializedObject.FindProperty("useLocal");
