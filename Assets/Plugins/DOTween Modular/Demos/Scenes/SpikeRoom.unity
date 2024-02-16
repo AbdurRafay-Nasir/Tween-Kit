@@ -867,7 +867,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &541017422
 GameObject:
   m_ObjectHideFlags: 0
@@ -1196,7 +1196,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &704654030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,7 +1415,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &969183968
 GameObject:
   m_ObjectHideFlags: 0
@@ -1768,7 +1768,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &1300732288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,7 +1904,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &1302465094
 GameObject:
   m_ObjectHideFlags: 0
@@ -2659,7 +2659,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &1421191847
 GameObject:
   m_ObjectHideFlags: 0
@@ -3012,7 +3012,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &1620643220
 GameObject:
   m_ObjectHideFlags: 0
@@ -3533,7 +3533,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &1670096291
 GameObject:
   m_ObjectHideFlags: 0
@@ -3696,7 +3696,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 549648461}
@@ -3803,7 +3803,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &1708881384
 GameObject:
   m_ObjectHideFlags: 0
@@ -3939,7 +3939,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &1963487108
 GameObject:
   m_ObjectHideFlags: 0
@@ -4158,7 +4158,7 @@ MonoBehaviour:
   interpolate: 0.01
   speedBased: 0
   relative: 0
-  targetScale: {x: 1, y: 2.11, z: 1}
+  targetScale: {x: 1, y: 1.35, z: 1}
 --- !u!1 &2074929926
 GameObject:
   m_ObjectHideFlags: 0
