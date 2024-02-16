@@ -160,5 +160,68 @@ namespace DOTweenModular.Miscellaneous
         {
             return (layerMask.value & (1 << layer)) != 0;
         }
+
+        #region Vector Functions
+
+        /// <summary>
+        /// Copies this array and return identical Vector3 Array
+        /// </summary>
+        /// <returns>Copy of array with Z value = 0</returns>
+        public static Vector3[] ToVector3Array(this Vector2[] vector2Array)
+        {
+            Vector3[] vector3Array = new Vector3[vector2Array.Length];
+            Vector3 xyOne = new(1f, 1f, 0f);
+
+            for (int i = 0; i < vector3Array.Length; i++)
+            {
+                vector3Array[i] = xyOne * vector2Array[i];
+            }
+
+            return vector3Array;
+        }
+
+        /// <summary>
+        /// Copies this array and return identical Vector2 Array
+        /// </summary>
+        /// <returns>Copy of array with Z axis dropped</returns>
+        public static Vector2[] ToVector2Array(this Vector3[] vector3Array)
+        {
+            Vector2[] vector2Array = new Vector2[vector3Array.Length];
+
+            for (int i = 0; i < vector2Array.Length; i++)
+            {
+                vector2Array[i] = vector3Array[i];
+            }
+
+            return vector2Array;
+        }
+
+#if UNITY_EDITOR
+
+        /// <summary>
+        /// Print elements of array. Useful for debugging, only available in Editor
+        /// </summary>
+        public static void Print(this Vector3[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Debug.Log("Index: " + i + " = " + arr[i]);
+            }
+        }
+
+        /// <summary>
+        /// Print elements of array. Useful for debugging, only available in Editor
+        /// </summary>
+        public static void Print(this Vector2[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Debug.Log("Index: " + i + " = " + arr[i]);
+            }
+        }
+
+#endif
+
+        #endregion
     }
 }
