@@ -4,8 +4,8 @@ using DOTweenModular.Miscellaneous;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Shape Circle")]
-    public sealed class DOShapeCircle : DOBase
+    [AddComponentMenu("DOTween Modular/DO Move Circle")]
+    public sealed class DOMoveCircle : DOBase
     {
         #region Properties
 
