@@ -19,7 +19,7 @@ namespace DOTweenModular.Miscellaneous
         /// <param name="relativeCenter">If TRUE the <see cref="center"/> coordinates will be considered as relative to the target's current Position</param>
         /// <param name="snapping">If TRUE the tween will smoothly snap all values to integers</param>
         /// <remarks>Only works in 2D (XY-Plane)</remarks>
-        public static TweenerCore<Vector2, Vector2, CircleOptions> DOShapeCircle(
+        public static TweenerCore<Vector2, Vector2, CircleOptions> DOMoveCircle(
             this Transform target, Vector2 center, float endValueDegrees, float duration,
             bool relativeCenter = false, bool snapping = false
         )
@@ -40,7 +40,7 @@ namespace DOTweenModular.Miscellaneous
         /// <param name="duration">The duration of the tween</param>
         /// <param name="snapping">If TRUE the tween will smoothly snap all values to integers</param>
         /// <remarks>Only works in 2D (XY-Plane)</remarks>
-        public static TweenerCore<Vector2, Vector2, CircleOptions> DOLocalShapeCircle(
+        public static TweenerCore<Vector2, Vector2, CircleOptions> DOLocalMoveCircle(
             this Transform target, Vector2 center, float endValueDegrees,
             float duration, bool snapping = false
         )

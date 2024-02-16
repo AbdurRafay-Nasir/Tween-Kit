@@ -31,9 +31,9 @@ namespace DOTweenModular
         public override Tween CreateTween()
         {
             if (useLocal)
-                Tween = transform.DOLocalShapeCircle(center, endDegree, duration, snapping);
+                Tween = transform.DOLocalMoveCircle(center, endDegree, duration, snapping);
             else
-                Tween = transform.DOShapeCircle(center, endDegree, duration, relative, snapping);
+                Tween = transform.DOMoveCircle(center, endDegree, duration, relative, snapping);
 
             if (easeType == Ease.INTERNAL_Custom)
                 Tween.SetEase(curve);
