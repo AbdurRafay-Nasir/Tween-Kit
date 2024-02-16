@@ -1,6 +1,6 @@
-using UnityEngine;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace DOTweenModular.Miscellaneous
 {
@@ -9,7 +9,6 @@ namespace DOTweenModular.Miscellaneous
     /// </summary>
     public static class Curve
     {
-
         /// <summary>
         /// Utility Class for generating Catmull-Rom Splines
         /// </summary>
@@ -207,6 +206,93 @@ namespace DOTweenModular.Miscellaneous
 
         }
 
+        /// <summary>
+        /// Utility Class for Arcs
+        /// </summary>
+        public static class Arc
+        {
+            /// <summary>
+            /// Generates Rounded Rectangle
+            /// </summary>
+            /// <param name="center">Center of rectangle</param>
+            /// <param name="width">Width of rectnagle</param>
+            /// <param name="height">Height of rectnagle</param>
+            /// <param name="cornerRadius">Corner radius of Rectangle</param>
+            /// <param name="resolution">Smoothness of Corners</param>
+            /// <returns>Array of Vector2 representing Rounded Rectangle</returns>
+            public static Vector2[] GetRect(Vector2 center, float width, float height, float cornerRadius, float resolution = 3f)
+            {
+                List<Vector2> points = new();
+
+                float minRadius = Mathf.Min(width, height);
+                float clampedRadius = Mathf.Clamp(cornerRadius, 0f, minRadius);
+
+                Vector2 topLeft1 = new(center.x - width, center.y + height - clampedRadius);
+                Vector2 topLeft2 = new(center.x - width + clampedRadius, center.y + height);
+
+                Vector2 topRight1 = new(center.x + width - clampedRadius, center.y + height);
+                Vector2 topRight2 = new(center.x + width, center.y + height - clampedRadius);
+
+                Vector2 bottomRight1 = new(center.x + width, center.y - height + clampedRadius);
+                Vector2 bottomRight2 = new(center.x + width - clampedRadius, center.y - height);
+
+                Vector2 bottomLeft1 = new(center.x - width + clampedRadius, center.y - height);
+                Vector2 bottomLeft2 = new(center.x - width, center.y - height + clampedRadius);
+
+                Vector2 topLeftArcCenter = new(topLeft2.x, topLeft1.y);
+                Vector2 topRightArcCenter = new(topRight1.x, topRight2.y);
+                Vector2 bottomLeftArcCenter = new(bottomLeft1.x, bottomLeft2.y);
+                Vector2 bottomRightArcCenter = new(bottomRight2.x, bottomRight1.y);
+
+                Vector2[] topLeftArcPoints = GetArcPoints(topLeftArcCenter, clampedRadius, 90f, 180f, resolution);
+                Vector2[] topRightArcPoints = GetArcPoints(topRightArcCenter, clampedRadius, 0f, 90f, resolution);
+                Vector2[] bottomrightArcPoints = GetArcPoints(bottomRightArcCenter, clampedRadius, 270f, 360f, resolution);
+                Vector2[] bottomLeftArcPoints = GetArcPoints(bottomLeftArcCenter, clampedRadius, 180f, 270f, resolution);
+
+                points.AddRange(topLeftArcPoints);
+                points.AddRange(bottomLeftArcPoints);
+                points.AddRange(bottomrightArcPoints);
+                points.AddRange(topRightArcPoints);
+
+                // Add start point to close rectangle
+                points.Add(points[0]);
+
+                return points.ToArray();
+            }
+
+            /// <summary>
+            /// Generate arc points
+            /// </summary>
+            /// <param name="center">Center of Circle</param>
+            /// <param name="radius">Radius of Circle</param>
+            /// <param name="startAngle">Angle from where arc will begin</param>
+            /// <param name="endAngle">Angle at which arc will end</param>
+            /// <param name="resolution">How smooth arc is</param>
+            /// <returns>Array of Vector2 representing an arc</returns>
+            /// <remarks>
+            /// 0 angle is at mid of I and IV Quadrant <br/>
+            /// 90 angle is at mid of I and II Quadrant
+            /// </remarks>
+            public static Vector2[] GetArcPoints(Vector2 center, float radius, float startAngle, 
+                                                 float endAngle, float resolution)
+            {
+                List<Vector2> points = new();
+
+                float angleStep = (endAngle - startAngle) / resolution;
+
+                for (int i = 0; i <= resolution; i++)
+                {
+                    float angle = Mathf.Deg2Rad * (startAngle + i * angleStep);
+
+                    float x = center.x + radius * Mathf.Cos(angle);
+                    float y = center.y + radius * Mathf.Sin(angle);
+
+                    points.Add(new Vector2(x, y));
+                }
+
+                return points.ToArray();
+            }
+        }
     }
 
 }
