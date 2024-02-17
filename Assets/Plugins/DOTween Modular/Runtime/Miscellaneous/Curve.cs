@@ -220,9 +220,12 @@ namespace DOTweenModular.Miscellaneous
             /// <param name="cornerRadius">Corner radius of Rectangle</param>
             /// <param name="resolution">Smoothness of Corners</param>
             /// <returns>Array of Vector2 representing Rounded Rectangle</returns>
-            public static Vector2[] GetRect(Vector2 center, float width, float height, float cornerRadius, float resolution = 3f)
+            public static Vector2[] GetRect(Vector2 center, Vector2 size, float cornerRadius, float resolution = 3f)
             {
                 List<Vector2> points = new();
+
+                float width = size.x;
+                float height = size.y;
 
                 float minRadius = Mathf.Min(width, height);
                 float clampedRadius = Mathf.Clamp(cornerRadius, 0f, minRadius);
@@ -253,9 +256,6 @@ namespace DOTweenModular.Miscellaneous
                 points.AddRange(bottomLeftArcPoints);
                 points.AddRange(bottomrightArcPoints);
                 points.AddRange(topRightArcPoints);
-
-                // Add start point to close rectangle
-                points.Add(points[0]);
 
                 return points.ToArray();
             }
