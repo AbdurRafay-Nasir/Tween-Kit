@@ -252,19 +252,16 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  pathType: 2
+  pathType: 0
   pathMode: 0
   resolution: 3
   closePath: 0
   speedBased: 0
   relative: 0
   wayPoints:
-  - {x: 0.24867022, y: 2.5840979, z: 0}
-  - {x: 8.364046, y: -0.092701435, z: 0}
-  - {x: 2.3073778, y: -5.488789, z: 0}
-  - {x: 18.009012, y: 0.33219314, z: 0}
-  - {x: 15.88457, y: -10.587452, z: 0}
-  - {x: 6.28208, y: -11.224785, z: 0}
+  - {x: 16.90808, y: -4.2495885, z: 0}
+  - {x: 10.656515, y: -8.28906, z: 0}
+  - {x: -2.55421, y: -7.2263694, z: 0}
   lookAt: 0
   lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}

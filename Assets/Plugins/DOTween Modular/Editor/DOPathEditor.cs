@@ -233,8 +233,13 @@ namespace DOTweenModular.Editor
                 CreateNewWaypoint(mousePosition);
             }
 
-            if (doPath.wayPoints == null ||
-                doPath.wayPoints.Count < 1)
+            if (e.type == EventType.MouseDown && e.button == 1 && e.alt)
+            {
+                DeleteWaypoint(mousePosition);
+            }
+
+
+            if (doPath.wayPoints.Count < 1)
                 return;
 
             if (!tweenPreviewing)
@@ -403,17 +408,40 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        private void CreateNewWaypoint(Vector3 newPointPosition)
+        private void CreateNewWaypoint(Vector3 position)
         {
-            Undo.RecordObject(doPath, "New Waypoint Added");
+            Undo.RecordObject(doPath, "Added Waypoint");
 
-            SceneView currentSceneView = SceneView.currentDrawingSceneView;
-            if (currentSceneView.in2DMode)
+            if (SceneView.currentDrawingSceneView.in2DMode)
+                position.z = 0f;
+
+            doPath.wayPoints.Add(position);
+        }
+
+        private void DeleteWaypoint(Vector3 position)
+        {
+            float minDistanceToPoint = 0.5f;
+            int closestWaypointIndex = -1;
+
+            if (SceneView.currentDrawingSceneView.in2DMode)
+                position.z = 0f;
+
+            for (int i = 0; i < doPath.wayPoints.Count; i++)
             {
-                newPointPosition.z = 0f;
+                float distance = Vector3.Distance(position, doPath.wayPoints[i]);
+
+                if (distance < minDistanceToPoint)
+                {
+                    minDistanceToPoint = distance;
+                    closestWaypointIndex = i;
+                }
             }
 
-            doPath.wayPoints.Add(newPointPosition);
+            if (closestWaypointIndex != -1)
+            {
+                Undo.RecordObject(doPath, "Deleted Waypoint");
+                doPath.wayPoints.RemoveAt(closestWaypointIndex);
+            }
         }
 
         #region Scene Draw Functions
