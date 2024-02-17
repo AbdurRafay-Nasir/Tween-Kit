@@ -67,7 +67,7 @@ namespace DOTweenModular.Editor
         {
             Space();
 
-            bool[] toggleStates = DrawToggles("Life", "Type", "LookAt", "Path", "Points", "Values", "Events");
+            bool[] toggleStates = DrawToggles("Life", "Type", "LookAt", "Path", "Values", "Events");
 
             Space();
 
@@ -163,16 +163,9 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (toggleStates[4])
-            {
-                DrawSeparatorLine();
-
-                DrawProperty(wayPointsProp);
-            }
-
             DrawWaypointCubicBezierHelpbox();
 
-            if (toggleStates[5])
+            if (toggleStates[4])
             {
                 DrawSeparatorLine();
 
@@ -194,7 +187,7 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (toggleStates[6])
+            if (toggleStates[5])
             {
                 DrawSeparatorLine();
 
