@@ -1,9 +1,9 @@
 #if UNITY_EDITOR
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using DOTweenModular.Miscellaneous;
-using System.Collections.Generic;
 
 namespace DOTweenModular.Editor
 {
@@ -225,6 +225,14 @@ namespace DOTweenModular.Editor
 
             DrawLookAtHandleAndLine();
 
+            Event e = Event.current;
+            Vector3 mousePosition = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
+
+            if (e.type == EventType.MouseDown && e.button == 1 && e.control)
+            {
+                CreateNewWaypoint(mousePosition);
+            }
+
             if (doPath.wayPoints == null ||
                 doPath.wayPoints.Count < 1)
                 return;
@@ -394,6 +402,19 @@ namespace DOTweenModular.Editor
         }
 
         #endregion
+
+        private void CreateNewWaypoint(Vector3 newPointPosition)
+        {
+            Undo.RecordObject(doPath, "New Waypoint Added");
+
+            SceneView currentSceneView = SceneView.currentDrawingSceneView;
+            if (currentSceneView.in2DMode)
+            {
+                newPointPosition.z = 0f;
+            }
+
+            doPath.wayPoints.Add(newPointPosition);
+        }
 
         #region Scene Draw Functions
 
