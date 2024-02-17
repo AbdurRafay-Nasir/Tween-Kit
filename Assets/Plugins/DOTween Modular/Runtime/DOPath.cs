@@ -35,7 +35,7 @@ namespace DOTweenModular
         public bool relative;
 
         [Tooltip("The Points through which gameObject will move")]
-        [HideInInspector] public List<Vector3> wayPoints;
+        public List<Vector3> wayPoints;
 
         #endregion
 

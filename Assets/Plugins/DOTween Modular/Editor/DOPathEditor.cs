@@ -67,7 +67,7 @@ namespace DOTweenModular.Editor
         {
             Space();
 
-            bool[] toggleStates = DrawToggles("Life", "Type", "LookAt", "Path", "Values", "Events");
+            bool[] toggleStates = DrawToggles("Life", "Type", "LookAt", "Path", "Waypoints", "Values", "Events");
 
             Space();
 
@@ -163,9 +163,16 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
+            if (toggleStates[4])
+            {
+                DrawSeparatorLine();
+
+                DrawProperty(wayPointsProp);
+            }
+
             DrawWaypointCubicBezierHelpbox();
 
-            if (toggleStates[4])
+            if (toggleStates[5])
             {
                 DrawSeparatorLine();
 
@@ -187,7 +194,7 @@ namespace DOTweenModular.Editor
                 EndFoldout();
             }
 
-            if (toggleStates[5])
+            if (toggleStates[6])
             {
                 DrawSeparatorLine();
 
@@ -230,6 +237,11 @@ namespace DOTweenModular.Editor
             if (e.type == EventType.MouseDown && e.button == 1 && e.alt)
             {
                 DeleteWaypoint(mousePosition);
+            }
+
+            if (e.type == EventType.MouseDown && e.button == 2 && e.control)
+            {
+                InsertWaypoint(mousePosition);
             }
 
 
@@ -404,21 +416,20 @@ namespace DOTweenModular.Editor
 
         private void CreateNewWaypoint(Vector3 position)
         {
-            Undo.RecordObject(doPath, "Added Waypoint");
-
             if (SceneView.currentDrawingSceneView.in2DMode)
                 position.z = 0f;
 
+            Undo.RecordObject(doPath, "Added Waypoint");
             doPath.wayPoints.Add(position);
         }
 
         private void DeleteWaypoint(Vector3 position)
         {
-            float minDistanceToPoint = 0.5f;
-            int closestWaypointIndex = -1;
-
             if (SceneView.currentDrawingSceneView.in2DMode)
                 position.z = 0f;
+
+            float minDistanceToPoint = 0.5f;
+            int closestWaypointIndex = -1;
 
             for (int i = 0; i < doPath.wayPoints.Count; i++)
             {
@@ -435,6 +446,32 @@ namespace DOTweenModular.Editor
             {
                 Undo.RecordObject(doPath, "Deleted Waypoint");
                 doPath.wayPoints.RemoveAt(closestWaypointIndex);
+            }
+        }
+
+        private void InsertWaypoint(Vector3 position)
+        {
+            if (SceneView.currentDrawingSceneView.in2DMode)
+                position.z = 0f;
+
+            float minDistance = 0.8f;
+            int closestIndex = -1;
+
+            for (int i = 0; i < doPath.wayPoints.Count - 1; i++)
+            {
+                float distance = HandleUtility.DistancePointLine(position, doPath.wayPoints[i], doPath.wayPoints[i + 1]);
+
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestIndex = i;
+                }
+            }
+
+            if (closestIndex != -1)
+            {
+                Undo.RecordObject(doPath, "Inserted Waypoint");
+                doPath.wayPoints.Insert(closestIndex + 1, position);
             }
         }
 
@@ -606,17 +643,17 @@ namespace DOTweenModular.Editor
             Vector2 positionInViewport = new(0.025f, 0.95f);
             Vector3 positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
 
-            Handles.Label(positionInWorld, "CTRL + RMB ------ Add Segment", style);
+            Handles.Label(positionInWorld, "CTRL + RMB  ------- Add Segment", style);
 
             positionInViewport.y -= 0.05f;
             positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
 
-            Handles.Label(positionInWorld, "ALT + RMB -------- Remove Segment", style);
-
+            Handles.Label(positionInWorld, "CTRL + MMB  ------- Insert Segment", style);
+            
             positionInViewport.y -= 0.05f;
             positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
 
-            Handles.Label(positionInWorld, "MMB -------------- Insert Segment", style);
+            Handles.Label(positionInWorld, "ALT + RMB   ------- Remove Segment", style);
         }
 
         /// <summary>
