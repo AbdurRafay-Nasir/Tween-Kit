@@ -217,6 +217,7 @@ namespace DOTweenModular.Editor
             base.OnSceneGUI();
 
             DrawLookAtHandleAndLine();
+            DrawInstructionsLabel();
 
             Event e = Event.current;
             Vector3 mousePosition = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
@@ -586,6 +587,36 @@ namespace DOTweenModular.Editor
 
                 doPath.wayPoints[i + 2] += DrawHandle(startPosition + doPath.wayPoints[i + 2]);
             }
+        }
+
+        private void DrawInstructionsLabel()
+        {
+            GUIStyle style = new()
+            {
+                fontSize = 20,
+
+                normal = 
+                { 
+                    textColor = Color.white 
+                }
+            };
+
+            Camera sceneViewCamera = SceneView.currentDrawingSceneView.camera;
+
+            Vector2 positionInViewport = new(0.025f, 0.95f);
+            Vector3 positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
+
+            Handles.Label(positionInWorld, "CTRL + RMB ------ Add Segment", style);
+
+            positionInViewport.y -= 0.05f;
+            positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
+
+            Handles.Label(positionInWorld, "ALT + RMB -------- Remove Segment", style);
+
+            positionInViewport.y -= 0.05f;
+            positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
+
+            Handles.Label(positionInWorld, "MMB -------------- Insert Segment", style);
         }
 
         /// <summary>

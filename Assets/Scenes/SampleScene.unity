@@ -259,9 +259,11 @@ MonoBehaviour:
   speedBased: 0
   relative: 0
   wayPoints:
-  - {x: 16.90808, y: -4.2495885, z: 0}
   - {x: 10.656515, y: -8.28906, z: 0}
   - {x: -14.846535, y: -1.0597994, z: 0}
+  - {x: -11.119289, y: 3.8154147, z: 0}
+  - {x: 18.11261, y: 7.4251647, z: -15.187668}
+  - {x: 9.538007, y: 15.316465, z: -2.7291024}
   lookAt: 0
   lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}
