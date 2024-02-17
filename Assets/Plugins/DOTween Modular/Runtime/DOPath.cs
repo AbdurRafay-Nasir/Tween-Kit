@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using DOTweenModular.Enums;
@@ -8,8 +9,7 @@ namespace DOTweenModular
     [AddComponentMenu("DOTween Modular/DO Path")]
     public sealed class DOPath : DOBase
     {
-        // The 'resolution' had no effect on creating the Catmull-Rom and Cubic Bezier
-        // Paths, the path always had same resolution regardless of 'resolution' variable
+        // The DOTween generated curves had no effect if 'resolution' changed
         // Therefore, Paths are created with help of Curve.cs
 
         #region Path Properties
@@ -35,7 +35,7 @@ namespace DOTweenModular
         public bool relative;
 
         [Tooltip("The Points through which gameObject will move")]
-        public Vector3[] wayPoints;
+        public List<Vector3> wayPoints;
 
         #endregion
 
@@ -99,19 +99,19 @@ namespace DOTweenModular
         {
             Tween = lookAt switch
             {
-                LookAtAdvanced.Position =>   transform.DOPath(wayPoints, duration, PathType.Linear, pathMode, 1)
+                LookAtAdvanced.Position =>   transform.DOPath(wayPoints.ToArray(), duration, PathType.Linear, pathMode, 1)
                                                       .SetOptions(closePath)
                                                       .SetLookAt(lookAtPosition, stableZRotation),
 
-                LookAtAdvanced.Transform =>  transform.DOPath(wayPoints, duration, PathType.Linear, pathMode, 1)
+                LookAtAdvanced.Transform =>  transform.DOPath(wayPoints.ToArray(), duration, PathType.Linear, pathMode, 1)
                                                       .SetOptions(closePath)
                                                       .SetLookAt(lookAtTarget, stableZRotation),
 
-                LookAtAdvanced.Percentage => transform.DOPath(wayPoints, duration, PathType.Linear, pathMode, 1)
+                LookAtAdvanced.Percentage => transform.DOPath(wayPoints.ToArray(), duration, PathType.Linear, pathMode, 1)
                                                       .SetOptions(closePath)
                                                       .SetLookAt(lookAhead, stableZRotation),
 
-                _ => transform.DOPath(wayPoints, duration, PathType.Linear, pathMode, 1)
+                _ => transform.DOPath(wayPoints.ToArray(), duration, PathType.Linear, pathMode, 1)
                               .SetOptions(closePath),
             };
 
@@ -120,17 +120,17 @@ namespace DOTweenModular
 
         private void SetupCatmullRomTweenWithLookAt()
         {
-            Vector3[] absolutePoints = (Vector3[])wayPoints.Clone();
+            List<Vector3> absolutePoints = new (wayPoints);
 
             if (relative)
             {
-                for (int i = 0; i < absolutePoints.Length; i++)
+                for (int i = 0; i < absolutePoints.Count; i++)
                 {
                     absolutePoints[i] += transform.position;
                 }
             }
 
-            Vector3[] catmullRomPoints = Curve.CatmullRom.GetSpline(transform.position, absolutePoints,
+            Vector3[] catmullRomPoints = Curve.CatmullRom.GetSpline(transform.position, absolutePoints.ToArray(),
                                                                     resolution, closePath);
 
             Tween = lookAt switch
@@ -150,17 +150,17 @@ namespace DOTweenModular
 
         private void SetupCubicBezierTweenWithLookAt()
         {
-            Vector3[] absolutePoints = (Vector3[])wayPoints.Clone();
+            List<Vector3> absolutePoints = new(wayPoints);
 
             if (relative)
             {
-                for (int i = 0; i < absolutePoints.Length; i++)
+                for (int i = 0; i < absolutePoints.Count; i++)
                 {
                     absolutePoints[i] += transform.position;
                 }
             }
 
-            Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(transform.position, absolutePoints,
+            Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(transform.position, absolutePoints.ToArray(),
                                                                       resolution);
 
             Tween = lookAt switch
