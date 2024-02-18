@@ -403,14 +403,69 @@ namespace DOTweenModular.Editor
             if (SceneView.currentDrawingSceneView.in2DMode)
                 position.z = 0f;
 
+            if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
+            {
+                InsertCubicBezierSegment(position);
+            }
+            else
+            {
+                InsertSimpleSegment(position);
+            }
+        }
+
+        private void InsertSimpleSegment(Vector3 position)
+        {
             float minDistance = 0.8f;
             int closestIndex = -1;
 
-            float distance;
+            // For inserting waypoint between current position and 1st way point
+            float distance = HandleUtility.DistancePointLine(position, currentPosition, doPath.wayPoints[0]);
+            if (distance < minDistance)
+            {
+                Undo.RecordObject(doPath, "Inserted Waypoint");
+                doPath.wayPoints.Insert(0, position);
 
-            distance = HandleUtility.DistancePointBezier(position, currentPosition, doPath.wayPoints[2],
-                                                         doPath.wayPoints[0], doPath.wayPoints[1]);
+                return;
+            }
 
+            // For inserting waypoint anywhere on path
+            for (int i = 0; i < doPath.wayPoints.Count - 1; i++)
+            {
+                distance = HandleUtility.DistancePointLine(position, doPath.wayPoints[i], doPath.wayPoints[i + 1]);
+
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestIndex = i;
+                }
+            }
+
+            if (closestIndex != -1)
+            {
+                Undo.RecordObject(doPath, "Inserted Waypoint");
+                doPath.wayPoints.Insert(closestIndex + 1, position);
+            }
+
+            // For inserting waypoint between current position and last way point (in case of closed loop)
+            if (doPath.closePath)
+            {
+                distance = HandleUtility.DistancePointLine(position, currentPosition, doPath.wayPoints[^1]);
+                if (distance < minDistance)
+                {
+                    Undo.RecordObject(doPath, "Inserted Waypoint");
+                    doPath.wayPoints.Add(position);
+                }
+            }
+        }
+
+        private void InsertCubicBezierSegment(Vector3 position)
+        {
+            float minDistance = 0.8f;
+            int closestIndex = -1;
+
+            // For inserting segment between segment formed between gameObject's current Position and waypoint at index 2
+            float distance = HandleUtility.DistancePointBezier(position, currentPosition, doPath.wayPoints[2],
+                                                               doPath.wayPoints[0], doPath.wayPoints[1]);
             if (distance < minDistance)
             {
                 Vector3 directionToPrevAnchor = (position - currentPosition).normalized;
@@ -423,7 +478,9 @@ namespace DOTweenModular.Editor
                 return;
             }
 
-            // For inserting points on Cubic bezier path
+
+
+            // For inserting anywhere on Cubic bezier path
             for (int i = 2; i < doPath.wayPoints.Count - 1; i += 3)
             {
                 distance = HandleUtility.DistancePointBezier(position, doPath.wayPoints[i], doPath.wayPoints[i + 3],
@@ -444,47 +501,6 @@ namespace DOTweenModular.Editor
 
                 Undo.RecordObject(doPath, "Inserted Waypoint");
                 doPath.wayPoints.InsertRange(closestIndex + 2, new Vector3[] { startTangent, position, endTangent });
-
-                return;
-            }
-
-            // For inserting point between current position and 1st way point
-            distance = HandleUtility.DistancePointLine(position, currentPosition, doPath.wayPoints[0]);
-            if (distance < minDistance)
-            {
-                Undo.RecordObject(doPath, "Inserted Waypoint");
-                doPath.wayPoints.Insert(0, position);
-
-                return;
-            }
-
-            // For inserting point between anywhere on path
-            for (int i = 0; i < doPath.wayPoints.Count - 1; i++)
-            {
-                distance = HandleUtility.DistancePointLine(position, doPath.wayPoints[i], doPath.wayPoints[i + 1]);
-
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    closestIndex = i;
-                }
-            }
-
-            if (closestIndex != -1)
-            {
-                Undo.RecordObject(doPath, "Inserted Waypoint");
-                doPath.wayPoints.Insert(closestIndex + 1, position);
-            }
-
-            // For inserting point between current position and last way point (in case of closed loop)
-            if (doPath.closePath)
-            {
-                distance = HandleUtility.DistancePointLine(position, currentPosition, doPath.wayPoints[^1]);
-                if (distance < minDistance)
-                {
-                    Undo.RecordObject(doPath, "Inserted Waypoint");
-                    doPath.wayPoints.Add(position);
-                }
             }
 
         }
