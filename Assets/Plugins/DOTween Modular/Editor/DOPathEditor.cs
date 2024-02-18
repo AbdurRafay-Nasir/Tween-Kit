@@ -387,65 +387,14 @@ namespace DOTweenModular.Editor
             if (SceneView.currentDrawingSceneView.in2DMode)
                 position.z = 0f;
 
-            float minDistanceToPoint = 0.5f;
-            int closestWaypointIndex = -1;
-
             if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
             {
-                for (int i = 2; i < doPath.wayPoints.Count; i += 3)
-                {
-                    float distance = Vector3.Distance(position, doPath.wayPoints[i]);
-
-                    if (distance < minDistanceToPoint)
-                    {
-                        minDistanceToPoint = distance;
-                        closestWaypointIndex = i;
-                    }
-                }
-
-                Debug.Log(closestWaypointIndex);
+                DeleteCubicBezierSegment(position);
 
             }
             else
             {
-                for (int i = 0; i < doPath.wayPoints.Count; i++)
-                {
-                    float distance = Vector3.Distance(position, doPath.wayPoints[i]);
-
-                    if (distance < minDistanceToPoint)
-                    {
-                        minDistanceToPoint = distance;
-                        closestWaypointIndex = i;
-                    }
-                }
-            }
-
-
-            if (closestWaypointIndex != -1)
-            {
-                if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
-                {
-                    Undo.RecordObject(doPath, "Deleted Segment");
-
-                    // if last segment is to be deleted
-                    if (closestWaypointIndex >= doPath.wayPoints.Count - 1)
-                    {
-                        doPath.wayPoints.RemoveAt(doPath.wayPoints.Count - 1);
-                        doPath.wayPoints.RemoveAt(doPath.wayPoints.Count - 1);
-                        doPath.wayPoints.RemoveAt(doPath.wayPoints.Count - 1);
-                    }   
-                    
-                    // if any segment other than last is to be deleted
-                    else
-                    {
-                        doPath.wayPoints.RemoveRange(closestWaypointIndex - 1, 3);
-                    }
-                }
-                else
-                {
-                    Undo.RecordObject(doPath, "Deleted Segment");
-                    doPath.wayPoints.RemoveAt(closestWaypointIndex);
-                }
+                DeleteSimpleSegment(position);
             }
         }
 
@@ -538,6 +487,65 @@ namespace DOTweenModular.Editor
                 }
             }
 
+        }
+
+        private void DeleteSimpleSegment(Vector3 position)
+        {
+            float minDistanceToPoint = 0.5f;
+            int closestWaypointIndex = -1;
+
+            for (int i = 0; i < doPath.wayPoints.Count; i++)
+            {
+                float distance = Vector3.Distance(position, doPath.wayPoints[i]);
+
+                if (distance < minDistanceToPoint)
+                {
+                    minDistanceToPoint = distance;
+                    closestWaypointIndex = i;
+                }
+            }
+
+            if (closestWaypointIndex != -1)
+            {
+                Undo.RecordObject(doPath, "Deleted Segment");
+                doPath.wayPoints.RemoveAt(closestWaypointIndex);
+            }
+        }
+
+        private void DeleteCubicBezierSegment(Vector3 position)
+        {
+            float minDistanceToPoint = 0.5f;
+            int closestWaypointIndex = -1;
+
+            for (int i = 2; i < doPath.wayPoints.Count; i += 3)
+            {
+                float distance = Vector3.Distance(position, doPath.wayPoints[i]);
+
+                if (distance < minDistanceToPoint)
+                {
+                    minDistanceToPoint = distance;
+                    closestWaypointIndex = i;
+                }
+            }
+
+            if (closestWaypointIndex != -1)
+            {
+                Undo.RecordObject(doPath, "Deleted Segment");
+
+                // if last segment is to be deleted
+                if (closestWaypointIndex >= doPath.wayPoints.Count - 1)
+                {
+                    doPath.wayPoints.RemoveAt(doPath.wayPoints.Count - 1);
+                    doPath.wayPoints.RemoveAt(doPath.wayPoints.Count - 1);
+                    doPath.wayPoints.RemoveAt(doPath.wayPoints.Count - 1);
+                }
+
+                // if any segment other than last is to be deleted
+                else
+                {
+                    doPath.wayPoints.RemoveRange(closestWaypointIndex - 1, 3);
+                }
+            }
         }
 
         private void CreateSimpleSegment(Vector3 position)
