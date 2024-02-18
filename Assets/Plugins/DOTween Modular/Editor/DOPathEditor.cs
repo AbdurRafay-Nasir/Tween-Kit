@@ -372,8 +372,21 @@ namespace DOTweenModular.Editor
             if (SceneView.currentDrawingSceneView.in2DMode)
                 position.z = 0f;
 
-            Undo.RecordObject(doPath, "Added Waypoint");
-            doPath.wayPoints.Add(position);
+            if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
+            {
+                Undo.RecordObject(doPath, "Added Segment");
+
+                doPath.wayPoints.Add(doPath.wayPoints[^1] * 2 - doPath.wayPoints[^2]);
+
+                doPath.wayPoints.Add((doPath.wayPoints[^1] + position) * .5f);
+
+                doPath.wayPoints.Add(position);
+            }
+            else
+            {
+                Undo.RecordObject(doPath, "Added Segment");
+                doPath.wayPoints.Add(position);
+            }
         }
 
         private void DeleteWaypoint(Vector3 position)
