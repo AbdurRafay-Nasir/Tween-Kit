@@ -2,9 +2,9 @@
 
 ## Non-legalese summary
 
--   You can freely use DOTween Modular in both commercial and non-commercial projects.
+-   You can freely use Tween Kit in both commercial and non-commercial projects.
 -   You can modify the code only for your own use and you cannot redistribute modified versions (but you can send pull requests to me)
--   DOTween Modular was/is hard work: please respect the copyright.
+-   Tween Kit was/is hard work: please respect the copyright.
 
 ## Definitions
 
