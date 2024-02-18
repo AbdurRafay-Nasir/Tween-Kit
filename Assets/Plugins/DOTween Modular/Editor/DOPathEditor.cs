@@ -464,8 +464,50 @@ namespace DOTweenModular.Editor
             float minDistance = 0.8f;
             int closestIndex = -1;
 
+            float distance;
+
+            distance = HandleUtility.DistancePointBezier(position, currentPosition, doPath.wayPoints[2],
+                                                         doPath.wayPoints[0], doPath.wayPoints[1]);
+
+            if (distance < minDistance)
+            {
+                Vector3 directionToPrevAnchor = (position - currentPosition).normalized;
+                Vector3 startTangent = position - directionToPrevAnchor * 2f;
+                Vector3 endTangent = position + directionToPrevAnchor * 2f;
+
+                Undo.RecordObject(doPath, "Inserted Waypoint");
+                doPath.wayPoints.InsertRange(1, new Vector3[] { startTangent, position, endTangent });
+
+                return;
+            }
+
+            // For inserting points on Cubic bezier path
+            for (int i = 2; i < doPath.wayPoints.Count - 1; i += 3)
+            {
+                distance = HandleUtility.DistancePointBezier(position, doPath.wayPoints[i], doPath.wayPoints[i + 3],
+                                                             doPath.wayPoints[i + 1], doPath.wayPoints[i + 2]);
+
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestIndex = i;
+                }
+            }
+
+            if (closestIndex != -1)
+            {
+                Vector3 directionToPrevAnchor = (position - doPath.wayPoints[closestIndex]).normalized;
+                Vector3 startTangent = position - directionToPrevAnchor * 2f;
+                Vector3 endTangent = position + directionToPrevAnchor * 2f;
+
+                Undo.RecordObject(doPath, "Inserted Waypoint");
+                doPath.wayPoints.InsertRange(closestIndex + 2, new Vector3[] { startTangent, position, endTangent });
+
+                return;
+            }
+
             // For inserting point between current position and 1st way point
-            float distance = HandleUtility.DistancePointLine(position, doPath.transform.position, doPath.wayPoints[0]);
+            distance = HandleUtility.DistancePointLine(position, currentPosition, doPath.wayPoints[0]);
             if (distance < minDistance)
             {
                 Undo.RecordObject(doPath, "Inserted Waypoint");
@@ -495,7 +537,7 @@ namespace DOTweenModular.Editor
             // For inserting point between current position and last way point (in case of closed loop)
             if (doPath.closePath)
             {
-                distance = HandleUtility.DistancePointLine(position, doPath.transform.position, doPath.wayPoints[^1]);
+                distance = HandleUtility.DistancePointLine(position, currentPosition, doPath.wayPoints[^1]);
                 if (distance < minDistance)
                 {
                     Undo.RecordObject(doPath, "Inserted Waypoint");
