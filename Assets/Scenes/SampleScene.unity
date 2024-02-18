@@ -252,7 +252,7 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  pathType: 2
+  pathType: 1
   pathMode: 0
   resolution: 5
   closePath: 0
@@ -266,8 +266,8 @@ MonoBehaviour:
   - {x: 13.494672, y: -9.177618, z: 0}
   - {x: 14.494672, y: -5.17762, z: 0}
   - {x: 15.494674, y: -1.1776199, z: 0}
-  - {x: 11, y: 5, z: 0}
-  - {x: 8, y: 1, z: 0}
+  - {x: 14.257145, y: 3.648197, z: 0}
+  - {x: 19.74683, y: 2.849174, z: 0}
   lookAt: 0
   lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}

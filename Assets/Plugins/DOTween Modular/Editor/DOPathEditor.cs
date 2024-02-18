@@ -374,18 +374,11 @@ namespace DOTweenModular.Editor
 
             if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
             {
-                Undo.RecordObject(doPath, "Added Segment");
-
-                doPath.wayPoints.Add(doPath.wayPoints[^1] * 2 - doPath.wayPoints[^2]);
-
-                doPath.wayPoints.Add((doPath.wayPoints[^1] + position) * .5f);
-
-                doPath.wayPoints.Add(position);
+                CreateCubicBezierSegment(position);
             }
             else
             {
-                Undo.RecordObject(doPath, "Added Segment");
-                doPath.wayPoints.Add(position);
+                CreateSimpleSegment(position);
             }
         }
 
@@ -545,6 +538,21 @@ namespace DOTweenModular.Editor
                 }
             }
 
+        }
+
+        private void CreateSimpleSegment(Vector3 position)
+        {
+            Undo.RecordObject(doPath, "Added Segment");
+            doPath.wayPoints.Add(position);
+        }
+
+        private void CreateCubicBezierSegment(Vector3 position)
+        {
+            Undo.RecordObject(doPath, "Added Segment");
+
+            doPath.wayPoints.Add(doPath.wayPoints[^1] * 2 - doPath.wayPoints[^2]);
+            doPath.wayPoints.Add((doPath.wayPoints[^1] + position) * .5f);
+            doPath.wayPoints.Add(position);
         }
 
         #region Scene Draw Functions
