@@ -550,6 +550,15 @@ namespace DOTweenModular.Editor
         {
             Undo.RecordObject(doPath, "Added Segment");
 
+            if (doPath.wayPoints.Count == 0)
+            {
+                doPath.wayPoints.Add(currentPosition + Vector3.up * 2f);
+                doPath.wayPoints.Add(position + Vector3.up * 2f);
+                doPath.wayPoints.Add(position);
+
+                return;
+            }
+
             doPath.wayPoints.Add(doPath.wayPoints[^1] * 2 - doPath.wayPoints[^2]);
             doPath.wayPoints.Add((doPath.wayPoints[^1] + position) * .5f);
             doPath.wayPoints.Add(position);
