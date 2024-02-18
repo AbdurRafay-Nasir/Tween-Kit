@@ -1,6 +1,15 @@
 # Tween Kit 
 Enhance DOTween with Tween Kit: Seamless, modular components for effortless Tweening.
 
+## Contents
+- [Features](#features)
+- [Highlights](#highlights)
+- [Prerequisite](#prerequisite)
+- [Installation](#installation)
+- [Demos](#demos)
+- [Creating New Components](#creating-new-components)
+- [Author](#author)
+
 ## Features
 - 25 Fully Modular Components
 - Preview tweens without entering play mode
@@ -9,13 +18,11 @@ Enhance DOTween with Tween Kit: Seamless, modular components for effortless Twee
 - Utility classes for generating Catmull-Rom and Cubic Bezier Splines
 - Easily create your own compoents using custom script templates
 
-## Contents
-- [Highlights](#highlights)
-- [Prerequisite](#prerequisite)
-- [Installation](#installation)
-- [Demos](#demos)
-- [Creating New Components](#creating-new-components)
-- [Author](#author)
+## Author
+- Abdur Rafay Nasir
+- AbdurRafayNasir1@gmail.com
+- https://github.com/AbdurRafay-Nasir
+
 
 ## Highlights
 ![Organized](https://github.com/AbdurRafay-Nasir/DOTween-Modular-Development/assets/145528502/0ff529a1-73a8-4755-bddc-a451ce33c5ba)
@@ -56,7 +63,3 @@ https://github.com/AbdurRafay-Nasir/DOTween-Modular/assets/145528502/bdc1e2aa-2b
 ![17-Congrats](https://github.com/AbdurRafay-Nasir/DOTween-Modular/assets/145528502/19df1a0f-dab5-4fbe-a1a0-8b80c1614df3)
 ![18-Important Info](https://github.com/AbdurRafay-Nasir/DOTween-Modular/assets/145528502/f9d2d736-1670-4f24-ab69-69cbdd3fcd8c)
 
-## Author
-- Abdur Rafay Nasir
-- AbdurRafayNasir1@gmail.com
-- https://github.com/AbdurRafay-Nasir
