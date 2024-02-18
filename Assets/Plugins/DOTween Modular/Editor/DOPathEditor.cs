@@ -35,6 +35,7 @@ namespace DOTweenModular.Editor
         private string rotationkey;
 
         private Vector3 startPosition;
+        private Vector3 currentPosition;
 
         #region Unity Functions
 
@@ -48,6 +49,7 @@ namespace DOTweenModular.Editor
             rotationkey = "DOPath_LookAt_" + doPath.gameObject.GetInstanceID();
 
             startPosition = doPath.transform.position;
+            currentPosition = startPosition;
 
             pathTypeProp = serializedObject.FindProperty("pathType");
             pathModeProp = serializedObject.FindProperty("pathMode");
@@ -250,11 +252,11 @@ namespace DOTweenModular.Editor
                 return;
 
             if (!tweenPreviewing)
-                startPosition = doPath.transform.position;
+                currentPosition = doPath.transform.position;
 
-            ConvertWaypointsToAbsoluteOrRelativeIfNeeded(startPosition);
-            DrawPath(startPosition);
-            DrawHandles(startPosition);
+            ConvertWaypointsToAbsoluteOrRelativeIfNeeded(currentPosition);
+            DrawPath(currentPosition);
+            DrawHandles(currentPosition);
         }
 
         #endregion
@@ -601,26 +603,58 @@ namespace DOTweenModular.Editor
             }
         }
 
-        private void DrawCubicBezierHandles(Vector3 startPosition, bool relative)
+        private void DrawCubicBezierHandles(Vector3 currentPositionOfGameObject, bool relative)
         {
+            int lastIndex = doPath.wayPoints.Count - 1;
+
             if (relative)
             {
-                for (int i = 0; i < doPath.wayPoints.Count; i += 3)
-                {
-                    doPath.wayPoints[i] += DrawSphereHandle(startPosition + doPath.wayPoints[i], 0.5f);
-                    doPath.wayPoints[i + 1] += DrawSphereHandle(startPosition + doPath.wayPoints[i + 1], 0.5f);
+                doPath.wayPoints[0] += DrawSphereHandle(doPath.wayPoints[0] + currentPositionOfGameObject, 0.5f);
 
-                    doPath.wayPoints[i + 2] += DrawHandle(startPosition + doPath.wayPoints[i + 2]);
+                for (int i = 1; i < lastIndex; i += 3)
+                {
+                    Vector3 changeInPositionOfControlPoint = Vector3.zero;
+
+                    // Control Point
+                    changeInPositionOfControlPoint = DrawHandle(doPath.wayPoints[i + 1] + currentPositionOfGameObject);
+                    doPath.wayPoints[i + 1] += changeInPositionOfControlPoint;
+
+                    // Tangent 1
+                    doPath.wayPoints[i] += DrawSphereHandle(doPath.wayPoints[i] + currentPositionOfGameObject, 0.5f)
+                                         + changeInPositionOfControlPoint;
+
+                    // Tangent 2
+                    if (i + 2 < lastIndex)
+                        doPath.wayPoints[i + 2] += DrawSphereHandle(doPath.wayPoints[i + 2] + currentPositionOfGameObject, 0.5f)
+                                                 + changeInPositionOfControlPoint;
                 }
             }
             else
             {
-                for (int i = 0; i < doPath.wayPoints.Count; i += 3)
-                {
-                    doPath.wayPoints[i] += DrawSphereHandle(doPath.wayPoints[i], 0.5f);
-                    doPath.wayPoints[i + 1] += DrawSphereHandle(doPath.wayPoints[i + 1], 0.5f);
+                Vector3 changeincurrentposition = Vector3.zero;
 
-                    doPath.wayPoints[i + 2] += DrawHandle(doPath.wayPoints[i + 2]);
+                if (startPosition != currentPosition)
+                {
+                    changeincurrentposition = currentPosition - startPosition;
+                    startPosition = currentPosition;
+                }
+
+                doPath.wayPoints[0] += DrawSphereHandle(doPath.wayPoints[0], 0.5f) + changeincurrentposition;
+
+                for (int i = 1; i < lastIndex; i += 3)
+                {
+                    Vector3 changeInPositionOfControlPoint = Vector3.zero;
+
+                    // Control Point
+                    changeInPositionOfControlPoint = DrawHandle(doPath.wayPoints[i + 1]);
+                    doPath.wayPoints[i + 1] += changeInPositionOfControlPoint;
+
+                    // Tangent 1
+                    doPath.wayPoints[i] += DrawSphereHandle(doPath.wayPoints[i], 0.5f) + changeInPositionOfControlPoint;
+
+                    // Tangent 2
+                    if (i + 2 < lastIndex)
+                        doPath.wayPoints[i + 2] += DrawSphereHandle(doPath.wayPoints[i + 2], 0.5f) + changeInPositionOfControlPoint;
                 }
             }
         }
@@ -774,7 +808,7 @@ namespace DOTweenModular.Editor
         {
             base.OnPreviewStarted();
 
-            startPosition = doPath.transform.position;
+            currentPosition = doPath.transform.position;
 
             SessionState.SetVector3(rotationkey, doPath.transform.localEulerAngles);
         }
