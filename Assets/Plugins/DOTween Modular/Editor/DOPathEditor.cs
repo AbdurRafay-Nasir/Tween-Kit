@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using DOTweenModular.Miscellaneous;
+using System.Linq;
 
 namespace DOTweenModular.Editor
 {
@@ -251,6 +252,9 @@ namespace DOTweenModular.Editor
             if (!tweenPreviewing)
                 startPosition = doPath.transform.position;
 
+            List<Vector3> catmullRomPoints = GetCatmullRomSplinePoints(startPosition, doPath.wayPoints, doPath.resolution,
+                                                                       doPath.closePath, doPath.relative);
+
             if (doPath.relative)
             {
                 ConvertPointsToRelative(startPosition);
@@ -264,7 +268,8 @@ namespace DOTweenModular.Editor
                         break;
 
                     case DG.Tweening.PathType.CatmullRom:
-                        DrawRelativeCatmullRomPath(startPosition, doPath.wayPoints, doPath.closePath);
+                        // DrawRelativeCatmullRomPath(startPosition, doPath.wayPoints, doPath.closePath);
+                        DrawPolyLine(catmullRomPoints);
                         DrawRelativeSimpleHandles(startPosition);
                         break;
 
@@ -290,7 +295,8 @@ namespace DOTweenModular.Editor
                         break;
 
                     case DG.Tweening.PathType.CatmullRom:
-                        DrawAbsoluteCatmullRomPath(startPosition, doPath.wayPoints, doPath.closePath);
+                        // DrawAbsoluteCatmullRomPath(startPosition, doPath.wayPoints, doPath.closePath);
+                        DrawPolyLine(catmullRomPoints);
                         DrawAbsoluteSimpleHandles();
                         break;
 
@@ -528,30 +534,65 @@ namespace DOTweenModular.Editor
                 DrawLine(lineStart, startPosition, Color.green);
         }
 
-        private void DrawAbsoluteCatmullRomPath(Vector3 startPosition, List<Vector3> points, bool closed)
+        //private void DrawAbsoluteCatmullRomPath(Vector3 startPosition, List<Vector3> points, bool closed)
+        //{
+        //    Vector3[] catmullRomPoints = Curve.CatmullRom.GetSpline(startPosition, points.ToArray(), 
+        //                                                            doPath.resolution, closed);
+
+        //    Vector3 currentLineStart = catmullRomPoints[0];
+
+        //    for (int i = 0; i < catmullRomPoints.Length; i++)
+        //    {
+        //        DrawLine(currentLineStart, catmullRomPoints[i], Color.green);
+        //        currentLineStart = catmullRomPoints[i];
+        //    }
+        //}
+
+        //private void DrawRelativeCatmullRomPath(Vector3 startPosition, List<Vector3> points, bool closed)
+        //{
+        //    List<Vector3> absolutePoints = new (points);
+
+        //    for (int i = 0; i < absolutePoints.Count; i++)
+        //    {
+        //        absolutePoints[i] += startPosition;
+        //    }
+
+        //    DrawAbsoluteCatmullRomPath(startPosition, absolutePoints, closed);
+        //}
+
+        private List<Vector3> GetCatmullRomSplinePoints(Vector3 startPosition, List<Vector3> waypoints, int resolution, 
+                                                        bool closed, bool relative)
         {
-            Vector3[] catmullRomPoints = Curve.CatmullRom.GetSpline(startPosition, points.ToArray(), 
-                                                                    doPath.resolution, closed);
+            List<Vector3> catmullRomPoints;
 
-            Vector3 currentLineStart = catmullRomPoints[0];
-
-            for (int i = 0; i < catmullRomPoints.Length; i++)
+            if (relative)
             {
-                DrawLine(currentLineStart, catmullRomPoints[i], Color.green);
-                currentLineStart = catmullRomPoints[i];
+                List<Vector3> absolutePoints = new(waypoints);
+
+                for (int i = 0; i < absolutePoints.Count; i++)
+                {
+                    absolutePoints[i] += startPosition;
+                }
+
+                catmullRomPoints = (Curve.CatmullRom.GetSpline(startPosition, absolutePoints.ToArray(), resolution, closed)).ToList();
             }
+            else
+            {
+                catmullRomPoints = (Curve.CatmullRom.GetSpline(startPosition, waypoints.ToArray(), resolution, closed)).ToList();
+            }
+
+            return catmullRomPoints;
         }
 
-        private void DrawRelativeCatmullRomPath(Vector3 startPosition, List<Vector3> points, bool closed)
+        private void DrawPolyLine(List<Vector3> points)
         {
-            List<Vector3> absolutePoints = new (points);
+            Vector3 currentLineStart = points[0];
 
-            for (int i = 0; i < absolutePoints.Count; i++)
+            for (int i = 0; i < points.Count; i++)
             {
-                absolutePoints[i] += startPosition;
+                DrawLine(currentLineStart, points[i], Color.green);
+                currentLineStart = points[i];
             }
-
-            DrawAbsoluteCatmullRomPath(startPosition, absolutePoints, closed);
         }
 
         private void DrawAbsoluteCubicBezierPath(Vector3 startPosition)
