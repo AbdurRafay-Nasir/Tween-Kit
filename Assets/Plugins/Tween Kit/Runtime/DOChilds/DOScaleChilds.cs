@@ -3,7 +3,7 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Scale Childs")]
+    [AddComponentMenu("Tween Kit/DO Scale Childs")]
     public sealed class DOScaleChilds : DOChildsBase
     {
         #region Properties

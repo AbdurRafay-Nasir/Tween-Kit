@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DOTweenModular
 {   
-    [AddComponentMenu("DOTween Modular/DO Move")]
+    [AddComponentMenu("Tween Kit/DO Move")]
     public sealed class DOMove : DOLookAtBase
     {
         #region Properties

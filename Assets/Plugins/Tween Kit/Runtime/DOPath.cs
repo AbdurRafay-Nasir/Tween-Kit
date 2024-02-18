@@ -6,7 +6,7 @@ using DOTweenModular.Miscellaneous;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Path")]
+    [AddComponentMenu("Tween Kit/DO Path")]
     public sealed class DOPath : DOBase
     {
         // The DOTween generated curves had no effect if 'resolution' changed

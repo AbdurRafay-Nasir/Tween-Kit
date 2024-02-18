@@ -3,7 +3,7 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Anchor Pos Childs")]
+    [AddComponentMenu("Tween Kit/DO Anchor Pos Childs")]
     public sealed class DOAnchorPosChilds : DOChildsBase
     {
         #region Properties

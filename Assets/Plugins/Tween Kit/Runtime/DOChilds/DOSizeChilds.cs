@@ -4,7 +4,7 @@ using DOTweenModular.Miscellaneous;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Size Childs")]
+    [AddComponentMenu("Tween Kit/DO Size Childs")]
     public sealed class DOSizeChilds : DOChildsBase
     {
         #region Properties

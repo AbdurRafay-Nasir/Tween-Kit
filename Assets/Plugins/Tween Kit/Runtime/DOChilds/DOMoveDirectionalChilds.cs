@@ -4,7 +4,7 @@ using DOTweenModular.Enums;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Move Directional Childs")]
+    [AddComponentMenu("Tween Kit/DO Move Directional Childs")]
     public sealed class DOMoveDirectionalChilds : DOChildsBase
     {
         #region Properties

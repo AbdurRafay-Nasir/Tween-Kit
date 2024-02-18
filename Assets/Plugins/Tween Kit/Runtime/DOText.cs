@@ -4,7 +4,7 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Text")]
+    [AddComponentMenu("Tween Kit/DO Text")]
     [RequireComponent(typeof(Text))]
     public sealed class DOText : DOBase
     {

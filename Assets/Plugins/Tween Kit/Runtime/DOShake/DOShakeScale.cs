@@ -2,7 +2,7 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
-    [UnityEngine.AddComponentMenu("DOTween Modular/DO Shake Scale")]
+    [UnityEngine.AddComponentMenu("Tween Kit/DO Shake Scale")]
     public sealed class DOShakeScale : DOShakeBase
     {
         protected override void InitializeTween()

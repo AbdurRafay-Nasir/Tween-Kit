@@ -3,7 +3,7 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Sequence")]
+    [AddComponentMenu("Tween Kit/DO Sequence")]
     public sealed class DOSequence : DOBase
     {
         [Tooltip("The DO Compoents of which this sequence will be made")]

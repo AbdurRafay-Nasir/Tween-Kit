@@ -3,7 +3,7 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Rotate Childs")]
+    [AddComponentMenu("Tween Kit/DO Rotate Childs")]
     public sealed class DORotateChilds : DOChildsBase
     {
         #region Properties

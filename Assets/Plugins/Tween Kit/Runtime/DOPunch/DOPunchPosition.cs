@@ -2,7 +2,7 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
-    [UnityEngine.AddComponentMenu("DOTween Modular/DO Punch Position")]
+    [UnityEngine.AddComponentMenu("Tween Kit/DO Punch Position")]
     public sealed class DOPunchPosition : DOPunchBase
     {
         [UnityEngine.Tooltip("If TRUE the tween will smoothly snap all values to integers")]

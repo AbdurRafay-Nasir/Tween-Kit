@@ -4,7 +4,7 @@ using DOTweenModular.Miscellaneous;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Size")]
+    [AddComponentMenu("Tween Kit/DO Size")]
     [RequireComponent(typeof(SpriteRenderer))]
     public sealed class DOSize : DOBase
     {

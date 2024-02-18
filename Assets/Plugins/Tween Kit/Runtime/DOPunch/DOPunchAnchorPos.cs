@@ -3,7 +3,7 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Punch Anchor Pos")]
+    [AddComponentMenu("Tween Kit/DO Punch Anchor Pos")]
     public sealed class DOPunchAnchorPos : DOPunchBase
     {
         [Tooltip("If TRUE the tween will smoothly snap all values to integers")]

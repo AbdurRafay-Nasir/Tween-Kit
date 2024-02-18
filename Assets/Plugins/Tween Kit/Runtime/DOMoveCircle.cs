@@ -4,7 +4,7 @@ using DOTweenModular.Miscellaneous;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Move Circle")]
+    [AddComponentMenu("Tween Kit/DO Move Circle")]
     public sealed class DOMoveCircle : DOBase
     {
         #region Properties

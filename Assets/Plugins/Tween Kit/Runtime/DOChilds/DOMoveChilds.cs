@@ -3,7 +3,7 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Move Childs")]
+    [AddComponentMenu("Tween Kit/DO Move Childs")]
     public sealed class DOMoveChilds : DOChildsBase
     {
         #region Properties

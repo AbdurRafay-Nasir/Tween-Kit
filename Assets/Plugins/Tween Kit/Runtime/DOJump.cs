@@ -3,7 +3,7 @@ using DG.Tweening;
 
 namespace DOTweenModular
 {
-    [AddComponentMenu("DOTween Modular/DO Jump")]
+    [AddComponentMenu("Tween Kit/DO Jump")]
     public sealed class DOJump : DOBase
     {
         #region Properties
