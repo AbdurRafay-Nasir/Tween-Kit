@@ -1,12 +1,13 @@
-# DOTween Modular 
-Collection of Modular Components for DOTween
+# Tween Kit 
+Enhance DOTween with Tween Kit: Seamless, modular components for effortless Tweening.
 
 ## Features
-- Modular Design
+- 25 Fully Modular Components
 - Preview tweens without entering play mode
 - Edit and view paths in scene view
 - Helpful messages within inspector
 - Utility classes for generating Catmull-Rom and Cubic Bezier Splines
+- Easily create your own compoents using custom script templates
 
 ## Contents
 - [Highlights](#highlights)
@@ -27,8 +28,8 @@ Collection of Modular Components for DOTween
 - DOTween asmdef (Tools -> Demigiant -> DOTween Utility Panel -> Create ASMDEF)
 
 ## Installation
-- Add [DOTween Modular Package](https://github.com/AbdurRafay-Nasir/DOTween-Modular/blob/main/dotweenmodular.unitypackage) in your project
-- There will be some errors, ignore them. Add DOTween asmdef reference in Assets/Plugins/DOTween Modular/Runtime/dotweenmodular.asmdef (Remove any previous references) 
+- Add [Tween Kit Package](link-to-package) in your project
+- There will be some errors, ignore them. Add DOTween asmdef reference in Assets/Plugins/Tween Kit/Runtime/abdurrafay.tweenkit.asmdef (Remove any previous references) 
 
 ## Demos
 https://github.com/AbdurRafay-Nasir/DOTween-Modular/assets/145528502/2620ec8c-928d-4d7c-9d01-5acf02c5b774
