@@ -367,6 +367,8 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        #region Create Segment Functions
+
         private void CreateSegment(Vector3 position)
         {
             if (SceneView.currentDrawingSceneView.in2DMode)
@@ -381,6 +383,34 @@ namespace DOTweenModular.Editor
                 CreateSimpleSegment(position);
             }
         }
+
+        private void CreateSimpleSegment(Vector3 position)
+        {
+            Undo.RecordObject(doPath, "Added Segment");
+            doPath.wayPoints.Add(position);
+        }
+
+        private void CreateCubicBezierSegment(Vector3 position)
+        {
+            Undo.RecordObject(doPath, "Added Segment");
+
+            if (doPath.wayPoints.Count == 0)
+            {
+                doPath.wayPoints.Add(currentPosition + Vector3.up * 2f);
+                doPath.wayPoints.Add(position + Vector3.up * 2f);
+                doPath.wayPoints.Add(position);
+
+                return;
+            }
+
+            doPath.wayPoints.Add(doPath.wayPoints[^1] * 2 - doPath.wayPoints[^2]);
+            doPath.wayPoints.Add((doPath.wayPoints[^1] + position) * .5f);
+            doPath.wayPoints.Add(position);
+        }
+
+        #endregion
+
+
 
         private void DeleteSegment(Vector3 position)
         {
@@ -564,29 +594,7 @@ namespace DOTweenModular.Editor
             }
         }
 
-        private void CreateSimpleSegment(Vector3 position)
-        {
-            Undo.RecordObject(doPath, "Added Segment");
-            doPath.wayPoints.Add(position);
-        }
 
-        private void CreateCubicBezierSegment(Vector3 position)
-        {
-            Undo.RecordObject(doPath, "Added Segment");
-
-            if (doPath.wayPoints.Count == 0)
-            {
-                doPath.wayPoints.Add(currentPosition + Vector3.up * 2f);
-                doPath.wayPoints.Add(position + Vector3.up * 2f);
-                doPath.wayPoints.Add(position);
-
-                return;
-            }
-
-            doPath.wayPoints.Add(doPath.wayPoints[^1] * 2 - doPath.wayPoints[^2]);
-            doPath.wayPoints.Add((doPath.wayPoints[^1] + position) * .5f);
-            doPath.wayPoints.Add(position);
-        }
 
         #region Scene Draw Functions
 
