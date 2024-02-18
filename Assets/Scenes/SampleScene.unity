@@ -252,7 +252,7 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  pathType: 2
+  pathType: 0
   pathMode: 0
   resolution: 5
   closePath: 1
@@ -260,12 +260,6 @@ MonoBehaviour:
   relative: 0
   wayPoints:
   - {x: 4.006536, y: -1.8917317, z: 0}
-  - {x: 10.662806, y: -0.545872, z: 0}
-  - {x: 12.877117, y: -3.2964857, z: 0}
-  - {x: 15.091429, y: -6.047099, z: 0}
-  - {x: 8.786268, y: -7.9557285, z: 0}
-  - {x: 5.783812, y: -11.590773, z: 0}
-  - {x: 1.1300039, y: -14.36261, z: 0}
   - {x: 23.163012, y: -12.547756, z: 0}
   - {x: 18.98786, y: -6.005045, z: 0}
   lookAt: 0
