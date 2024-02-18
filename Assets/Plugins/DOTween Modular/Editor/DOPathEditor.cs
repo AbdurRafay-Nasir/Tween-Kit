@@ -234,12 +234,12 @@ namespace DOTweenModular.Editor
 
             if (e.type == EventType.MouseDown && e.button == 1 && e.control)
             {
-                CreateNewWaypoint(mousePosition);
+                CreateSegment(mousePosition);
             }
 
             if (e.type == EventType.MouseDown && e.button == 1 && e.alt)
             {
-                DeleteWaypoint(mousePosition);
+                DeleteSegment(mousePosition);
             }
 
             if (e.type == EventType.MouseDown && e.button == 2 && e.control)
@@ -367,7 +367,7 @@ namespace DOTweenModular.Editor
 
         #endregion
 
-        private void CreateNewWaypoint(Vector3 position)
+        private void CreateSegment(Vector3 position)
         {
             if (SceneView.currentDrawingSceneView.in2DMode)
                 position.z = 0f;
@@ -389,7 +389,7 @@ namespace DOTweenModular.Editor
             }
         }
 
-        private void DeleteWaypoint(Vector3 position)
+        private void DeleteSegment(Vector3 position)
         {
             if (SceneView.currentDrawingSceneView.in2DMode)
                 position.z = 0f;
@@ -397,21 +397,62 @@ namespace DOTweenModular.Editor
             float minDistanceToPoint = 0.5f;
             int closestWaypointIndex = -1;
 
-            for (int i = 0; i < doPath.wayPoints.Count; i++)
+            if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
             {
-                float distance = Vector3.Distance(position, doPath.wayPoints[i]);
-
-                if (distance < minDistanceToPoint)
+                for (int i = 2; i < doPath.wayPoints.Count; i += 3)
                 {
-                    minDistanceToPoint = distance;
-                    closestWaypointIndex = i;
+                    float distance = Vector3.Distance(position, doPath.wayPoints[i]);
+
+                    if (distance < minDistanceToPoint)
+                    {
+                        minDistanceToPoint = distance;
+                        closestWaypointIndex = i;
+                    }
+                }
+
+                Debug.Log(closestWaypointIndex);
+
+            }
+            else
+            {
+                for (int i = 0; i < doPath.wayPoints.Count; i++)
+                {
+                    float distance = Vector3.Distance(position, doPath.wayPoints[i]);
+
+                    if (distance < minDistanceToPoint)
+                    {
+                        minDistanceToPoint = distance;
+                        closestWaypointIndex = i;
+                    }
                 }
             }
 
+
             if (closestWaypointIndex != -1)
             {
-                Undo.RecordObject(doPath, "Deleted Waypoint");
-                doPath.wayPoints.RemoveAt(closestWaypointIndex);
+                if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
+                {
+                    Undo.RecordObject(doPath, "Deleted Segment");
+
+                    // if last segment is to be deleted
+                    if (closestWaypointIndex >= doPath.wayPoints.Count - 1)
+                    {
+                        doPath.wayPoints.RemoveAt(doPath.wayPoints.Count - 1);
+                        doPath.wayPoints.RemoveAt(doPath.wayPoints.Count - 1);
+                        doPath.wayPoints.RemoveAt(doPath.wayPoints.Count - 1);
+                    }   
+                    
+                    // if any segment other than last is to be deleted
+                    else
+                    {
+                        doPath.wayPoints.RemoveRange(closestWaypointIndex - 1, 3);
+                    }
+                }
+                else
+                {
+                    Undo.RecordObject(doPath, "Deleted Segment");
+                    doPath.wayPoints.RemoveAt(closestWaypointIndex);
+                }
             }
         }
 
