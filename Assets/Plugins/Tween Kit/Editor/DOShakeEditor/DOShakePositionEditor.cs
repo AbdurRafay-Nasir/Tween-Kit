@@ -2,7 +2,7 @@
 
 using UnityEditor;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     [CustomEditor(typeof(DOShakePosition)), CanEditMultipleObjects]
     public sealed class DOShakePositionEditor : DOShakeBaseEditor

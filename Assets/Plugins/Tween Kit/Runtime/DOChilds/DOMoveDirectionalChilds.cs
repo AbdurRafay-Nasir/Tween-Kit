@@ -1,8 +1,8 @@
 using UnityEngine;
 using DG.Tweening;
-using DOTweenModular.Enums;
+using TweenKit.Enums;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     [AddComponentMenu("Tween Kit/DO Move Directional Childs")]
     public sealed class DOMoveDirectionalChilds : DOChildsBase

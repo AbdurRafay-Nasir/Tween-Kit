@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     [CustomEditor(typeof(DOSequence)), CanEditMultipleObjects]
     public sealed class DOSequenceEditor : DOBaseEditor

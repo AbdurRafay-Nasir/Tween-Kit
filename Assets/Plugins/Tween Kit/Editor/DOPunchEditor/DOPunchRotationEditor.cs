@@ -2,7 +2,7 @@
 
 using UnityEditor;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     [CustomEditor(typeof(DOPunchRotation)), CanEditMultipleObjects]
     public sealed class DOPunchRotationEditor : DOPunchBaseEditor

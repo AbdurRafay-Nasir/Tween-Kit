@@ -4,7 +4,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins;
 using DG.Tweening.Plugins.Options;
 
-namespace DOTweenModular.Miscellaneous
+namespace TweenKit.Miscellaneous
 {
     public static class Extensions
     {

@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
-using DOTweenModular.Enums;
-using DOTweenModular.Miscellaneous;
+using TweenKit.Enums;
+using TweenKit.Miscellaneous;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     /// <summary>
     /// Base class for creating DOComponents

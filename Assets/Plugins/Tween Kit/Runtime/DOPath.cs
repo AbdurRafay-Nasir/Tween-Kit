@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using DOTweenModular.Enums;
-using DOTweenModular.Miscellaneous;
+using TweenKit.Enums;
+using TweenKit.Miscellaneous;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     [AddComponentMenu("Tween Kit/DO Path")]
     public sealed class DOPath : DOBase

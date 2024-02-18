@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     [AddComponentMenu("Tween Kit/DO Anchor Pos Childs")]
     public sealed class DOAnchorPosChilds : DOChildsBase

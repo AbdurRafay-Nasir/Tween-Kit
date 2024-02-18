@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
-using DOTweenModular.Miscellaneous;
+using TweenKit.Miscellaneous;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     [CustomEditor(typeof(DOPath)), CanEditMultipleObjects]
     public sealed class DOPathEditor : DOBaseEditor

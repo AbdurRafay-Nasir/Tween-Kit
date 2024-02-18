@@ -1,6 +1,6 @@
 using DG.Tweening;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     [UnityEngine.AddComponentMenu("Tween Kit/DO Punch Scale")]
     public sealed class DOPunchScale : DOPunchBase

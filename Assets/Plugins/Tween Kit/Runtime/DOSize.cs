@@ -1,8 +1,8 @@
 using UnityEngine;
 using DG.Tweening;
-using DOTweenModular.Miscellaneous;
+using TweenKit.Miscellaneous;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     [AddComponentMenu("Tween Kit/DO Size")]
     [RequireComponent(typeof(SpriteRenderer))]

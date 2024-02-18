@@ -2,9 +2,9 @@
 
 using UnityEngine;
 using UnityEditor;
-using DOTweenModular.Enums;
+using TweenKit.Enums;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     [CustomEditor(typeof(DOMoveDirectional)), CanEditMultipleObjects]
     public sealed class DOMoveDirectionalEditor : DOBaseEditor

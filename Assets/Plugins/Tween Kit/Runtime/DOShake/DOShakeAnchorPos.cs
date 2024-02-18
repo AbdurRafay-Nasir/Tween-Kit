@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     [AddComponentMenu("Tween Kit/DO Shake Anchor Pos")]
     public sealed class DOShakeAnchorPos : DOShakeBase

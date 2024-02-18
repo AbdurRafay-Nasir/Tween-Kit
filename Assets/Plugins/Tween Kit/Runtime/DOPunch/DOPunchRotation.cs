@@ -1,6 +1,6 @@
 using DG.Tweening;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     [UnityEngine.AddComponentMenu("Tween Kit/DO Punch Rotation")]
     public sealed class DOPunchRotation : DOPunchBase

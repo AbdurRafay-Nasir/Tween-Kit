@@ -1,7 +1,7 @@
 using UnityEngine;
-using DOTweenModular.Miscellaneous;
+using TweenKit.Miscellaneous;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     public abstract class DOLookAtBase : DOBase
     {

@@ -1,6 +1,6 @@
 using DG.Tweening;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     [UnityEngine.AddComponentMenu("Tween Kit/DO Shake Rotation")]
     public sealed class DOShakeRotation : DOShakeBase

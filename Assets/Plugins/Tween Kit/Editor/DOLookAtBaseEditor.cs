@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     public class DOLookAtBaseEditor : DOBaseEditor
     {

@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DOTweenModular.Miscellaneous
+namespace TweenKit.Miscellaneous
 {
     /// <summary>
     /// Utility Class for generating Curves

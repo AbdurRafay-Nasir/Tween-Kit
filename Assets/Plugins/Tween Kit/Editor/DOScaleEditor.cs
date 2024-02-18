@@ -2,7 +2,7 @@
 
 using UnityEditor;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     [CustomEditor(typeof(DOScale)), CanEditMultipleObjects]
     public sealed class DOScaleEditor : DOLookAtBaseEditor

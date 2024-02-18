@@ -1,12 +1,12 @@
 #if UNITY_EDITOR
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     using UnityEngine;
     using UnityEditor;
     using DG.Tweening;
     using DG.DOTweenEditor;
-    using DOTweenModular.Enums;
+    using TweenKit.Enums;
 
     /// <summary>
     /// Base class for creating DOComponents Editor

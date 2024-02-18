@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DOTweenModular.Enums
+namespace TweenKit.Enums
 {
     public enum Begin
     { 

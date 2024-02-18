@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     [CustomEditor(typeof(DOMoveCircle)), CanEditMultipleObjects]
     public sealed class DOMoveCircleEditor : DOBaseEditor

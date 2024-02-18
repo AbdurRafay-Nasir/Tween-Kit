@@ -2,7 +2,7 @@
 
 using UnityEditor;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     [CustomEditor(typeof(DOAnchorPosChilds)), CanEditMultipleObjects]
     public sealed class DOAnchorPosChildsEditor : DOChildsBaseEditor

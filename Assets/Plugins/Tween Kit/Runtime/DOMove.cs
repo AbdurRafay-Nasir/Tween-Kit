@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace DOTweenModular
+namespace TweenKit
 {   
     [AddComponentMenu("Tween Kit/DO Move")]
     public sealed class DOMove : DOLookAtBase

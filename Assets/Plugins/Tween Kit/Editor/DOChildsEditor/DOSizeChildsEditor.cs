@@ -3,7 +3,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     [CustomEditor(typeof(DOSizeChilds)), CanEditMultipleObjects]
     public class DOSizeChildsEditor : DOChildsBaseEditor

@@ -1,6 +1,6 @@
 using DG.Tweening;
 
-namespace DOTweenModular
+namespace TweenKit
 {
     [UnityEngine.AddComponentMenu("Tween Kit/DO Punch Position")]
     public sealed class DOPunchPosition : DOPunchBase

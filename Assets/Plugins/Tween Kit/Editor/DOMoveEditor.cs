@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace DOTweenModular.Editor
+namespace TweenKit.Editor
 {
     [CustomEditor(typeof(DOMove)), CanEditMultipleObjects]
     public sealed class DOMoveEditor : DOLookAtBaseEditor
