@@ -457,9 +457,20 @@ namespace DOTweenModular.Editor
             float minDistance = 0.8f;
             int closestIndex = -1;
 
+            // For inserting point between current position and 1st way point
+            float distance = HandleUtility.DistancePointLine(position, doPath.transform.position, doPath.wayPoints[0]);
+            if (distance < minDistance)
+            {
+                Undo.RecordObject(doPath, "Inserted Waypoint");
+                doPath.wayPoints.Insert(0, position);
+
+                return;
+            }
+
+            // For inserting point between anywhere on path
             for (int i = 0; i < doPath.wayPoints.Count - 1; i++)
             {
-                float distance = HandleUtility.DistancePointLine(position, doPath.wayPoints[i], doPath.wayPoints[i + 1]);
+                distance = HandleUtility.DistancePointLine(position, doPath.wayPoints[i], doPath.wayPoints[i + 1]);
 
                 if (distance < minDistance)
                 {
