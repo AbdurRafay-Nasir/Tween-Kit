@@ -1,10 +1,10 @@
 #if UNITY_EDITOR
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using DOTweenModular.Miscellaneous;
-using System.Linq;
 
 namespace DOTweenModular.Editor
 {
@@ -229,24 +229,28 @@ namespace DOTweenModular.Editor
             DrawLookAtHandleAndLine();
             DrawInstructionsLabel();
 
-            Event e = Event.current;
-            Vector3 mousePosition = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
-
-            if (e.type == EventType.MouseDown && e.button == 1 && e.control)
+            // These Functions depend on absolute positions of waypoints
+            // when relative is true they will produce wrong results
+            if (!doPath.relative)
             {
-                CreateSegment(mousePosition);
-            }
+                Event e = Event.current;
+                Vector3 mousePosition = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
 
-            if (e.type == EventType.MouseDown && e.button == 1 && e.alt)
-            {
-                DeleteSegment(mousePosition);
-            }
+                if (e.type == EventType.MouseDown && e.button == 1 && e.control)
+                {
+                    CreateSegment(mousePosition);
+                }
 
-            if (e.type == EventType.MouseDown && e.button == 2 && e.control)
-            {
-                InsertWaypoint(mousePosition);
-            }
+                if (e.type == EventType.MouseDown && e.button == 1 && e.alt)
+                {
+                    DeleteSegment(mousePosition);
+                }
 
+                if (e.type == EventType.MouseDown && e.button == 2 && e.control)
+                {
+                    InsertWaypoint(mousePosition);
+                }
+            }
 
             if (doPath.wayPoints.Count < 1)
                 return;
@@ -602,44 +606,6 @@ namespace DOTweenModular.Editor
 
         #region Scene Draw Functions
 
-        private void ConvertWaypointsToAbsoluteOrRelativeIfNeeded(Vector3 currentPosition)
-        {
-            if (doPath.relative)
-            {
-                if (relativeFlags.firstTimeRelative)
-                {
-
-                    for (int i = 0; i < doPath.wayPoints.Count; i++)
-                    {
-                        doPath.wayPoints[i] -= currentPosition;
-                    }
-
-                    Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeNonRelative");
-                    relativeFlags.firstTimeRelative = false;
-
-                }
-
-                relativeFlags.firstTimeNonRelative = true;
-            }
-            else
-            {
-                if (relativeFlags.firstTimeNonRelative)
-                {
-
-                    for (int i = 0; i < doPath.wayPoints.Count; i++)
-                    {
-                        doPath.wayPoints[i] += currentPosition;
-                    }
-
-                    Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeRelative");
-                    relativeFlags.firstTimeNonRelative = false;
-
-                }
-
-                relativeFlags.firstTimeRelative = true;
-            }
-        }
-
         private void DrawPath(Vector3 currentPosition)
         {
             List<Vector3> pathPoints = new();
@@ -822,20 +788,35 @@ namespace DOTweenModular.Editor
 
             Camera sceneViewCamera = SceneView.currentDrawingSceneView.camera;
 
-            Vector2 positionInViewport = new(0.025f, 0.95f);
-            Vector3 positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
+            if (doPath.relative)
+            {
+                Vector2 positionInViewport = new(0.025f, 0.95f);
+                Vector3 positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x,
+                                                                               positionInViewport.y, 10f));
 
-            Handles.Label(positionInWorld, "CTRL + RMB  ------- Add Segment", style);
+                Handles.Label(positionInWorld, "Relative is True, can not perform" + "\n" +
+                                               "scene view waypoints manipulation", style);
+            }
+            else
+            {
+                Vector2 positionInViewport = new(0.025f, 0.95f);
+                Vector3 positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, 
+                                                                               positionInViewport.y, 10f));
 
-            positionInViewport.y -= 0.05f;
-            positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
+                Handles.Label(positionInWorld, "CTRL + RMB  ------- Add Segment", style);
 
-            Handles.Label(positionInWorld, "CTRL + MMB  ------- Insert Segment", style);
+                positionInViewport.y -= 0.05f;
+                positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, 
+                                                                       positionInViewport.y, 10f));
 
-            positionInViewport.y -= 0.05f;
-            positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
+                Handles.Label(positionInWorld, "CTRL + MMB  ------- Insert Segment", style);
 
-            Handles.Label(positionInWorld, "ALT + RMB   ------- Remove Segment", style);
+                positionInViewport.y -= 0.05f;
+                positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, 
+                                                                       positionInViewport.y, 10f));
+
+                Handles.Label(positionInWorld, "ALT + RMB   ------- Remove Segment", style);
+            }
         }
 
         /// <summary>
@@ -863,6 +844,44 @@ namespace DOTweenModular.Editor
         }
 
         #endregion
+
+        private void ConvertWaypointsToAbsoluteOrRelativeIfNeeded(Vector3 currentPosition)
+        {
+            if (doPath.relative)
+            {
+                if (relativeFlags.firstTimeRelative)
+                {
+
+                    for (int i = 0; i < doPath.wayPoints.Count; i++)
+                    {
+                        doPath.wayPoints[i] -= currentPosition;
+                    }
+
+                    Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeNonRelative");
+                    relativeFlags.firstTimeRelative = false;
+
+                }
+
+                relativeFlags.firstTimeNonRelative = true;
+            }
+            else
+            {
+                if (relativeFlags.firstTimeNonRelative)
+                {
+
+                    for (int i = 0; i < doPath.wayPoints.Count; i++)
+                    {
+                        doPath.wayPoints[i] += currentPosition;
+                    }
+
+                    Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeRelative");
+                    relativeFlags.firstTimeNonRelative = false;
+
+                }
+
+                relativeFlags.firstTimeRelative = true;
+            }
+        }
 
         #region Get Path Functions
 
