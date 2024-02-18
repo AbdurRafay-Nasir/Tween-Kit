@@ -28,7 +28,7 @@ Enhance DOTween with Tween Kit: Seamless, modular components for effortless Twee
 - DOTween asmdef (Tools -> Demigiant -> DOTween Utility Panel -> Create ASMDEF)
 
 ## Installation
-- Add [Tween Kit Package](link-to-package) in your project
+- Add [Tween Kit Package](tweenkit.unitypackage) in your project
 - There will be some errors, ignore them. Add DOTween asmdef reference in Assets/Plugins/Tween Kit/Runtime/abdurrafay.tweenkit.asmdef (Remove any previous references) 
 
 ## Demos
