@@ -46,6 +46,8 @@ namespace TweenKit.Editor
             doPath = (DOPath)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
+            doPath.wayPoints = new();
+
             rotationkey = "DOPath_LookAt_" + doPath.gameObject.GetInstanceID();
 
             startPosition = doPath.transform.position;
