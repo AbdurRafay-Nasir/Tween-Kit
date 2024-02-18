@@ -202,7 +202,7 @@ Transform:
   m_GameObject: {fileID: 356585625}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.25, y: -9.35, z: 0}
+  m_LocalPosition: {x: -0.25, y: -3.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -235,7 +235,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   loops: -1
-  duration: 1
+  duration: 10
   delay: 0
   onTweenCreated:
     m_PersistentCalls:
@@ -253,25 +253,28 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   pathType: 2
-  pathMode: 0
+  pathMode: 3
   resolution: 5
   closePath: 1
   speedBased: 0
   relative: 0
   wayPoints:
-  - {x: -3.2404518, y: -1.038804, z: 0}
-  - {x: 1.9937587, y: 3.2760296, z: 0}
+  - {x: -3.2404518, y: 5.241196, z: 0}
+  - {x: 1.3999381, y: 7.4327602, z: 0}
   - {x: 6.0755124, y: 3.3643665, z: 0}
-  - {x: 11.056916, y: 3.1245308, z: 0}
-  - {x: 15.889805, y: 0.7012718, z: 0}
-  - {x: 15.347857, y: -3.720806, z: 0}
-  - {x: 14.237821, y: -10.083853, z: 0}
-  - {x: 10.9712, y: -9.957027, z: 0}
-  - {x: 6.3316913, y: -9.3567915, z: 0}
-  lookAt: 0
+  - {x: 10.751087, y: -0.7040272, z: 0}
+  - {x: 10.035585, y: 2.5794644, z: 0}
+  - {x: 12.608934, y: 3.9444644, z: 0}
+  - {x: 14.999566, y: 5.1267505, z: 0}
+  - {x: 17.390003, y: 6.819527, z: 0}
+  - {x: 20.100187, y: 4.8123536, z: 0}
+  - {x: 23.815302, y: 2.5767891, z: 0}
+  - {x: 12.570886, y: -5.8427963, z: 0}
+  - {x: 10.416372, y: -6.5158834, z: 0}
+  lookAt: 3
   lookAtPosition: {x: 0, y: 0, z: 0}
   lookAtTarget: {fileID: 0}
-  lookAhead: 0
+  lookAhead: 0.01
   stableZRotation: 0
 --- !u!1 &963194225
 GameObject:
