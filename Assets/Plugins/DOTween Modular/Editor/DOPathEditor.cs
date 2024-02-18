@@ -252,82 +252,9 @@ namespace DOTweenModular.Editor
             if (!tweenPreviewing)
                 startPosition = doPath.transform.position;
 
-            List<Vector3> pathPoints = new();
-
-            switch (doPath.pathType)
-            {
-                case DG.Tweening.PathType.Linear:
-                    pathPoints = GetLinearPath(startPosition, doPath.wayPoints, doPath.closePath, doPath.relative);
-                    break;
-
-                case DG.Tweening.PathType.CatmullRom:
-                    pathPoints = GetCatmullRomPath(startPosition, doPath.wayPoints, doPath.resolution,
-                                                   doPath.closePath, doPath.relative);
-                    break;
-
-                case DG.Tweening.PathType.CubicBezier:
-                    pathPoints = GetCubicBezierPath(startPosition, doPath.wayPoints, doPath.resolution, doPath.relative);
-                    break;
-            }
-
-            if (pathPoints != null)
-                DrawPolyLine(pathPoints);
-
-            if (doPath.relative)
-            {
-                ConvertPointsToRelative(startPosition);
-
-                switch (doPath.pathType)
-                {
-                    case DG.Tweening.PathType.Linear:
-
-                        // DrawRelativeLinearPath(startPosition, doPath.closePath);
-                        DrawRelativeSimpleHandles(startPosition);
-                        break;
-
-                    case DG.Tweening.PathType.CatmullRom:
-                        // DrawRelativeCatmullRomPath(startPosition, doPath.wayPoints, doPath.closePath);
-                        // DrawPolyLine(catmullRomPoints);
-                        DrawRelativeSimpleHandles(startPosition);
-                        break;
-
-                    case DG.Tweening.PathType.CubicBezier:
-                        if (doPath.wayPoints.Count % 3 == 0)
-                        {
-                            // DrawRelativeCubicBezierPath(startPosition);
-                            DrawRelativeCubicBezierHandles(startPosition);
-                        }
-                        break;
-                }
-
-            }
-            else
-            {
-                ConvertPointsToAbsolute(doPath.transform.position);
-
-                switch (doPath.pathType)
-                {
-                    case DG.Tweening.PathType.Linear:
-                        // DrawAbsoluteLinearPath(startPosition, doPath.closePath);
-                        DrawAbsoluteSimpleHandles();
-                        break;
-
-                    case DG.Tweening.PathType.CatmullRom:
-                        // DrawAbsoluteCatmullRomPath(startPosition, doPath.wayPoints, doPath.closePath);
-                        // DrawPolyLine(catmullRomPoints);
-                        DrawAbsoluteSimpleHandles();
-                        break;
-
-                    case DG.Tweening.PathType.CubicBezier:
-                        if (doPath.wayPoints.Count % 3 == 0)
-                        {
-                            // DrawAbsoluteCubicBezierPath(startPosition);
-                            DrawAbsoluteCubicBezierHandles();
-                        }
-                        break;
-                }
-
-            }
+            ConvertWaypointsToAbsoluteOrRelativeIfNeeded(startPosition);
+            DrawPath(startPosition);
+            DrawHandles(startPosition);
         }
 
         #endregion
@@ -524,59 +451,237 @@ namespace DOTweenModular.Editor
 
         #region Scene Draw Functions
 
-        //private void DrawAbsoluteLinearPath(Vector3 startPosition, bool closed)
-        //{
-        //    Vector3 lineStart = startPosition;
+        private void ConvertWaypointsToAbsoluteOrRelativeIfNeeded(Vector3 currentPosition)
+        {
+            if (doPath.relative)
+            {
+                if (relativeFlags.firstTimeRelative)
+                {
 
-        //    for (int i = 0; i < doPath.wayPoints.Count; i++)
-        //    {
-        //        DrawLine(lineStart, doPath.wayPoints[i], Color.green);
-        //        lineStart = doPath.wayPoints[i];
-        //    }
+                    for (int i = 0; i < doPath.wayPoints.Count; i++)
+                    {
+                        doPath.wayPoints[i] -= currentPosition;
+                    }
 
-        //    if (closed)
-        //        DrawLine(lineStart, startPosition, Color.green);
-        //}
+                    Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeNonRelative");
+                    relativeFlags.firstTimeRelative = false;
 
-        //private void DrawRelativeLinearPath(Vector3 startPosition, bool closed)
-        //{
-        //    Vector3 lineStart = startPosition;
+                }
 
-        //    for (int i = 0; i < doPath.wayPoints.Count; i++)
-        //    {
-        //        DrawLine(lineStart, startPosition + doPath.wayPoints[i], Color.green);
-        //        lineStart = startPosition + doPath.wayPoints[i];
-        //    }
+                relativeFlags.firstTimeNonRelative = true;
+            }
+            else
+            {
+                if (relativeFlags.firstTimeNonRelative)
+                {
 
-        //    if (closed)
-        //        DrawLine(lineStart, startPosition, Color.green);
-        //}
+                    for (int i = 0; i < doPath.wayPoints.Count; i++)
+                    {
+                        doPath.wayPoints[i] += currentPosition;
+                    }
 
-        //private void DrawAbsoluteCatmullRomPath(Vector3 startPosition, List<Vector3> points, bool closed)
-        //{
-        //    Vector3[] catmullRomPoints = Curve.CatmullRom.GetSpline(startPosition, points.ToArray(), 
-        //                                                            doPath.resolution, closed);
+                    Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeRelative");
+                    relativeFlags.firstTimeNonRelative = false;
 
-        //    Vector3 currentLineStart = catmullRomPoints[0];
+                }
 
-        //    for (int i = 0; i < catmullRomPoints.Length; i++)
-        //    {
-        //        DrawLine(currentLineStart, catmullRomPoints[i], Color.green);
-        //        currentLineStart = catmullRomPoints[i];
-        //    }
-        //}
+                relativeFlags.firstTimeRelative = true;
+            }
+        }
 
-        //private void DrawRelativeCatmullRomPath(Vector3 startPosition, List<Vector3> points, bool closed)
-        //{
-        //    List<Vector3> absolutePoints = new (points);
+        private void DrawPath(Vector3 currentPosition)
+        {
+            List<Vector3> pathPoints = new();
 
-        //    for (int i = 0; i < absolutePoints.Count; i++)
-        //    {
-        //        absolutePoints[i] += startPosition;
-        //    }
+            switch (doPath.pathType)
+            {
+                case DG.Tweening.PathType.Linear:
 
-        //    DrawAbsoluteCatmullRomPath(startPosition, absolutePoints, closed);
-        //}
+                    pathPoints = GetLinearPath(currentPosition, doPath.wayPoints, doPath.closePath, doPath.relative);
+                    DrawPolyLine(pathPoints);
+                    break;
+
+                case DG.Tweening.PathType.CatmullRom:
+
+                    pathPoints = GetCatmullRomPath(currentPosition, doPath.wayPoints, doPath.resolution,
+                                                   doPath.closePath, doPath.relative);
+                    DrawPolyLine(pathPoints);
+                    break;
+
+                case DG.Tweening.PathType.CubicBezier:
+
+                    pathPoints = GetCubicBezierPath(currentPosition, doPath.wayPoints, doPath.resolution, doPath.relative);
+                    if (pathPoints != null && doPath.wayPoints.Count % 3 == 0)
+                    {
+                        DrawPolyLine(pathPoints);
+                        DrawBezierLines(currentPosition, doPath.wayPoints, doPath.relative);
+                    }
+                    break;
+            }
+        }
+
+        private void DrawHandles(Vector3 currentPosition)
+        {
+            if (doPath.pathType != DG.Tweening.PathType.CubicBezier)
+            {
+                DrawSimpleHandles(currentPosition, doPath.relative);
+            }
+            else
+            {
+                if (doPath.wayPoints.Count % 3 == 0)
+                    DrawCubicBezierHandles(currentPosition, doPath.relative);
+            }
+        }
+
+        private void DrawPolyLine(List<Vector3> points)
+        {
+            Vector3 currentLineStart = points[0];
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                DrawLine(currentLineStart, points[i], Color.green);
+                currentLineStart = points[i];
+            }
+        }
+
+        private void DrawBezierLines(Vector3 startPosition, List<Vector3> waypoints, bool relative)
+        {
+            if (relative)
+            {
+                List<Vector3> absolutePoints = new(waypoints);
+
+                for (int i = 0; i < absolutePoints.Count; i++)
+                {
+                    absolutePoints[i] += startPosition;
+                }
+
+                DrawLine(startPosition, absolutePoints[0], Color.green);
+
+                int lastIndex = absolutePoints.Count - 1;
+
+                for (int i = 1; i < lastIndex; i += 3)
+                {
+                    DrawLine(absolutePoints[i], absolutePoints[i + 1], Color.green, 0.5f);
+
+                    if (i + 2 < lastIndex)
+                        DrawLine(absolutePoints[i + 1], absolutePoints[i + 2], Color.green, 0.5f);
+                }
+            }
+            else
+            {
+                DrawLine(startPosition, waypoints[0], Color.green);
+
+                int lastIndex = waypoints.Count - 1;
+
+                for (int i = 1; i < lastIndex; i += 3)
+                {
+                    DrawLine(waypoints[i], waypoints[i + 1], Color.green, 0.5f);
+
+                    if (i + 2 < lastIndex)
+                        DrawLine(waypoints[i + 1], waypoints[i + 2], Color.green, 0.5f);
+                }
+            }
+        }
+
+        private void DrawSimpleHandles(Vector3 startPosition, bool relative)
+        {
+            if (relative)
+            {
+                for (int i = 0; i < doPath.wayPoints.Count; i++)
+                {
+                    doPath.wayPoints[i] += DrawHandle(startPosition + doPath.wayPoints[i]);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < doPath.wayPoints.Count; i++)
+                {
+                    doPath.wayPoints[i] += DrawHandle(doPath.wayPoints[i]);
+                }
+            }
+        }
+
+        private void DrawCubicBezierHandles(Vector3 startPosition, bool relative)
+        {
+            if (relative)
+            {
+                for (int i = 0; i < doPath.wayPoints.Count; i += 3)
+                {
+                    doPath.wayPoints[i] += DrawSphereHandle(startPosition + doPath.wayPoints[i], 0.5f);
+                    doPath.wayPoints[i + 1] += DrawSphereHandle(startPosition + doPath.wayPoints[i + 1], 0.5f);
+
+                    doPath.wayPoints[i + 2] += DrawHandle(startPosition + doPath.wayPoints[i + 2]);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < doPath.wayPoints.Count; i += 3)
+                {
+                    doPath.wayPoints[i] += DrawSphereHandle(doPath.wayPoints[i], 0.5f);
+                    doPath.wayPoints[i + 1] += DrawSphereHandle(doPath.wayPoints[i + 1], 0.5f);
+
+                    doPath.wayPoints[i + 2] += DrawHandle(doPath.wayPoints[i + 2]);
+                }
+            }
+        }
+
+        private void DrawInstructionsLabel()
+        {
+            GUIStyle style = new()
+            {
+                fontSize = 20,
+
+                normal =
+                {
+                    textColor = Color.white
+                }
+            };
+
+            Camera sceneViewCamera = SceneView.currentDrawingSceneView.camera;
+
+            Vector2 positionInViewport = new(0.025f, 0.95f);
+            Vector3 positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
+
+            Handles.Label(positionInWorld, "CTRL + RMB  ------- Add Segment", style);
+
+            positionInViewport.y -= 0.05f;
+            positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
+
+            Handles.Label(positionInWorld, "CTRL + MMB  ------- Insert Segment", style);
+
+            positionInViewport.y -= 0.05f;
+            positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
+
+            Handles.Label(positionInWorld, "ALT + RMB   ------- Remove Segment", style);
+        }
+
+        /// <summary>
+        /// Draws a Position Hand for Look At Position and <br/>
+        /// Line to Look At Position or Look At Target
+        /// </summary>
+        private void DrawLookAtHandleAndLine()
+        {
+            if (doPath.lookAt == Enums.LookAtAdvanced.None ||
+                doPath.lookAt == Enums.LookAtAdvanced.Percentage)
+                return;
+
+            if (doPath.lookAt == Enums.LookAtAdvanced.Position)
+            {
+                doPath.lookAtPosition += DrawHandle(doPath.lookAtPosition);
+
+                DrawDottedLine(doPath.transform.position, doPath.lookAtPosition, Color.green, 10f);
+            }
+
+            else if (doPath.lookAt == Enums.LookAtAdvanced.Transform)
+            {
+                if (doPath.lookAtTarget != null)
+                    DrawDottedLine(doPath.transform.position, doPath.lookAtTarget.position, Color.green, 10f);
+            }
+        }
+
+        #endregion
+
+        #region Get Path Functions
 
         private List<Vector3> GetLinearPath(Vector3 startPosition, List<Vector3> waypoints, bool closed, bool relative)
         {
@@ -610,7 +715,7 @@ namespace DOTweenModular.Editor
         }
 
         private List<Vector3> GetCatmullRomPath(Vector3 startPosition, List<Vector3> waypoints, int resolution, 
-                                                        bool closed, bool relative)
+                                                bool closed, bool relative)
         {
             List<Vector3> catmullRomPoints;
 
@@ -646,232 +751,19 @@ namespace DOTweenModular.Editor
                     absolutePoints[i] += startPosition;
                 }
 
-                cubicBezierPoints = (Curve.CubicBezier.GetSpline(startPosition, absolutePoints.ToArray(), resolution)).ToList();
+                Vector3[] bezierPoints = Curve.CubicBezier.GetSpline(startPosition, absolutePoints.ToArray(), resolution);
+
+                cubicBezierPoints = bezierPoints?.ToList();
             }
             else
             {
-                cubicBezierPoints = (Curve.CubicBezier.GetSpline(startPosition, waypoints.ToArray(), resolution)).ToList();
+                Vector3[] bezierPoints = Curve.CubicBezier.GetSpline(startPosition, waypoints.ToArray(), resolution);
+                
+                cubicBezierPoints = bezierPoints?.ToList();
             }
 
-            return cubicBezierPoints;
-        }
-
-        private void DrawPolyLine(List<Vector3> points)
-        {
-            Vector3 currentLineStart = points[0];
-
-            for (int i = 0; i < points.Count; i++)
-            {
-                DrawLine(currentLineStart, points[i], Color.green);
-                currentLineStart = points[i];
-            }
-        }
-
-        private void DrawSimpleHandles(Vector3 startPosition, bool relative)
-        {
-            if (relative)
-            {
-                for (int i = 0; i < doPath.wayPoints.Count; i++)
-                {
-                    doPath.wayPoints[i] += DrawHandle(startPosition + doPath.wayPoints[i]);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < doPath.wayPoints.Count; i++)
-                {
-                    doPath.wayPoints[i] += DrawHandle(doPath.wayPoints[i]);
-                }
-            }
-        }
-
-        //private void DrawAbsoluteCubicBezierPath(Vector3 startPosition)
-        //{
-        //    Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(startPosition, doPath.wayPoints.ToArray(),
-        //                                                              doPath.resolution);
-
-        //    if (cubicBezierPoints == null)
-        //        return;
-
-        //    Vector3 currentLineStart = startPosition;
-
-        //    for (int i = 0; i < cubicBezierPoints.Length; i++)
-        //    {
-        //        DrawLine(currentLineStart, cubicBezierPoints[i], Color.green);
-        //        currentLineStart = cubicBezierPoints[i];
-        //    }
-
-        //    DrawLine(startPosition, doPath.wayPoints[0], Color.green);
-        //    DrawLine(doPath.wayPoints[1], doPath.wayPoints[2], Color.green);
-
-        //    for (int i = 2; i < doPath.wayPoints.Count - 1; i += 2)
-        //    {
-        //        DrawLine(doPath.wayPoints[i], doPath.wayPoints[i + 1], Color.green, 0.5f);
-        //    }
-        //}
-
-        //private void DrawRelativeCubicBezierPath(Vector3 startPosition)
-        //{
-        //    List<Vector3> absolutePoints = new(doPath.wayPoints);
-
-        //    for (int i = 0; i < absolutePoints.Count; i++)
-        //    {
-        //        absolutePoints[i] += startPosition;
-        //    }
-
-        //    Vector3[] cubicBezierPoints = Curve.CubicBezier.GetSpline(startPosition, absolutePoints.ToArray(),
-        //                                                              doPath.resolution);
-
-        //    if (cubicBezierPoints == null)
-        //        return;
-
-        //    Vector3 currentLineStart = startPosition;
-
-        //    for (int i = 0; i < cubicBezierPoints.Length; i++)
-        //    {
-        //        DrawLine(currentLineStart, cubicBezierPoints[i], Color.green);
-        //        currentLineStart = cubicBezierPoints[i];
-        //    }
-
-        //    DrawLine(startPosition, absolutePoints[0], Color.green);
-        //    DrawLine(absolutePoints[1], absolutePoints[2], Color.green);
-
-        //    for (int i = 2; i < doPath.wayPoints.Count - 1; i += 2)
-        //    {
-        //        DrawLine(absolutePoints[i], absolutePoints[i + 1], Color.green, 0.5f);
-        //    }
-        //}
-
-        private void DrawAbsoluteSimpleHandles()
-        {
-            for (int i = 0; i < doPath.wayPoints.Count; i++)
-            {
-                doPath.wayPoints[i] += DrawHandle(doPath.wayPoints[i]);
-            }
-        }
-
-        private void DrawRelativeSimpleHandles(Vector3 startPosition)
-        {
-            for (int i = 0; i < doPath.wayPoints.Count; i++)
-            {
-                doPath.wayPoints[i] += DrawHandle(startPosition + doPath.wayPoints[i]);
-            }
-        }
-
-        private void DrawAbsoluteCubicBezierHandles()
-        {
-            for (int i = 0; i < doPath.wayPoints.Count; i += 3)
-            {
-                doPath.wayPoints[i] += DrawSphereHandle(doPath.wayPoints[i], 0.5f);
-                doPath.wayPoints[i + 1] += DrawSphereHandle(doPath.wayPoints[i + 1], 0.5f);
-
-                doPath.wayPoints[i + 2] += DrawHandle(doPath.wayPoints[i + 2]);
-            }
-        }
-
-        private void DrawRelativeCubicBezierHandles(Vector3 startPosition)
-        {
-            for (int i = 0; i < doPath.wayPoints.Count; i += 3)
-            {
-                doPath.wayPoints[i] += DrawSphereHandle(startPosition + doPath.wayPoints[i], 0.5f);
-                doPath.wayPoints[i + 1] += DrawSphereHandle(startPosition + doPath.wayPoints[i + 1], 0.5f);
-
-                doPath.wayPoints[i + 2] += DrawHandle(startPosition + doPath.wayPoints[i + 2]);
-            }
-        }
-
-        private void DrawInstructionsLabel()
-        {
-            GUIStyle style = new()
-            {
-                fontSize = 20,
-
-                normal = 
-                { 
-                    textColor = Color.white 
-                }
-            };
-
-            Camera sceneViewCamera = SceneView.currentDrawingSceneView.camera;
-
-            Vector2 positionInViewport = new(0.025f, 0.95f);
-            Vector3 positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
-
-            Handles.Label(positionInWorld, "CTRL + RMB  ------- Add Segment", style);
-
-            positionInViewport.y -= 0.05f;
-            positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
-
-            Handles.Label(positionInWorld, "CTRL + MMB  ------- Insert Segment", style);
             
-            positionInViewport.y -= 0.05f;
-            positionInWorld = sceneViewCamera.ViewportToWorldPoint(new Vector3(positionInViewport.x, positionInViewport.y, 10f));
-
-            Handles.Label(positionInWorld, "ALT + RMB   ------- Remove Segment", style);
-        }
-
-        /// <summary>
-        /// Draws a Position Hand for Look At Position and <br/>
-        /// Line to Look At Position or Look At Target
-        /// </summary>
-        private void DrawLookAtHandleAndLine()
-        {
-            if (doPath.lookAt == Enums.LookAtAdvanced.None || 
-                doPath.lookAt == Enums.LookAtAdvanced.Percentage) 
-                return;
-
-            if (doPath.lookAt == Enums.LookAtAdvanced.Position)
-            {
-                doPath.lookAtPosition += DrawHandle(doPath.lookAtPosition);
-
-                DrawDottedLine(doPath.transform.position, doPath.lookAtPosition, Color.green, 10f);
-            }
-
-            else if (doPath.lookAt == Enums.LookAtAdvanced.Transform)
-            {
-                if (doPath.lookAtTarget != null)
-                    DrawDottedLine(doPath.transform.position, doPath.lookAtTarget.position, Color.green, 10f);
-            }
-        }
-
-        #endregion
-
-        #region Path points ConvertTo Absolute/Relative Function
-
-        private void ConvertPointsToRelative(Vector3 relativeTo)
-        {
-            if (relativeFlags.firstTimeRelative)
-            {
-
-                for (int i = 0; i < doPath.wayPoints.Count; i++)
-                {
-                    doPath.wayPoints[i] -= relativeTo;
-                }
-
-                Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeNonRelative");
-                relativeFlags.firstTimeRelative = false;
-
-            }
-
-            relativeFlags.firstTimeNonRelative = true;
-        }
-
-        private void ConvertPointsToAbsolute(Vector3 absoluteTo)
-        {
-            if (relativeFlags.firstTimeNonRelative)
-            {
-
-                for (int i = 0; i < doPath.wayPoints.Count; i++)
-                {
-                    doPath.wayPoints[i] += absoluteTo;
-                }
-
-                Undo.RecordObject(relativeFlags, "DOPathEditor_firstTimeRelative");
-                relativeFlags.firstTimeNonRelative = false;
-
-            }
-
-            relativeFlags.firstTimeRelative = true;
+            return cubicBezierPoints;
         }
 
         #endregion
