@@ -489,6 +489,8 @@ namespace DOTweenModular.Editor
 
         #endregion
 
+        #region Insert Segments Functions
+
         private void InsertWaypoint(Vector3 position)
         {
             if (SceneView.currentDrawingSceneView.in2DMode)
@@ -596,6 +598,7 @@ namespace DOTweenModular.Editor
 
         }
 
+        #endregion
 
         #region Scene Draw Functions
 
