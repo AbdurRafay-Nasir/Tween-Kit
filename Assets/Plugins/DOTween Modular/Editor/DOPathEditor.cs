@@ -484,6 +484,18 @@ namespace DOTweenModular.Editor
                 Undo.RecordObject(doPath, "Inserted Waypoint");
                 doPath.wayPoints.Insert(closestIndex + 1, position);
             }
+
+            // For inserting point between current position and last way point (in case of closed loop)
+            if (doPath.closePath)
+            {
+                distance = HandleUtility.DistancePointLine(position, doPath.transform.position, doPath.wayPoints[^1]);
+                if (distance < minDistance)
+                {
+                    Undo.RecordObject(doPath, "Inserted Waypoint");
+                    doPath.wayPoints.Add(position);
+                }
+            }
+
         }
 
         #region Scene Draw Functions
