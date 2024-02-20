@@ -232,35 +232,39 @@ namespace TweenKit.Editor
             DrawLookAtHandleAndLine();
             DrawInstructionsLabel();
 
+            if (!tweenPreviewing)
+                currentPosition = doPath.transform.position;
+
             // These Functions depend on absolute positions of waypoints
             // when relative is true they will produce wrong results
             if (!doPath.relative)
             {
-                Event e = Event.current;
-                Vector3 mouseWorldPos = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
-                Vector3 mouseViewportPos = SceneView.currentDrawingSceneView.camera.WorldToViewportPoint(mouseWorldPos);
+                Event e = Event.current;                
 
                 if (e.type == EventType.MouseDown && e.button == 1 && e.control)
                 {
+                    Vector3 mouseWorldPos = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
+
                     CreateSegment(mouseWorldPos);
                 }
 
-                if (e.type == EventType.MouseDown && e.button == 1 && e.alt)
+                else if (e.type == EventType.MouseDown && e.button == 1 && e.alt)
                 {
-                    DeleteSegment(mouseViewportPos);
+                    Vector3 mouseWorldPos = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
+
+                    DeleteSegment(mouseWorldPos);
                 }
 
-                if (e.type == EventType.MouseDown && e.button == 2 && e.control)
+                else if (e.type == EventType.MouseDown && e.button == 2 && e.control)
                 {
-                    InsertWaypoint(mouseWorldPos);
+                    Vector3 mouseWorldPos = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
+
+                    InsertSegment(mouseWorldPos);
                 }
             }
 
             if (doPath.wayPoints.Count < 1)
                 return;
-
-            if (!tweenPreviewing)
-                currentPosition = doPath.transform.position;
 
             ConvertWaypointsToAbsoluteOrRelativeIfNeeded(currentPosition);
             DrawPath(currentPosition);
@@ -377,62 +381,61 @@ namespace TweenKit.Editor
 
         #region Create Segment Functions
 
-        private void CreateSegment(Vector3 position)
+        private void CreateSegment(Vector3 mouseWorldPosition)
         {
             if (SceneView.currentDrawingSceneView.in2DMode)
-                position.z = 0f;
+                mouseWorldPosition.z = 0f;
 
             if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
             {
-                CreateCubicBezierSegment(position);
+                CreateCubicBezierSegment(mouseWorldPosition);
             }
             else
             {
-                CreateSimpleSegment(position);
+                CreateSimpleSegment(mouseWorldPosition);
             }
         }
 
-        private void CreateSimpleSegment(Vector3 position)
+        private void CreateSimpleSegment(Vector3 mouseWorldPosition)
         {
             Undo.RecordObject(doPath, "Added Segment");
-            doPath.wayPoints.Add(position);
+            doPath.wayPoints.Add(mouseWorldPosition);
         }
 
-        private void CreateCubicBezierSegment(Vector3 position)
+        private void CreateCubicBezierSegment(Vector3 mouseWorldPosition)
         {
             Undo.RecordObject(doPath, "Added Segment");
 
             if (doPath.wayPoints.Count == 0)
             {
                 doPath.wayPoints.Add(currentPosition + Vector3.up * 2f);
-                doPath.wayPoints.Add(position + Vector3.up * 2f);
-                doPath.wayPoints.Add(position);
+                doPath.wayPoints.Add(mouseWorldPosition + Vector3.up * 2f);
+                doPath.wayPoints.Add(mouseWorldPosition);
 
                 return;
             }
 
             doPath.wayPoints.Add(doPath.wayPoints[^1] * 2 - doPath.wayPoints[^2]);
-            doPath.wayPoints.Add((doPath.wayPoints[^1] + position) * .5f);
-            doPath.wayPoints.Add(position);
+            doPath.wayPoints.Add((doPath.wayPoints[^1] + mouseWorldPosition) * .5f);
+            doPath.wayPoints.Add(mouseWorldPosition);
         }
 
         #endregion
 
         #region Delete Segments Functions
 
-        private void DeleteSegment(Vector3 position)
+        private void DeleteSegment(Vector3 mouseWorldPosition)
         {
-            //if (SceneView.currentDrawingSceneView.in2DMode)
-            //    position.z = 0f;
+            Vector3 mouseViewportPos = SceneView.currentDrawingSceneView.camera.WorldToViewportPoint(mouseWorldPosition);
 
             if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
             {
-                DeleteCubicBezierSegment(position);
+                DeleteCubicBezierSegment(mouseViewportPos);
 
             }
             else
             {
-                DeleteSimpleSegment(position);
+                DeleteSimpleSegment(mouseViewportPos);
             }
         }
 
@@ -448,8 +451,6 @@ namespace TweenKit.Editor
 
                 float distance = Vector2.Distance(mouseViewportPosition, wayPointViewportPos);
 
-                Debug.Log(distance);
-
                 if (distance < minDistanceToPoint)
                 {
                     minDistanceToPoint = distance;
@@ -464,7 +465,7 @@ namespace TweenKit.Editor
             }
         }
 
-        private void DeleteCubicBezierSegment(Vector3 mouseViewportPos)
+        private void DeleteCubicBezierSegment(Vector3 mouseViewportPosition)
         {
             float minDistanceToPoint = 0.03f;
             int closestWaypointIndex = -1;
@@ -474,7 +475,7 @@ namespace TweenKit.Editor
                 Vector2 wayPointViewportPos = SceneView.currentDrawingSceneView.camera
                                                        .WorldToViewportPoint(doPath.wayPoints[i]);
 
-                float distance = Vector2.Distance(mouseViewportPos, wayPointViewportPos);
+                float distance = Vector2.Distance(mouseViewportPosition, wayPointViewportPos);
 
                 if (distance < minDistanceToPoint)
                 {
@@ -507,18 +508,15 @@ namespace TweenKit.Editor
 
         #region Insert Segments Functions
 
-        private void InsertWaypoint(Vector3 position)
+        private void InsertSegment(Vector3 mouseWorldPosition)
         {
-            //if (SceneView.currentDrawingSceneView.in2DMode)
-            //    position.z = 0f;
-
             if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
             {
-                InsertCubicBezierSegment(position);
+                InsertCubicBezierSegment(mouseWorldPosition);
             }
             else
             {
-                InsertSimpleSegment(position);
+                InsertSimpleSegment(mouseWorldPosition);
             }
         }
 
@@ -585,32 +583,33 @@ namespace TweenKit.Editor
             }
         }
 
-        private void InsertCubicBezierSegment(Vector3 position)
+        private void InsertCubicBezierSegment(Vector3 mouseWorldPosition)
         {
+            if (SceneView.currentDrawingSceneView.in2DMode)
+                mouseWorldPosition.z = 0f;
+
             float minDistance = 0.8f;
             int closestIndex = -1;
 
             // For inserting segment between segment formed between gameObject's current Position and waypoint at index 2
-            float distance = HandleUtility.DistancePointBezier(position, currentPosition, doPath.wayPoints[2],
+            float distance = HandleUtility.DistancePointBezier(mouseWorldPosition, currentPosition, doPath.wayPoints[2],
                                                                doPath.wayPoints[0], doPath.wayPoints[1]);
             if (distance < minDistance)
             {
-                Vector3 directionToPrevAnchor = (position - currentPosition).normalized;
-                Vector3 startTangent = position - directionToPrevAnchor * 2f;
-                Vector3 endTangent = position + directionToPrevAnchor * 2f;
+                Vector3 directionToPrevAnchor = (mouseWorldPosition - currentPosition).normalized;
+                Vector3 startTangent = mouseWorldPosition - directionToPrevAnchor * 2f;
+                Vector3 endTangent = mouseWorldPosition + directionToPrevAnchor * 2f;
 
                 Undo.RecordObject(doPath, "Inserted Waypoint");
-                doPath.wayPoints.InsertRange(1, new Vector3[] { startTangent, position, endTangent });
+                doPath.wayPoints.InsertRange(1, new Vector3[] { startTangent, mouseWorldPosition, endTangent });
 
                 return;
             }
 
-
-
             // For inserting anywhere on Cubic bezier path
             for (int i = 2; i < doPath.wayPoints.Count - 1; i += 3)
             {
-                distance = HandleUtility.DistancePointBezier(position, doPath.wayPoints[i], doPath.wayPoints[i + 3],
+                distance = HandleUtility.DistancePointBezier(mouseWorldPosition, doPath.wayPoints[i], doPath.wayPoints[i + 3],
                                                              doPath.wayPoints[i + 1], doPath.wayPoints[i + 2]);
 
                 if (distance < minDistance)
@@ -622,12 +621,12 @@ namespace TweenKit.Editor
 
             if (closestIndex != -1)
             {
-                Vector3 directionToPrevAnchor = (position - doPath.wayPoints[closestIndex]).normalized;
-                Vector3 startTangent = position - directionToPrevAnchor * 2f;
-                Vector3 endTangent = position + directionToPrevAnchor * 2f;
+                Vector3 directionToPrevAnchor = (mouseWorldPosition - doPath.wayPoints[closestIndex]).normalized;
+                Vector3 startTangent = mouseWorldPosition - directionToPrevAnchor * 2f;
+                Vector3 endTangent = mouseWorldPosition + directionToPrevAnchor * 2f;
 
                 Undo.RecordObject(doPath, "Inserted Waypoint");
-                doPath.wayPoints.InsertRange(closestIndex + 2, new Vector3[] { startTangent, position, endTangent });
+                doPath.wayPoints.InsertRange(closestIndex + 2, new Vector3[] { startTangent, mouseWorldPosition, endTangent });
             }
 
         }
