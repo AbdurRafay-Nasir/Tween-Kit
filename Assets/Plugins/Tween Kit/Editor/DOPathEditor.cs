@@ -238,6 +238,7 @@ namespace TweenKit.Editor
             {
                 Event e = Event.current;
                 Vector3 mouseWorldPos = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
+                Vector3 mouseViewportPos = SceneView.currentDrawingSceneView.camera.WorldToViewportPoint(mouseWorldPos);
 
                 if (e.type == EventType.MouseDown && e.button == 1 && e.control)
                 {
@@ -246,7 +247,7 @@ namespace TweenKit.Editor
 
                 if (e.type == EventType.MouseDown && e.button == 1 && e.alt)
                 {
-                    DeleteSegment(SceneView.currentDrawingSceneView.camera.WorldToViewportPoint(mouseWorldPos));
+                    DeleteSegment(mouseViewportPos);
                 }
 
                 if (e.type == EventType.MouseDown && e.button == 2 && e.control)
@@ -508,8 +509,8 @@ namespace TweenKit.Editor
 
         private void InsertWaypoint(Vector3 position)
         {
-            if (SceneView.currentDrawingSceneView.in2DMode)
-                position.z = 0f;
+            //if (SceneView.currentDrawingSceneView.in2DMode)
+            //    position.z = 0f;
 
             if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
             {
@@ -521,17 +522,28 @@ namespace TweenKit.Editor
             }
         }
 
-        private void InsertSimpleSegment(Vector3 position)
+        private void InsertSimpleSegment(Vector3 mouseWorldPosition)
         {
-            float minDistance = 0.8f;
-            int closestIndex = -1;
+            const float MIN_DISTANCE = 0.05f;
 
-            // For inserting waypoint between current position and 1st way point
-            float distance = HandleUtility.DistancePointLine(position, currentPosition, doPath.wayPoints[0]);
-            if (distance < minDistance)
+            Camera sceneviewCamera = SceneView.currentDrawingSceneView.camera;
+
+            Vector2 mouseViewportPos = sceneviewCamera.WorldToViewportPoint(mouseWorldPosition);
+
+            Vector2 currentPositionInViewport = sceneviewCamera.WorldToViewportPoint(currentPosition);
+            Vector2 startWaypointViewportPos = sceneviewCamera.WorldToViewportPoint(doPath.wayPoints[0]);
+
+            // Check distance of mouse position from current position to 1st waypoint
+            float distance = HandleUtility.DistancePointLine(mouseViewportPos, currentPositionInViewport, startWaypointViewportPos);
+
+            if (distance < MIN_DISTANCE)
             {
+                // if mouse was close enough to line then get the
+                // closest point on line to mouse position
+                Vector3 closestPoint = HandleUtility.ClosestPointToPolyLine(currentPosition, doPath.wayPoints[0]);
+
                 Undo.RecordObject(doPath, "Inserted Waypoint");
-                doPath.wayPoints.Insert(0, position);
+                doPath.wayPoints.Insert(0, closestPoint);
 
                 return;
             }
@@ -539,29 +551,36 @@ namespace TweenKit.Editor
             // For inserting waypoint anywhere on path
             for (int i = 0; i < doPath.wayPoints.Count - 1; i++)
             {
-                distance = HandleUtility.DistancePointLine(position, doPath.wayPoints[i], doPath.wayPoints[i + 1]);
+                Vector2 firstWaypointViewportPos = sceneviewCamera.WorldToViewportPoint(doPath.wayPoints[i]);
+                Vector2 secondWaypointViewportPos = sceneviewCamera.WorldToViewportPoint(doPath.wayPoints[i + 1]);
 
-                if (distance < minDistance)
+                distance = HandleUtility.DistancePointLine(mouseViewportPos, firstWaypointViewportPos, secondWaypointViewportPos);
+
+                if (distance < MIN_DISTANCE)
                 {
-                    minDistance = distance;
-                    closestIndex = i;
-                }
-            }
+                    Vector3 closestPointToLineSegment = HandleUtility.ClosestPointToPolyLine(doPath.wayPoints[i], 
+                                                                                             doPath.wayPoints[i + 1]);
 
-            if (closestIndex != -1)
-            {
-                Undo.RecordObject(doPath, "Inserted Waypoint");
-                doPath.wayPoints.Insert(closestIndex + 1, position);
+                    Undo.RecordObject(doPath, "Inserted Waypoint");
+                    doPath.wayPoints.Insert(i + 1, closestPointToLineSegment);
+
+                    return;
+                }
             }
 
             // For inserting waypoint between current position and last way point (in case of closed loop)
             if (doPath.closePath)
             {
-                distance = HandleUtility.DistancePointLine(position, currentPosition, doPath.wayPoints[^1]);
-                if (distance < minDistance)
+                Vector2 lastWaypointViewportPos = sceneviewCamera.WorldToViewportPoint(doPath.wayPoints[^1]);
+                distance = HandleUtility.DistancePointLine(mouseViewportPos, currentPositionInViewport, lastWaypointViewportPos);
+
+                if (distance < MIN_DISTANCE)
                 {
+                    Vector3 closestPointToLineSegment = HandleUtility.ClosestPointToPolyLine(currentPosition,
+                                                                                             doPath.wayPoints[^1]);
+
                     Undo.RecordObject(doPath, "Inserted Waypoint");
-                    doPath.wayPoints.Add(position);
+                    doPath.wayPoints.Add(closestPointToLineSegment);
                 }
             }
         }
