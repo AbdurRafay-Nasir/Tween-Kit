@@ -46,7 +46,8 @@ namespace TweenKit.Editor
             doPath = (DOPath)target;
             relativeFlags = CreateInstance<RelativeFlags>();
 
-            doPath.wayPoints = new();
+            if (doPath.wayPoints == null) 
+                doPath.wayPoints = new();
 
             rotationkey = "DOPath_LookAt_" + doPath.gameObject.GetInstanceID();
 
@@ -236,21 +237,21 @@ namespace TweenKit.Editor
             if (!doPath.relative)
             {
                 Event e = Event.current;
-                Vector3 mousePosition = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
+                Vector3 mouseWorldPos = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
 
                 if (e.type == EventType.MouseDown && e.button == 1 && e.control)
                 {
-                    CreateSegment(mousePosition);
+                    CreateSegment(mouseWorldPos);
                 }
 
                 if (e.type == EventType.MouseDown && e.button == 1 && e.alt)
                 {
-                    DeleteSegment(mousePosition);
+                    DeleteSegment(SceneView.currentDrawingSceneView.camera.WorldToViewportPoint(mouseWorldPos));
                 }
 
                 if (e.type == EventType.MouseDown && e.button == 2 && e.control)
                 {
-                    InsertWaypoint(mousePosition);
+                    InsertWaypoint(mouseWorldPos);
                 }
             }
 
@@ -420,8 +421,8 @@ namespace TweenKit.Editor
 
         private void DeleteSegment(Vector3 position)
         {
-            if (SceneView.currentDrawingSceneView.in2DMode)
-                position.z = 0f;
+            //if (SceneView.currentDrawingSceneView.in2DMode)
+            //    position.z = 0f;
 
             if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
             {
@@ -434,14 +435,19 @@ namespace TweenKit.Editor
             }
         }
 
-        private void DeleteSimpleSegment(Vector3 position)
+        private void DeleteSimpleSegment(Vector3 mouseViewportPosition)
         {
-            float minDistanceToPoint = 0.5f;
+            float minDistanceToPoint = 0.03f;
             int closestWaypointIndex = -1;
 
             for (int i = 0; i < doPath.wayPoints.Count; i++)
             {
-                float distance = Vector3.Distance(position, doPath.wayPoints[i]);
+                Vector2 wayPointViewportPos = SceneView.currentDrawingSceneView.camera
+                                                       .WorldToViewportPoint(doPath.wayPoints[i]);
+
+                float distance = Vector2.Distance(mouseViewportPosition, wayPointViewportPos);
+
+                Debug.Log(distance);
 
                 if (distance < minDistanceToPoint)
                 {
@@ -457,14 +463,17 @@ namespace TweenKit.Editor
             }
         }
 
-        private void DeleteCubicBezierSegment(Vector3 position)
+        private void DeleteCubicBezierSegment(Vector3 mouseViewportPos)
         {
-            float minDistanceToPoint = 0.5f;
+            float minDistanceToPoint = 0.03f;
             int closestWaypointIndex = -1;
 
             for (int i = 2; i < doPath.wayPoints.Count; i += 3)
             {
-                float distance = Vector3.Distance(position, doPath.wayPoints[i]);
+                Vector2 wayPointViewportPos = SceneView.currentDrawingSceneView.camera
+                                                       .WorldToViewportPoint(doPath.wayPoints[i]);
+
+                float distance = Vector2.Distance(mouseViewportPos, wayPointViewportPos);
 
                 if (distance < minDistanceToPoint)
                 {
