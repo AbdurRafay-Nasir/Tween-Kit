@@ -30,6 +30,16 @@ Enhance DOTween with Tween Kit: Seamless, modular components for effortless Twee
 ![Scene Visualization](https://github.com/AbdurRafay-Nasir/DOTween-Modular-Development/assets/145528502/2a99a4fb-54b6-4d61-a58e-23b9ea3b16e5)
 ![Scene Tools](https://github.com/AbdurRafay-Nasir/DOTween-Modular/assets/145528502/0fac027f-e441-4432-9074-b342aac678de)
 
+## Path Manipulation
+### Create Segment
+![Creating](https://github.com/AbdurRafay-Nasir/Tween-Kit/assets/145528502/069e9d12-6176-4dfa-ba4e-da30444ef692)
+
+### Insert Segment
+![Inserting](https://github.com/AbdurRafay-Nasir/Tween-Kit/assets/145528502/1263ceda-cfd9-4f80-bd44-0ae21151dd20)
+
+### Delete Segment
+![Deleting](https://github.com/AbdurRafay-Nasir/Tween-Kit/assets/145528502/d4535f25-4777-4000-b6e8-f32b014242f1)
+
 ## Prerequisite
 - [DOTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
 - DOTween asmdef (Tools -> Demigiant -> DOTween Utility Panel -> Create ASMDEF)
