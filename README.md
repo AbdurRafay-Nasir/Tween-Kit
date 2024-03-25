@@ -20,8 +20,8 @@ Enhance DOTween with Tween Kit: Seamless, modular components for effortless Twee
 
 ## Author
 - Abdur Rafay Nasir
-- AbdurRafayNasir1@gmail.com
-- https://github.com/AbdurRafay-Nasir
+- [LinkedIn/Abdur-Rafay-Nasir](www.linkedin.com/in/abdur-rafay-nasir)
+- [Github/AbdurRafay-Nasir](https://github.com/AbdurRafay-Nasir)
 
 
 ## Highlights
